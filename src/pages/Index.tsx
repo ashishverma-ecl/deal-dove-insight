@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, FileCheck, Globe, Settings, Zap, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const benefits = [
@@ -37,7 +38,9 @@ const Index = () => {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <img src="/lovable-uploads/6138e639-0cf1-4201-9a1a-074d552e6c9f.png" alt="Company Logo" className="h-8" />
-          <Button variant="outline">Sign In</Button>
+          <Link to="/auth">
+            <Button variant="outline">Sign In</Button>
+          </Link>
         </div>
       </header>
 
@@ -51,9 +54,11 @@ const Index = () => {
             A GenAI-powered browser-based tool that automates and streamlines the Environmental and Social Due Diligence (ESDD) process for banks engaged in corporate lending.
           </p>
           <div className="flex justify-center">
-            <Button size="lg" className="text-lg px-8 py-6">
-              Sign In
-            </Button>
+            <Link to="/auth">
+              <Button size="lg" className="text-lg px-8 py-6">
+                Sign In
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
