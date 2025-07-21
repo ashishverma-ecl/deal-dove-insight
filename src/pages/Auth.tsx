@@ -21,7 +21,7 @@ const Auth = () => {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        navigate("/");
+        navigate("/dashboard");
       }
     };
     checkUser();
