@@ -125,6 +125,13 @@ const Auth = () => {
           </Card>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t py-8 px-4">
+        <div className="container mx-auto text-center text-muted-foreground">
+          <p>Copyright © 2025 Accenture. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };
