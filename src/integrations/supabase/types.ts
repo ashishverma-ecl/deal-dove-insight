@@ -14,7 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessment_documents: {
+        Row: {
+          assessment_id: string
+          content_type: string | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          uploaded_at: string
+        }
+        Insert: {
+          assessment_id: string
+          content_type?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          uploaded_at?: string
+        }
+        Update: {
+          assessment_id?: string
+          content_type?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          uploaded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_documents_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assessments: {
+        Row: {
+          created_at: string
+          id: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

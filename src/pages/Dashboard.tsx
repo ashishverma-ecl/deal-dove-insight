@@ -85,7 +85,9 @@ const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full">Create Assessment</Button>
+              <Link to="/create-assessment">
+                <Button className="w-full">Create Assessment</Button>
+              </Link>
             </CardContent>
           </Card>
 

@@ -1,0 +1,311 @@
+import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Upload, X, FileText, ArrowLeft, Plus } from "lucide-react";
+
+interface UploadedFile {
+  id: string;
+  file: File;
+  name: string;
+  size: number;
+  type: string;
+}
+
+const CreateAssessment = () => {
+  const [title, setTitle] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const newFiles: UploadedFile[] = Array.from(files).map((file) => ({
+      id: crypto.randomUUID(),
+      file,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    }));
+
+    setUploadedFiles((prev) => [...prev, ...newFiles]);
+    
+    // Reset the input so the same file can be selected again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const removeFile = (fileId: string) => {
+    setUploadedFiles((prev) => prev.filter((file) => file.id !== fileId));
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const handleCreateAssessment = async () => {
+    if (!title.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter an assessment title",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (uploadedFiles.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please upload at least one document",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsCreating(true);
+
+    try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          title: "Error",
+          description: "You must be logged in to create an assessment",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Create assessment record
+      const { data: assessment, error: assessmentError } = await supabase
+        .from("assessments")
+        .insert({
+          title: title.trim(),
+          user_id: user.id,
+          status: "draft",
+        })
+        .select()
+        .single();
+
+      if (assessmentError) {
+        throw assessmentError;
+      }
+
+      // Upload files and create document records
+      setIsUploading(true);
+      const uploadPromises = uploadedFiles.map(async (uploadedFile) => {
+        const fileName = `${user.id}/${assessment.id}/${uploadedFile.id}-${uploadedFile.name}`;
+        
+        // Upload file to storage
+        const { error: uploadError } = await supabase.storage
+          .from("assessment-documents")
+          .upload(fileName, uploadedFile.file);
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        // Create document record
+        const { error: docError } = await supabase
+          .from("assessment_documents")
+          .insert({
+            assessment_id: assessment.id,
+            file_name: uploadedFile.name,
+            file_path: fileName,
+            file_size: uploadedFile.size,
+            content_type: uploadedFile.type,
+          });
+
+        if (docError) {
+          throw docError;
+        }
+      });
+
+      await Promise.all(uploadPromises);
+
+      toast({
+        title: "Success",
+        description: "Assessment created successfully with all documents uploaded",
+      });
+
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Error creating assessment:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create assessment",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      setIsCreating(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link to="/dashboard">
+            <img src="/lovable-uploads/6138e639-0cf1-4201-9a1a-074d552e6c9f.png" alt="Company Logo" className="h-8" />
+          </Link>
+          <Link to="/dashboard">
+            <Button variant="outline">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Dashboard
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2">Create New Assessment</h1>
+            <p className="text-muted-foreground">
+              Upload documents for environmental and social due diligence analysis
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {/* Assessment Title */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Assessment Details</CardTitle>
+                <CardDescription>
+                  Provide a title for your assessment
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <Label htmlFor="title">Assessment Title</Label>
+                  <Input
+                    id="title"
+                    placeholder="Enter assessment title..."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Document Upload */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Document Upload</CardTitle>
+                <CardDescription>
+                  Upload documents for analysis. Supported formats: PDF, DOC, DOCX, TXT
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Upload Area */}
+                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center hover:border-muted-foreground/50 transition-colors">
+                  <Upload className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <div className="space-y-2">
+                    <p className="text-lg font-medium">Drop files here or click to browse</p>
+                    <p className="text-sm text-muted-foreground">
+                      Select one or more documents to upload
+                    </p>
+                  </div>
+                  <Input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept=".pdf,.doc,.docx,.txt"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="mt-4"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Select Files
+                  </Button>
+                </div>
+
+                {/* Add More Button */}
+                {uploadedFiles.length > 0 && (
+                  <div className="flex justify-center">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add More Documents
+                    </Button>
+                  </div>
+                )}
+
+                {/* Uploaded Files List */}
+                {uploadedFiles.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-medium">Uploaded Documents ({uploadedFiles.length})</h3>
+                    <div className="grid gap-3">
+                      {uploadedFiles.map((file) => (
+                        <div
+                          key={file.id}
+                          className="flex items-center justify-between p-3 border rounded-lg"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <FileText className="h-8 w-8 text-muted-foreground" />
+                            <div>
+                              <p className="font-medium">{file.name}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {formatFileSize(file.size)}
+                              </p>
+                            </div>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeFile(file.id)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Create Assessment Button */}
+                <div className="flex justify-end pt-4">
+                  <Button
+                    onClick={handleCreateAssessment}
+                    disabled={isCreating || isUploading || uploadedFiles.length === 0 || !title.trim()}
+                    size="lg"
+                  >
+                    {isCreating || isUploading ? "Creating..." : "Create Assessment"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default CreateAssessment;
