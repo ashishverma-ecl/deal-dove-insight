@@ -65,10 +65,12 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Risk Assessment Dashboard</h1>
-          <p className="text-muted-foreground">
+      <main className="container mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Risk Assessment Dashboard
+          </h1>
+          <p className="text-xl text-muted-foreground">
             Welcome to your Environmental and Social Due Diligence (ESDD) platform
           </p>
         </div>
@@ -103,7 +105,7 @@ const Dashboard = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-8 px-4 mt-12">
+      <footer className="border-t py-8 px-4 mt-auto">
         <div className="container mx-auto text-center text-muted-foreground">
           <p>Copyright © 2025 Accenture. All rights reserved.</p>
         </div>
