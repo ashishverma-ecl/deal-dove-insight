@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { User, LogOut, FileText, Shield, Settings } from "lucide-react";
+import { User, LogOut, FileText, Shield } from "lucide-react";
 
 const Dashboard = () => {
   const [user, setUser] = useState<any>(null);
@@ -73,11 +73,11 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           <Card className="hover:shadow-lg transition-shadow cursor-pointer">
             <CardHeader>
               <FileText className="w-8 h-8 text-primary mb-2" />
-              <CardTitle>New Assessment</CardTitle>
+              <CardTitle>Conduct New Assessment</CardTitle>
               <CardDescription>
                 Start a new reputational risk assessment for corporate lending
               </CardDescription>
@@ -90,7 +90,7 @@ const Dashboard = () => {
           <Card className="hover:shadow-lg transition-shadow cursor-pointer">
             <CardHeader>
               <Shield className="w-8 h-8 text-primary mb-2" />
-              <CardTitle>Recent Reports</CardTitle>
+              <CardTitle>View Previous Assessments</CardTitle>
               <CardDescription>
                 View and manage your completed due diligence reports
               </CardDescription>
@@ -99,50 +99,6 @@ const Dashboard = () => {
               <Button variant="outline" className="w-full">View Reports</Button>
             </CardContent>
           </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader>
-              <Settings className="w-8 h-8 text-primary mb-2" />
-              <CardTitle>Settings</CardTitle>
-              <CardDescription>
-                Configure assessment criteria and compliance frameworks
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full">Manage Settings</Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">Quick Overview</h2>
-          <div className="grid md:grid-cols-4 gap-4">
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-primary">0</div>
-                <div className="text-sm text-muted-foreground">Active Assessments</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-primary">0</div>
-                <div className="text-sm text-muted-foreground">Completed Reports</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-primary">0</div>
-                <div className="text-sm text-muted-foreground">High Risk Alerts</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <div className="text-2xl font-bold text-primary">100%</div>
-                <div className="text-sm text-muted-foreground">Compliance Rate</div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </main>
 
