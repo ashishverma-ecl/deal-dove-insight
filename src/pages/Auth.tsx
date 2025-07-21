@@ -11,8 +11,8 @@ import { useEffect } from "react";
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ashishverma.ecl@gmail.com");
+  const [password, setPassword] = useState("Accenture25!@");
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -32,35 +32,28 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`
-          }
-        });
+      // First try to sign up the user if they don't exist
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`
+        }
+      });
 
-        if (error) throw error;
+      // If sign up succeeds or user already exists, try to sign in
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-        toast({
-          title: "Check your email",
-          description: "We've sent you a confirmation link to complete your registration.",
-        });
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+      if (signInError) throw signInError;
 
-        if (error) throw error;
-
-        toast({
-          title: "Welcome back!",
-          description: "You have successfully signed in.",
-        });
-        navigate("/dashboard");
-      }
+      toast({
+        title: "Welcome!",
+        description: "You have successfully signed in.",
+      });
+      navigate("/dashboard");
     } catch (error: any) {
       toast({
         title: "Authentication failed",
