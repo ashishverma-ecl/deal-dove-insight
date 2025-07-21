@@ -37,7 +37,7 @@ const Index = () => {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h2 className="text-xl font-semibold">ESDD Solution</h2>
-          <Button variant="outline">Get Started</Button>
+          <Button variant="outline">Sign In</Button>
         </div>
       </header>
 
