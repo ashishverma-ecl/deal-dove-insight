@@ -131,23 +131,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-primary/5">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your ESDD Process?</h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Join leading banks in revolutionizing environmental and social due diligence with AI-powered risk assessment.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-10 py-6">
-              Request Demo
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-10 py-6">
-              Contact Sales
-            </Button>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="border-t py-8 px-4">
