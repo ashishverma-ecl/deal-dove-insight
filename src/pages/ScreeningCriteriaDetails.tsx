@@ -149,227 +149,154 @@ const ScreeningCriteriaDetails = () => {
           <p className="text-muted-foreground">{details.overview}</p>
         </div>
 
-        {hasPercentageThreshold ? (
-          // New template matching the uploaded design for percentage-based thresholds
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Performance</h2>
-              <div className="border border-border rounded-lg p-6 bg-card">
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Performance Value</h3>
-                    <div className="bg-muted/50 p-4 rounded-md">
-                      <p className="text-3xl font-bold text-primary">
-                        {decodedCriteria === "Thermal Coal Mining" ? "2%" : 
-                         decodedCriteria === "Thermal Coal Power Generation" ? "30%" :
-                         decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "1%" :
-                         decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "0%" :
-                         decodedCriteria === "Oil & Gas Extraction - Fracking" ? "3%" :
-                         decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "0%" :
-                         decodedCriteria === "Nuclear Power Generation" ? "0%" :
-                         decodedCriteria === "Uranium Mining" ? "0%" :
-                         decodedCriteria === "Asbestos Production" ? "0%" :
-                         decodedCriteria === "Controversial Weapons" ? "0%" :
-                         decodedCriteria === "Conventional Weapons" ? "12%" :
-                         decodedCriteria === "Tobacco Production" ? "0%" :
-                         decodedCriteria === "Tobacco Distribution" ? "7%" :
-                         decodedCriteria === "Alcohol Production" ? "8%" :
-                         decodedCriteria === "Gambling Operations" ? "0%" :
-                         decodedCriteria === "Adult Entertainment" ? "0%" :
-                         "0%"}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Threshold</h3>
-                    <div className="bg-muted/50 p-4 rounded-md">
-                      <p className="text-lg font-medium text-foreground">
-                        {details.threshold || "0%"}
-                      </p>
-                    </div>
-                  </div>
+        <div className="space-y-8">
+          <div>
+            <h2 className="text-xl font-bold text-foreground mb-4">Performance</h2>
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">Performance Value</h3>
+                  <p className="text-2xl font-bold text-primary">
+                    {decodedCriteria === "Thermal Coal Mining" ? "2%" : 
+                     decodedCriteria === "Thermal Coal Power Generation" ? "30%" :
+                     decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "1%" :
+                     decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "0%" :
+                     decodedCriteria === "Oil & Gas Extraction - Fracking" ? "3%" :
+                     decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "0%" :
+                     decodedCriteria === "Nuclear Power Generation" ? "0%" :
+                     decodedCriteria === "Uranium Mining" ? "0%" :
+                     decodedCriteria === "Asbestos Production" ? "0%" :
+                     decodedCriteria === "Controversial Weapons" ? "0%" :
+                     decodedCriteria === "Conventional Weapons" ? "12%" :
+                     decodedCriteria === "Tobacco Production" ? "0%" :
+                     decodedCriteria === "Tobacco Distribution" ? "7%" :
+                     decodedCriteria === "Alcohol Production" ? "8%" :
+                     decodedCriteria === "Gambling Operations" ? "0%" :
+                     decodedCriteria === "Adult Entertainment" ? "0%" :
+                     decodedCriteria === "Human Rights Violations" ? "Risk score: 2" :
+                     decodedCriteria === "Money Laundering" ? "Risk score: 6" :
+                     decodedCriteria === "Environmental Violations" ? "Risk score: 6" :
+                     decodedCriteria === "Deforestation & Illegal Logging" ? "Risk score: 2" :
+                     decodedCriteria === "Biodiversity Destruction" ? "Risk score: 3" :
+                     decodedCriteria === "Pollution & Contamination" ? "Risk score: 1" :
+                     decodedCriteria === "Climate Change Non-Alignment" ? "Risk score: 2" :
+                     decodedCriteria === "Hazardous Waste" ? "Risk score: 3" :
+                     decodedCriteria === "Labor Rights Violations" ? "Risk score: 3" :
+                     decodedCriteria === "Child Labor" ? "Risk score: 1" :
+                     decodedCriteria === "Forced Labor" ? "Risk score: 1" :
+                     decodedCriteria === "Workplace Safety Violations" ? "Risk score: 5" :
+                     decodedCriteria === "Conflict Minerals" ? "Risk score: 2" :
+                     decodedCriteria === "Supply Chain Violations" ? "Risk score: 3" :
+                     decodedCriteria === "Community Impact Violations" ? "Risk score: 2" :
+                     decodedCriteria === "UN Global Compact Violations" ? "Risk score: 1" :
+                     decodedCriteria === "OECD Guidelines Violations" ? "Risk score: 2" :
+                     decodedCriteria === "Corruption & Bribery" ? "Risk score: 1" :
+                     decodedCriteria === "Tax Evasion & Avoidance" ? "Risk score: 3" :
+                     decodedCriteria === "Cybersecurity Failures" ? "Risk score: 2" :
+                     decodedCriteria === "Data Privacy Violations" ? "Risk score: 1" :
+                     decodedCriteria === "Board Governance Failures" ? "Risk score: 3" :
+                     decodedCriteria === "Sanctioned Countries/Entities" ? "Risk score: 1" :
+                     decodedCriteria === "Regulatory Non-Compliance" ? "Risk score: 2" :
+                     "0%"}
+                  </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Comparison Against Threshold</h3>
-                  <div className={`p-4 rounded-md border-l-4 ${
-                    (decodedCriteria === "Thermal Coal Power Generation" || 
-                     decodedCriteria === "Conventional Weapons") 
-                      ? "bg-red-50 border-red-500" 
-                      : "bg-green-50 border-green-500"
-                  }`}>
-                    <p className={`font-medium ${
-                      (decodedCriteria === "Thermal Coal Power Generation" || 
-                       decodedCriteria === "Conventional Weapons") 
-                        ? "text-red-800" 
-                        : "text-green-800"
-                    }`}>
-                      {(decodedCriteria === "Thermal Coal Power Generation" || 
-                        decodedCriteria === "Conventional Weapons") 
-                        ? "Performance exceeds threshold - Manual ESDD Required" 
-                        : "Performance is within acceptable threshold - Pass"}
-                    </p>
-                  </div>
+                  <h3 className="font-medium text-foreground mb-2">Threshold</h3>
+                  <p className="text-lg font-medium text-foreground">
+                    {details.threshold || "Risk score above 4"}
+                  </p>
                 </div>
               </div>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-4">Reference</h2>
-              <div className="border border-border rounded-lg p-6 bg-card">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Referenced Document</h3>
-                    <div className="bg-muted/50 p-4 rounded-md">
-                      <div className="flex items-center gap-2 mb-3">
-                        <FileText className="h-5 w-5 text-primary" />
-                        <p className="font-medium text-foreground">Deutsche-Bank-Summary-ESDD.pdf</p>
-                      </div>
-                      <div className="space-y-2 text-sm text-muted-foreground">
-                        <div><span className="font-medium">Page Number:</span> {
-                          decodedCriteria === "Thermal Coal Mining" ? "Page 15, Section 4.2" :
-                          decodedCriteria === "Thermal Coal Power Generation" ? "Page 16, Section 4.3" :
-                          decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "Page 17, Section 4.4" :
-                          decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "Page 18, Section 4.5" :
-                          decodedCriteria === "Oil & Gas Extraction - Fracking" ? "Page 19, Section 4.6" :
-                          decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "Page 20, Section 4.7" :
-                          decodedCriteria === "Nuclear Power Generation" ? "Page 21, Section 4.8" :
-                          decodedCriteria === "Uranium Mining" ? "Page 22, Section 4.9" :
-                          decodedCriteria === "Asbestos Production" ? "Page 23, Section 4.10" :
-                          decodedCriteria === "Controversial Weapons" ? "Page 26, Section 6.1" :
-                          decodedCriteria === "Conventional Weapons" ? "Page 27, Section 6.2" :
-                          decodedCriteria === "Tobacco Production" ? "Page 28, Section 6.3" :
-                          decodedCriteria === "Tobacco Distribution" ? "Page 29, Section 6.4" :
-                          decodedCriteria === "Alcohol Production" ? "Page 30, Section 6.5" :
-                          decodedCriteria === "Gambling Operations" ? "Page 31, Section 6.6" :
-                          decodedCriteria === "Adult Entertainment" ? "Page 32, Section 6.7" :
-                          "Page 25, Section 7.2"
-                        }</div>
-                        <div><span className="font-medium">Reference Source:</span> Company Annual Report 2024, ESG Risk Assessment Section</div>
-                        <div><span className="font-medium">Data Extraction Date:</span> January 15, 2025</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Additional Context</h3>
-                    <div className="bg-muted/50 p-4 rounded-md">
-                      <p className="text-sm text-muted-foreground">
-                        Performance data extracted from company&apos;s disclosed revenue breakdown and risk assessment reports. 
-                        Cross-referenced with third-party ESG databases and regulatory filings to ensure accuracy and completeness.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          // Original template for risk score-based thresholds
-          <div>
-            <div className="grid gap-6 md:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5 text-orange-500" />
-                    Risk Factors
-                  </CardTitle>
-                  <CardDescription>
-                    Key risk elements evaluated for this criteria
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {details.riskFactors.map((factor: string, index: number) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <XCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm">{factor}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    Assessment Process
-                  </CardTitle>
-                  <CardDescription>
-                    How this criteria is evaluated and scored
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ol className="space-y-2">
-                    {details.assessmentProcess.map((step: string, index: number) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full text-xs flex items-center justify-center font-medium">
-                          {index + 1}
-                        </span>
-                        <span className="text-sm">{step}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
-
-              {details.threshold && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Threshold & Rationale</CardTitle>
-                    <CardDescription>
-                      Risk threshold and reasoning for this criteria
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="font-medium text-foreground mb-2">Risk Threshold</h4>
-                        <p className="text-sm bg-muted p-3 rounded-md">{details.threshold}</p>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-foreground mb-2">Rationale</h4>
-                        <p className="text-sm text-muted-foreground">{details.rationale}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Data Sources</CardTitle>
-                  <CardDescription>
-                    Information sources used for assessment
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {details.dataSources.map((source: string, index: number) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                        <span className="text-sm">{source}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle>Methodology</CardTitle>
-                <CardDescription>
-                  Detailed assessment methodology for this screening criteria
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {details.methodology}
+              <div>
+                <h3 className="font-medium text-foreground mb-2">Comparison Against Threshold</h3>
+                <p className={`font-medium ${
+                  (decodedCriteria === "Thermal Coal Power Generation" || 
+                   decodedCriteria === "Conventional Weapons" ||
+                   decodedCriteria === "Money Laundering" ||
+                   decodedCriteria === "Environmental Violations" ||
+                   decodedCriteria === "Workplace Safety Violations") 
+                    ? "text-red-600" 
+                    : "text-green-600"
+                }`}>
+                  {(decodedCriteria === "Thermal Coal Power Generation" || 
+                    decodedCriteria === "Conventional Weapons" ||
+                    decodedCriteria === "Money Laundering" ||
+                    decodedCriteria === "Environmental Violations" ||
+                    decodedCriteria === "Workplace Safety Violations") 
+                    ? "Performance exceeds threshold - Manual ESDD Required" 
+                    : "Performance is within acceptable threshold - Pass"}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
-        )}
+
+          <div>
+            <h2 className="text-xl font-bold text-foreground mb-4">Reference</h2>
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium text-foreground mb-2">Referenced Document</h3>
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <p className="font-medium text-foreground">Deutsche-Bank-Summary-ESDD.pdf</p>
+                </div>
+                <div className="space-y-1 text-sm text-muted-foreground">
+                  <p><span className="font-medium">Page Number:</span> {
+                    decodedCriteria === "Thermal Coal Mining" ? "Page 15, Section 4.2" :
+                    decodedCriteria === "Thermal Coal Power Generation" ? "Page 16, Section 4.3" :
+                    decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "Page 17, Section 4.4" :
+                    decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "Page 18, Section 4.5" :
+                    decodedCriteria === "Oil & Gas Extraction - Fracking" ? "Page 19, Section 4.6" :
+                    decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "Page 20, Section 4.7" :
+                    decodedCriteria === "Nuclear Power Generation" ? "Page 21, Section 4.8" :
+                    decodedCriteria === "Uranium Mining" ? "Page 22, Section 4.9" :
+                    decodedCriteria === "Asbestos Production" ? "Page 23, Section 4.10" :
+                    decodedCriteria === "Environmental Violations" ? "Page 24, Section 5.1" :
+                    decodedCriteria === "Deforestation & Illegal Logging" ? "Page 25, Section 5.2" :
+                    decodedCriteria === "Biodiversity Destruction" ? "Page 26, Section 5.3" :
+                    decodedCriteria === "Pollution & Contamination" ? "Page 27, Section 5.4" :
+                    decodedCriteria === "Climate Change Non-Alignment" ? "Page 28, Section 5.5" :
+                    decodedCriteria === "Hazardous Waste" ? "Page 29, Section 5.6" :
+                    decodedCriteria === "Controversial Weapons" ? "Page 30, Section 6.1" :
+                    decodedCriteria === "Conventional Weapons" ? "Page 31, Section 6.2" :
+                    decodedCriteria === "Tobacco Production" ? "Page 32, Section 6.3" :
+                    decodedCriteria === "Tobacco Distribution" ? "Page 33, Section 6.4" :
+                    decodedCriteria === "Alcohol Production" ? "Page 34, Section 6.5" :
+                    decodedCriteria === "Gambling Operations" ? "Page 35, Section 6.6" :
+                    decodedCriteria === "Adult Entertainment" ? "Page 36, Section 6.7" :
+                    decodedCriteria === "Human Rights Violations" ? "Page 37, Section 7.1" :
+                    decodedCriteria === "Labor Rights Violations" ? "Page 38, Section 7.2" :
+                    decodedCriteria === "Child Labor" ? "Page 39, Section 7.3" :
+                    decodedCriteria === "Forced Labor" ? "Page 40, Section 7.4" :
+                    decodedCriteria === "Workplace Safety Violations" ? "Page 41, Section 7.5" :
+                    decodedCriteria === "Conflict Minerals" ? "Page 42, Section 7.6" :
+                    decodedCriteria === "Supply Chain Violations" ? "Page 43, Section 7.7" :
+                    decodedCriteria === "Community Impact Violations" ? "Page 44, Section 7.8" :
+                    decodedCriteria === "UN Global Compact Violations" ? "Page 45, Section 8.1" :
+                    decodedCriteria === "OECD Guidelines Violations" ? "Page 46, Section 8.2" :
+                    decodedCriteria === "Corruption & Bribery" ? "Page 47, Section 8.3" :
+                    decodedCriteria === "Tax Evasion & Avoidance" ? "Page 48, Section 8.4" :
+                    decodedCriteria === "Money Laundering" ? "Page 49, Section 8.5" :
+                    decodedCriteria === "Cybersecurity Failures" ? "Page 50, Section 8.6" :
+                    decodedCriteria === "Data Privacy Violations" ? "Page 51, Section 8.7" :
+                    decodedCriteria === "Board Governance Failures" ? "Page 52, Section 8.8" :
+                    decodedCriteria === "Sanctioned Countries/Entities" ? "Page 53, Section 8.9" :
+                    decodedCriteria === "Regulatory Non-Compliance" ? "Page 54, Section 8.10" :
+                    "Page 25, Section 7.2"
+                  }</p>
+                  <p><span className="font-medium">Reference Source:</span> Company Annual Report 2024, ESG Risk Assessment Section</p>
+                  <p><span className="font-medium">Data Extraction Date:</span> January 15, 2025</p>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-medium text-foreground mb-2">Additional Context</h3>
+                <p className="text-sm text-muted-foreground">
+                  Performance data extracted from company&apos;s disclosed revenue breakdown and risk assessment reports. 
+                  Cross-referenced with third-party ESG databases and regulatory filings to ensure accuracy and completeness.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
