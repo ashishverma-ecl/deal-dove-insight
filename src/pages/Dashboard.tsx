@@ -58,8 +58,7 @@ const Dashboard = () => {
               className="h-10 w-auto"
             />
             <div>
-              <h1 className="text-xl font-bold text-foreground">Assessment Platform</h1>
-              <p className="text-sm text-muted-foreground">Reputational Risk Assessment Solution</p>
+              <p className="text-lg font-bold text-foreground">Reputational Risk Assessment Solution</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
