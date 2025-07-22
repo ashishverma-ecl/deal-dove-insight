@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
@@ -6,6 +6,8 @@ import { ArrowLeft, FileText, AlertTriangle, CheckCircle, XCircle } from "lucide
 const ScreeningCriteriaDetails = () => {
   const { criteria } = useParams<{ criteria: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const assessmentId = searchParams.get('assessmentId');
   
   const decodedCriteria = criteria ? decodeURIComponent(criteria) : "";
 
@@ -109,11 +111,11 @@ const ScreeningCriteriaDetails = () => {
               </div>
             </div>
             <Button
-              onClick={() => navigate(-1)}
+              onClick={() => assessmentId ? navigate(`/assessment/${assessmentId}`) : navigate(-1)}
               variant="outline"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Assessment
+              Back to ESDD Screening
             </Button>
           </div>
         </div>

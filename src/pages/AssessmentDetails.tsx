@@ -265,7 +265,7 @@ const AssessmentDetails = () => {
                         <td className="border border-border p-3">{row.category}</td>
                         <td className="border border-border p-3">
                           <Link 
-                            to={`/screening-criteria/${encodeURIComponent(row.criteria)}`}
+                            to={`/screening-criteria/${encodeURIComponent(row.criteria)}?assessmentId=${id}`}
                             className="text-primary hover:underline cursor-pointer"
                           >
                             {row.criteria}
