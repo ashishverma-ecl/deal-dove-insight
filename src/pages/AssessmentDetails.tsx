@@ -187,7 +187,7 @@ const AssessmentDetails = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">          
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-foreground">ESDD Screening Summary</h1>
+            <h1 className="text-3xl font-bold text-foreground">ESDD Screening Summary of {assessment.title}</h1>
             <div className="flex gap-4 text-sm text-muted-foreground">
               <span>Status: <span className="font-medium capitalize">{assessment.status}</span></span>
               <span>Created: {formatDate(assessment.created_at)}</span>
