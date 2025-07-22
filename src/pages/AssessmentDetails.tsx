@@ -185,7 +185,7 @@ const AssessmentDetails = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">          
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-foreground">{assessment.title}</h1>
+            <h1 className="text-3xl font-bold text-foreground">ESDD Screening Summary</h1>
             <div className="flex gap-4 text-sm text-muted-foreground">
               <span>Status: <span className="font-medium capitalize">{assessment.status}</span></span>
               <span>Created: {formatDate(assessment.created_at)}</span>
@@ -195,53 +195,7 @@ const AssessmentDetails = () => {
         </div>
 
         <div className="grid gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Documents ({documents.length})
-              </CardTitle>
-              <CardDescription>
-                Documents uploaded for this assessment
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {documents.length === 0 ? (
-                <p className="text-muted-foreground text-center py-8">
-                  No documents uploaded yet.
-                </p>
-              ) : (
-                <div className="space-y-3">
-                  {documents.map((document) => (
-                    <div
-                      key={document.id}
-                      className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <FileText className="h-8 w-8 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium text-foreground">{document.file_name}</p>
-                          <div className="flex gap-4 text-sm text-muted-foreground">
-                            <span>{formatFileSize(document.file_size)}</span>
-                            <span>{document.content_type}</span>
-                            <span>Uploaded: {formatDate(document.uploaded_at)}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <Button
-                        onClick={() => downloadDocument(document)}
-                        variant="outline"
-                        size="sm"
-                      >
-                        <Download className="h-4 w-4 mr-2" />
-                        Download
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {/* Content area - documents box removed */}
         </div>
       </div>
     </div>
