@@ -157,17 +157,31 @@ const AssessmentDetails = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header with logo banner and back button */}
+      <header className="border-b border-border bg-card">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+                  <FileText className="h-5 w-5 text-primary-foreground" />
+                </div>
+                <h1 className="text-xl font-bold text-foreground">Assessment Platform</h1>
+              </div>
+            </div>
+            <Button
+              onClick={() => navigate("/dashboard")}
+              variant="outline"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Dashboard
+            </Button>
+          </div>
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <Button
-            onClick={() => navigate("/dashboard")}
-            variant="outline"
-            className="mb-4"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Button>
-          
+        <div className="mb-6">          
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground">{assessment.title}</h1>
             <div className="flex gap-4 text-sm text-muted-foreground">
