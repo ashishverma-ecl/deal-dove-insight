@@ -61,7 +61,7 @@ const CreateAssessment = () => {
     if (!title.trim()) {
       toast({
         title: "Error",
-        description: "Please enter an assessment title",
+        description: "Please enter the client name",
         variant: "destructive",
       });
       return;
@@ -201,10 +201,10 @@ const CreateAssessment = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <Label htmlFor="title">Assessment Title</Label>
+                  <Label htmlFor="title">Name of the Client</Label>
                   <Input
                     id="title"
-                    placeholder="Enter assessment title..."
+                    placeholder="Enter client name..."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
