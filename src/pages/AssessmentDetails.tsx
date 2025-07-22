@@ -197,7 +197,91 @@ const AssessmentDetails = () => {
         </div>
 
         <div className="grid gap-6">
-          {/* Content area - documents box removed */}
+          <Card>
+            <CardHeader>
+              <CardTitle>ESDD Screening Results</CardTitle>
+              <CardDescription>
+                Detailed screening results for environmental and social due diligence
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-border">
+                  <thead>
+                    <tr className="bg-muted">
+                      <th className="border border-border p-3 text-left font-semibold">Sl. No.</th>
+                      <th className="border border-border p-3 text-left font-semibold">Risk Category</th>
+                      <th className="border border-border p-3 text-left font-semibold">Screening Criteria</th>
+                      <th className="border border-border p-3 text-left font-semibold">Threshold</th>
+                      <th className="border border-border p-3 text-left font-semibold">Assessment Outcome</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { category: "Environmental", criteria: "Carbon Emissions", threshold: "< 50,000 tons CO2/year", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Water Consumption", threshold: "< 1M gallons/year", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Waste Management", threshold: "95% recycling rate", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Hazardous Materials", threshold: "Zero violations", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Air Quality Impact", threshold: "Within regulatory limits", outcome: "Pass" },
+                      { category: "Social", criteria: "Labor Standards", threshold: "ILO compliance", outcome: "Pass" },
+                      { category: "Social", criteria: "Community Impact", threshold: "Positive stakeholder feedback", outcome: "Pass" },
+                      { category: "Social", criteria: "Health & Safety", threshold: "Zero incidents/year", outcome: "Fail" },
+                      { category: "Social", criteria: "Human Rights", threshold: "Full compliance", outcome: "Pass" },
+                      { category: "Social", criteria: "Supply Chain Ethics", threshold: "Certified suppliers", outcome: "Pass" },
+                      { category: "Governance", criteria: "Board Independence", threshold: "> 50% independent", outcome: "Pass" },
+                      { category: "Governance", criteria: "Anti-Corruption", threshold: "Zero tolerance policy", outcome: "Pass" },
+                      { category: "Governance", criteria: "Transparency", threshold: "Annual ESG reporting", outcome: "Pass" },
+                      { category: "Governance", criteria: "Risk Management", threshold: "Comprehensive framework", outcome: "Pass" },
+                      { category: "Governance", criteria: "Regulatory Compliance", threshold: "No material violations", outcome: "Warning" },
+                      { category: "Financial", criteria: "Credit Rating", threshold: "Investment grade", outcome: "Pass" },
+                      { category: "Financial", criteria: "Debt-to-Equity", threshold: "< 60%", outcome: "Pass" },
+                      { category: "Financial", criteria: "Cash Flow", threshold: "Positive for 3 years", outcome: "Pass" },
+                      { category: "Financial", criteria: "Revenue Growth", threshold: "> 5% annually", outcome: "Pass" },
+                      { category: "Financial", criteria: "Profitability", threshold: "> 10% EBITDA margin", outcome: "Pass" },
+                      { category: "Operational", criteria: "Business Continuity", threshold: "Robust BCP in place", outcome: "Pass" },
+                      { category: "Operational", criteria: "Cybersecurity", threshold: "ISO 27001 certified", outcome: "Pass" },
+                      { category: "Operational", criteria: "Quality Management", threshold: "ISO 9001 certified", outcome: "Pass" },
+                      { category: "Operational", criteria: "Innovation Investment", threshold: "> 3% of revenue", outcome: "Pass" },
+                      { category: "Operational", criteria: "Market Position", threshold: "Top 3 in sector", outcome: "Pass" },
+                      { category: "Reputational", criteria: "Media Coverage", threshold: "Neutral to positive", outcome: "Warning" },
+                      { category: "Reputational", criteria: "Stakeholder Relations", threshold: "No major disputes", outcome: "Pass" },
+                      { category: "Reputational", criteria: "Regulatory Actions", threshold: "No pending cases", outcome: "Pass" },
+                      { category: "Reputational", criteria: "Industry Standing", threshold: "Good peer recognition", outcome: "Pass" },
+                      { category: "Reputational", criteria: "Customer Satisfaction", threshold: "> 85% rating", outcome: "Pass" },
+                      { category: "Legal", criteria: "Litigation Risk", threshold: "Low exposure", outcome: "Pass" },
+                      { category: "Legal", criteria: "Contract Compliance", threshold: "100% adherence", outcome: "Pass" },
+                      { category: "Legal", criteria: "Intellectual Property", threshold: "Protected portfolio", outcome: "Pass" },
+                      { category: "Legal", criteria: "Regulatory Filings", threshold: "Timely submissions", outcome: "Pass" },
+                      { category: "Legal", criteria: "Tax Compliance", threshold: "Clean tax record", outcome: "Pass" },
+                      { category: "Strategic", criteria: "Market Diversification", threshold: "> 3 geographic markets", outcome: "Pass" },
+                      { category: "Strategic", criteria: "Product Portfolio", threshold: "Diversified offering", outcome: "Pass" },
+                      { category: "Strategic", criteria: "Competitive Position", threshold: "Sustainable advantage", outcome: "Pass" },
+                      { category: "Strategic", criteria: "Digital Transformation", threshold: "Advanced digitization", outcome: "Pass" },
+                      { category: "Strategic", criteria: "Sustainability Goals", threshold: "Net zero by 2050", outcome: "Pass" }
+                    ].map((row, index) => (
+                      <tr key={index} className="hover:bg-muted/50">
+                        <td className="border border-border p-3">{index + 1}</td>
+                        <td className="border border-border p-3">{row.category}</td>
+                        <td className="border border-border p-3">{row.criteria}</td>
+                        <td className="border border-border p-3">{row.threshold}</td>
+                        <td className="border border-border p-3">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            row.outcome === 'Pass' 
+                              ? 'bg-green-100 text-green-800' 
+                              : row.outcome === 'Warning'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {row.outcome}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
