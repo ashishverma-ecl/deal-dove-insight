@@ -142,7 +142,7 @@ const CreateAssessment = () => {
         description: "Assessment created successfully with all documents uploaded",
       });
 
-      navigate("/dashboard");
+      navigate(`/assessment/${assessment.id}`);
     } catch (error: any) {
       console.error("Error creating assessment:", error);
       toast({
