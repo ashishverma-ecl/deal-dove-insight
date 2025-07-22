@@ -119,6 +119,11 @@ const CreateAssessment = () => {
           throw uploadError;
         }
 
+        // Get public URL for the uploaded file
+        const { data: urlData } = supabase.storage
+          .from("assessment-documents")
+          .getPublicUrl(fileName);
+
         // Create document record
         const { error: docError } = await supabase
           .from("assessment_documents")
@@ -129,6 +134,7 @@ const CreateAssessment = () => {
             file_size: uploadedFile.size,
             content_type: uploadedFile.type,
             title: title.trim(), // Set title to client name
+            url: urlData.publicUrl, // Store the public URL
           });
 
         if (docError) {

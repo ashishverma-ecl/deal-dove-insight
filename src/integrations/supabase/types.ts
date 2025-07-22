@@ -24,6 +24,7 @@ export type Database = {
           id: string
           title: string | null
           uploaded_at: string
+          url: string | null
         }
         Insert: {
           assessment_id: string
@@ -34,6 +35,7 @@ export type Database = {
           id?: string
           title?: string | null
           uploaded_at?: string
+          url?: string | null
         }
         Update: {
           assessment_id?: string
@@ -44,6 +46,7 @@ export type Database = {
           id?: string
           title?: string | null
           uploaded_at?: string
+          url?: string | null
         }
         Relationships: [
           {
