@@ -9,6 +9,10 @@ const ScreeningCriteriaDetails = () => {
   const [searchParams] = useSearchParams();
   const assessmentId = searchParams.get('assessmentId');
   
+  console.log('Current criteria:', criteria);
+  console.log('Assessment ID from URL:', assessmentId);
+  console.log('Full search params:', searchParams.toString());
+  
   const decodedCriteria = criteria ? decodeURIComponent(criteria) : "";
 
   // Mock data for different criteria - in a real app, this would come from a database
@@ -111,7 +115,16 @@ const ScreeningCriteriaDetails = () => {
               </div>
             </div>
             <Button
-              onClick={() => assessmentId ? navigate(`/assessment/${assessmentId}`) : navigate(-1)}
+              onClick={() => {
+                console.log('Button clicked! Assessment ID:', assessmentId);
+                if (assessmentId) {
+                  console.log('Navigating to:', `/assessment/${assessmentId}`);
+                  navigate(`/assessment/${assessmentId}`);
+                } else {
+                  console.log('No assessment ID, going back');
+                  navigate(-1);
+                }
+              }}
               variant="outline"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
