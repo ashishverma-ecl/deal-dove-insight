@@ -148,109 +148,92 @@ const ScreeningCriteriaDetails = () => {
           <p className="text-muted-foreground text-lg">{details.overview}</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-orange-500" />
-                Risk Factors
-              </CardTitle>
-              <CardDescription>
-                Key risk elements evaluated for this criteria
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {details.riskFactors.map((factor: string, index: number) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <XCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm">{factor}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                Assessment Process
-              </CardTitle>
-              <CardDescription>
-                How this criteria is evaluated and scored
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ol className="space-y-2">
-                {details.assessmentProcess.map((step: string, index: number) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full text-xs flex items-center justify-center font-medium">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </CardContent>
-          </Card>
-
-          {details.threshold && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Threshold & Rationale</CardTitle>
-                <CardDescription>
-                  Risk threshold and reasoning for this criteria
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+        <div className="space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Performance</h2>
+            <div className="bg-card border border-border rounded-lg p-6">
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-medium text-foreground mb-2">Risk Threshold</h4>
-                    <p className="text-sm bg-muted p-3 rounded-md">{details.threshold}</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Performance Value</h3>
+                    <div className="bg-muted p-4 rounded-md">
+                      <p className="text-2xl font-bold text-primary">
+                        {decodedCriteria === "Thermal Coal Mining" ? "2%" : 
+                         decodedCriteria === "Human Rights Violations" ? "Risk score: 2" :
+                         decodedCriteria === "Money Laundering" ? "Risk score: 6" :
+                         decodedCriteria === "Thermal Coal Power Generation" ? "30%" :
+                         decodedCriteria === "Uranium Mining" ? "0%" :
+                         "Risk score: 3"}
+                      </p>
+                    </div>
                   </div>
                   <div>
-                    <h4 className="font-medium text-foreground mb-2">Rationale</h4>
-                    <p className="text-sm text-muted-foreground">{details.rationale}</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Threshold</h3>
+                    <div className="bg-muted p-4 rounded-md">
+                      <p className="text-lg font-medium text-foreground">
+                        {details.threshold || "Risk score above 4"}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Comparison Against Threshold</h3>
+                  <div className={`p-4 rounded-md border-l-4 ${
+                    (decodedCriteria === "Thermal Coal Power Generation" || 
+                     decodedCriteria === "Money Laundering") 
+                      ? "bg-red-50 border-red-500 text-red-800" 
+                      : "bg-green-50 border-green-500 text-green-800"
+                  }`}>
+                    <p className="font-medium">
+                      {(decodedCriteria === "Thermal Coal Power Generation" || 
+                        decodedCriteria === "Money Laundering") 
+                        ? "Performance exceeds threshold - Manual ESDD Required" 
+                        : "Performance is within acceptable threshold - Pass"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Data Sources</CardTitle>
-              <CardDescription>
-                Information sources used for assessment
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {details.dataSources.map((source: string, index: number) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                    <span className="text-sm">{source}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Reference</h2>
+            <div className="bg-card border border-border rounded-lg p-6">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Referenced Document</h3>
+                  <div className="bg-muted p-4 rounded-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FileText className="h-5 w-5 text-primary" />
+                      <p className="font-medium text-foreground">Deutsche-Bank-Summary-ESDD.pdf</p>
+                    </div>
+                    <div className="text-sm text-muted-foreground space-y-1">
+                      <p><span className="font-medium">Page Number:</span> {
+                        decodedCriteria === "Thermal Coal Mining" ? "Page 15, Section 4.2" :
+                        decodedCriteria === "Human Rights Violations" ? "Page 23, Section 6.1" :
+                        decodedCriteria === "Money Laundering" ? "Page 31, Section 8.3" :
+                        decodedCriteria === "Thermal Coal Power Generation" ? "Page 16, Section 4.3" :
+                        decodedCriteria === "Uranium Mining" ? "Page 18, Section 4.5" :
+                        "Page 25, Section 7.2"
+                      }</p>
+                      <p><span className="font-medium">Reference Source:</span> Company Annual Report 2024, ESG Risk Assessment Section</p>
+                      <p><span className="font-medium">Data Extraction Date:</span> January 15, 2025</p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Additional Context</h3>
+                  <div className="bg-muted p-4 rounded-md">
+                    <p className="text-sm text-muted-foreground">
+                      Performance data extracted from company's disclosed revenue breakdown and risk assessment reports. 
+                      Cross-referenced with third-party ESG databases and regulatory filings to ensure accuracy and completeness.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Methodology</CardTitle>
-            <CardDescription>
-              Detailed assessment methodology for this screening criteria
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {details.methodology}
-            </p>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
