@@ -168,7 +168,10 @@ const AssessmentDetails = () => {
                   alt="Logo" 
                   className="h-10 w-auto"
                 />
-                <h1 className="text-xl font-bold text-foreground">Assessment Platform</h1>
+                <div>
+                  <h1 className="text-xl font-bold text-foreground">Assessment Platform</h1>
+                  <p className="text-sm text-muted-foreground">Reputational Risk Assessment Solution</p>
+                </div>
               </div>
             </div>
             <Button

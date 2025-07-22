@@ -58,11 +58,19 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header Banner */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
-          <Link to="/">
-            <img src="/lovable-uploads/6138e639-0cf1-4201-9a1a-074d552e6c9f.png" alt="Company Logo" className="h-8" />
-          </Link>
+          <div className="flex items-center gap-3">
+            <img 
+              src="/lovable-uploads/61690229-7cfd-4603-b3d7-cf1f5b7ccd95.png" 
+              alt="Logo" 
+              className="h-10 w-auto"
+            />
+            <div>
+              <h1 className="text-xl font-bold text-foreground">Assessment Platform</h1>
+              <p className="text-sm text-muted-foreground">Reputational Risk Assessment Solution</p>
+            </div>
+          </div>
         </div>
       </header>
 
