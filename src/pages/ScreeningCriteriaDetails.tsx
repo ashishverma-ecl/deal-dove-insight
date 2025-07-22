@@ -150,149 +150,137 @@ const ScreeningCriteriaDetails = () => {
         </div>
 
         <div className="space-y-8">
+          {/* Risk Summary */}
           <div>
-            <h2 className="text-xl font-bold text-foreground mb-4">Performance</h2>
+            <h2 className="text-xl font-bold text-foreground mb-4">Risk Summary</h2>
+            <div className="space-y-4">
+              <p className="text-muted-foreground">
+                {decodedCriteria === "Environmental Violations" 
+                  ? "Recent analysis indicates moderate environmental risk exposure through offshore operations and industrial activities. Multiple incidents of water contamination and air quality violations have been documented across facility operations. The company has established environmental management protocols, however, recurring violations suggest implementation gaps in compliance monitoring systems."
+                  : decodedCriteria === "Money Laundering"
+                  ? "High-risk exposure identified through correspondent banking relationships and cross-border transaction monitoring gaps. Recent regulatory investigations have highlighted deficiencies in customer due diligence processes and suspicious activity reporting. The institution has enhanced AML controls following regulatory feedback, but legacy system limitations continue to pose compliance challenges."
+                  : decodedCriteria === "Workplace Safety Violations"
+                  ? "Elevated workplace safety risk profile due to industrial operations and heavy machinery environments. Multiple OSHA violations documented over the past 18 months, including incidents related to protective equipment failures and inadequate safety training protocols. Management has committed to enhanced safety measures and increased training frequency."
+                  : "Analysis of available public information and regulatory databases indicates controlled risk exposure within acceptable parameters. Current risk management frameworks appear adequate for the identified exposure level, with regular monitoring and compliance reporting in place."}
+              </p>
+              
+              {/* News Source Information */}
+              <div className="border-t pt-4 mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
+                  <div>
+                    <span className="font-medium">News Article:</span>
+                    <p>{decodedCriteria === "Environmental Violations" 
+                      ? "Industrial Operations Face Environmental Scrutiny"
+                      : decodedCriteria === "Money Laundering"
+                      ? "Banking Sector AML Compliance Under Review"
+                      : decodedCriteria === "Workplace Safety Violations"
+                      ? "Manufacturing Safety Standards Implementation"
+                      : "Corporate Risk Management Assessment"}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">News Agency:</span>
+                    <p>{decodedCriteria === "Environmental Violations"
+                      ? "Environmental Business Journal"
+                      : decodedCriteria === "Money Laundering"
+                      ? "Financial Times"
+                      : decodedCriteria === "Workplace Safety Violations"
+                      ? "Industrial Safety News"
+                      : "Corporate Governance Weekly"}</p>
+                  </div>
+                  <div>
+                    <span className="font-medium">Date:</span>
+                    <p>January 12, 2025</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Risk Score */}
+          <div>
+            <h2 className="text-xl font-bold text-foreground mb-4">Risk Score</h2>
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-medium text-foreground mb-2">Performance Value</h3>
+                  <h3 className="font-medium text-foreground mb-2">Risk Score</h3>
                   <p className="text-2xl font-bold text-primary">
-                    {decodedCriteria === "Thermal Coal Mining" ? "2%" : 
-                     decodedCriteria === "Thermal Coal Power Generation" ? "30%" :
-                     decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "1%" :
-                     decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "0%" :
-                     decodedCriteria === "Oil & Gas Extraction - Fracking" ? "3%" :
-                     decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "0%" :
-                     decodedCriteria === "Nuclear Power Generation" ? "0%" :
-                     decodedCriteria === "Uranium Mining" ? "0%" :
-                     decodedCriteria === "Asbestos Production" ? "0%" :
-                     decodedCriteria === "Controversial Weapons" ? "0%" :
-                     decodedCriteria === "Conventional Weapons" ? "12%" :
-                     decodedCriteria === "Tobacco Production" ? "0%" :
-                     decodedCriteria === "Tobacco Distribution" ? "7%" :
-                     decodedCriteria === "Alcohol Production" ? "8%" :
-                     decodedCriteria === "Gambling Operations" ? "0%" :
-                     decodedCriteria === "Adult Entertainment" ? "0%" :
-                     decodedCriteria === "Human Rights Violations" ? "Risk score: 2" :
-                     decodedCriteria === "Money Laundering" ? "Risk score: 6" :
-                     decodedCriteria === "Environmental Violations" ? "Risk score: 6" :
-                     decodedCriteria === "Deforestation & Illegal Logging" ? "Risk score: 2" :
-                     decodedCriteria === "Biodiversity Destruction" ? "Risk score: 3" :
-                     decodedCriteria === "Pollution & Contamination" ? "Risk score: 1" :
-                     decodedCriteria === "Climate Change Non-Alignment" ? "Risk score: 2" :
-                     decodedCriteria === "Hazardous Waste" ? "Risk score: 3" :
-                     decodedCriteria === "Labor Rights Violations" ? "Risk score: 3" :
-                     decodedCriteria === "Child Labor" ? "Risk score: 1" :
-                     decodedCriteria === "Forced Labor" ? "Risk score: 1" :
-                     decodedCriteria === "Workplace Safety Violations" ? "Risk score: 5" :
-                     decodedCriteria === "Conflict Minerals" ? "Risk score: 2" :
-                     decodedCriteria === "Supply Chain Violations" ? "Risk score: 3" :
-                     decodedCriteria === "Community Impact Violations" ? "Risk score: 2" :
-                     decodedCriteria === "UN Global Compact Violations" ? "Risk score: 1" :
-                     decodedCriteria === "OECD Guidelines Violations" ? "Risk score: 2" :
-                     decodedCriteria === "Corruption & Bribery" ? "Risk score: 1" :
-                     decodedCriteria === "Tax Evasion & Avoidance" ? "Risk score: 3" :
-                     decodedCriteria === "Cybersecurity Failures" ? "Risk score: 2" :
-                     decodedCriteria === "Data Privacy Violations" ? "Risk score: 1" :
-                     decodedCriteria === "Board Governance Failures" ? "Risk score: 3" :
-                     decodedCriteria === "Sanctioned Countries/Entities" ? "Risk score: 1" :
-                     decodedCriteria === "Regulatory Non-Compliance" ? "Risk score: 2" :
-                     "0%"}
+                    {decodedCriteria === "Environmental Violations" ? "6" :
+                     decodedCriteria === "Money Laundering" ? "6" :
+                     decodedCriteria === "Workplace Safety Violations" ? "5" :
+                     decodedCriteria === "Human Rights Violations" ? "2" :
+                     decodedCriteria === "Deforestation & Illegal Logging" ? "2" :
+                     decodedCriteria === "Biodiversity Destruction" ? "3" :
+                     decodedCriteria === "Pollution & Contamination" ? "1" :
+                     decodedCriteria === "Climate Change Non-Alignment" ? "2" :
+                     decodedCriteria === "Hazardous Waste" ? "3" :
+                     decodedCriteria === "Labor Rights Violations" ? "3" :
+                     decodedCriteria === "Child Labor" ? "1" :
+                     decodedCriteria === "Forced Labor" ? "1" :
+                     decodedCriteria === "Conflict Minerals" ? "2" :
+                     decodedCriteria === "Supply Chain Violations" ? "3" :
+                     decodedCriteria === "Community Impact Violations" ? "2" :
+                     decodedCriteria === "UN Global Compact Violations" ? "1" :
+                     decodedCriteria === "OECD Guidelines Violations" ? "2" :
+                     decodedCriteria === "Corruption & Bribery" ? "1" :
+                     decodedCriteria === "Tax Evasion & Avoidance" ? "3" :
+                     decodedCriteria === "Cybersecurity Failures" ? "2" :
+                     decodedCriteria === "Data Privacy Violations" ? "1" :
+                     decodedCriteria === "Board Governance Failures" ? "3" :
+                     decodedCriteria === "Sanctioned Countries/Entities" ? "1" :
+                     decodedCriteria === "Regulatory Non-Compliance" ? "2" :
+                     "4"}
                   </p>
                 </div>
                 <div>
                   <h3 className="font-medium text-foreground mb-2">Threshold</h3>
                   <p className="text-lg font-medium text-foreground">
-                    {details.threshold || "Risk score above 4"}
+                    Risk score above 4
                   </p>
                 </div>
               </div>
               <div>
-                <h3 className="font-medium text-foreground mb-2">Comparison Against Threshold</h3>
+                <h3 className="font-medium text-foreground mb-2">Outcome</h3>
                 <p className={`font-medium ${
-                  (decodedCriteria === "Thermal Coal Power Generation" || 
-                   decodedCriteria === "Conventional Weapons" ||
+                  (decodedCriteria === "Environmental Violations" ||
                    decodedCriteria === "Money Laundering" ||
-                   decodedCriteria === "Environmental Violations" ||
                    decodedCriteria === "Workplace Safety Violations") 
                     ? "text-red-600" 
                     : "text-green-600"
                 }`}>
-                  {(decodedCriteria === "Thermal Coal Power Generation" || 
-                    decodedCriteria === "Conventional Weapons" ||
+                  {(decodedCriteria === "Environmental Violations" ||
                     decodedCriteria === "Money Laundering" ||
-                    decodedCriteria === "Environmental Violations" ||
                     decodedCriteria === "Workplace Safety Violations") 
-                    ? "Performance exceeds threshold - Manual ESDD Required" 
-                    : "Performance is within acceptable threshold - Pass"}
+                    ? "Risk score exceeds threshold - Manual ESDD Required" 
+                    : "Risk score is within acceptable threshold - Pass"}
                 </p>
               </div>
             </div>
           </div>
 
+          {/* Risk Score Framework */}
           <div>
-            <h2 className="text-xl font-bold text-foreground mb-4">Reference</h2>
+            <h2 className="text-xl font-bold text-foreground mb-4">Risk Score Framework</h2>
             <div className="space-y-4">
-              <div>
-                <h3 className="font-medium text-foreground mb-2">Referenced Document</h3>
-                <div className="flex items-center gap-2 mb-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <p className="font-medium text-foreground">Deutsche-Bank-Summary-ESDD.pdf</p>
-                </div>
-                <div className="space-y-1 text-sm text-muted-foreground">
-                  <p><span className="font-medium">Page Number:</span> {
-                    decodedCriteria === "Thermal Coal Mining" ? "Page 15, Section 4.2" :
-                    decodedCriteria === "Thermal Coal Power Generation" ? "Page 16, Section 4.3" :
-                    decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "Page 17, Section 4.4" :
-                    decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "Page 18, Section 4.5" :
-                    decodedCriteria === "Oil & Gas Extraction - Fracking" ? "Page 19, Section 4.6" :
-                    decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "Page 20, Section 4.7" :
-                    decodedCriteria === "Nuclear Power Generation" ? "Page 21, Section 4.8" :
-                    decodedCriteria === "Uranium Mining" ? "Page 22, Section 4.9" :
-                    decodedCriteria === "Asbestos Production" ? "Page 23, Section 4.10" :
-                    decodedCriteria === "Environmental Violations" ? "Page 24, Section 5.1" :
-                    decodedCriteria === "Deforestation & Illegal Logging" ? "Page 25, Section 5.2" :
-                    decodedCriteria === "Biodiversity Destruction" ? "Page 26, Section 5.3" :
-                    decodedCriteria === "Pollution & Contamination" ? "Page 27, Section 5.4" :
-                    decodedCriteria === "Climate Change Non-Alignment" ? "Page 28, Section 5.5" :
-                    decodedCriteria === "Hazardous Waste" ? "Page 29, Section 5.6" :
-                    decodedCriteria === "Controversial Weapons" ? "Page 30, Section 6.1" :
-                    decodedCriteria === "Conventional Weapons" ? "Page 31, Section 6.2" :
-                    decodedCriteria === "Tobacco Production" ? "Page 32, Section 6.3" :
-                    decodedCriteria === "Tobacco Distribution" ? "Page 33, Section 6.4" :
-                    decodedCriteria === "Alcohol Production" ? "Page 34, Section 6.5" :
-                    decodedCriteria === "Gambling Operations" ? "Page 35, Section 6.6" :
-                    decodedCriteria === "Adult Entertainment" ? "Page 36, Section 6.7" :
-                    decodedCriteria === "Human Rights Violations" ? "Page 37, Section 7.1" :
-                    decodedCriteria === "Labor Rights Violations" ? "Page 38, Section 7.2" :
-                    decodedCriteria === "Child Labor" ? "Page 39, Section 7.3" :
-                    decodedCriteria === "Forced Labor" ? "Page 40, Section 7.4" :
-                    decodedCriteria === "Workplace Safety Violations" ? "Page 41, Section 7.5" :
-                    decodedCriteria === "Conflict Minerals" ? "Page 42, Section 7.6" :
-                    decodedCriteria === "Supply Chain Violations" ? "Page 43, Section 7.7" :
-                    decodedCriteria === "Community Impact Violations" ? "Page 44, Section 7.8" :
-                    decodedCriteria === "UN Global Compact Violations" ? "Page 45, Section 8.1" :
-                    decodedCriteria === "OECD Guidelines Violations" ? "Page 46, Section 8.2" :
-                    decodedCriteria === "Corruption & Bribery" ? "Page 47, Section 8.3" :
-                    decodedCriteria === "Tax Evasion & Avoidance" ? "Page 48, Section 8.4" :
-                    decodedCriteria === "Money Laundering" ? "Page 49, Section 8.5" :
-                    decodedCriteria === "Cybersecurity Failures" ? "Page 50, Section 8.6" :
-                    decodedCriteria === "Data Privacy Violations" ? "Page 51, Section 8.7" :
-                    decodedCriteria === "Board Governance Failures" ? "Page 52, Section 8.8" :
-                    decodedCriteria === "Sanctioned Countries/Entities" ? "Page 53, Section 8.9" :
-                    decodedCriteria === "Regulatory Non-Compliance" ? "Page 54, Section 8.10" :
-                    "Page 25, Section 7.2"
-                  }</p>
-                  <p><span className="font-medium">Reference Source:</span> Company Annual Report 2024, ESG Risk Assessment Section</p>
-                  <p><span className="font-medium">Data Extraction Date:</span> January 15, 2025</p>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-medium text-foreground mb-2">Additional Context</h3>
-                <p className="text-sm text-muted-foreground">
-                  Performance data extracted from company&apos;s disclosed revenue breakdown and risk assessment reports. 
-                  Cross-referenced with third-party ESG databases and regulatory filings to ensure accuracy and completeness.
-                </p>
+              <p className="text-muted-foreground mb-6">
+                Risk assessment framework based on a 1-10 scale, where 1 represents very low risk and 10 represents very high risk.
+              </p>
+              
+              <div className="grid gap-4">
+                {[
+                  { score: "1-2", level: "Very Low Risk", criteria: "Minimal risk exposure with strong controls and no recent incidents", color: "bg-green-50 border-green-200 text-green-800" },
+                  { score: "3-4", level: "Low Risk", criteria: "Limited risk exposure with adequate controls and rare minor incidents", color: "bg-green-50 border-green-200 text-green-800" },
+                  { score: "5-6", level: "Medium Risk", criteria: "Moderate risk exposure with some control gaps and occasional incidents", color: "bg-yellow-50 border-yellow-200 text-yellow-800" },
+                  { score: "7-8", level: "High Risk", criteria: "Significant risk exposure with control weaknesses and regular incidents", color: "bg-red-50 border-red-200 text-red-800" },
+                  { score: "9-10", level: "Very High Risk", criteria: "Severe risk exposure with inadequate controls and frequent serious incidents", color: "bg-red-50 border-red-200 text-red-800" }
+                ].map((item, index) => (
+                  <div key={index} className={`p-4 rounded-lg border ${item.color}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-lg">{item.score}</span>
+                      <span className="font-medium">{item.level}</span>
+                    </div>
+                    <p className="text-sm">{item.criteria}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
