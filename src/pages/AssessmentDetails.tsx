@@ -213,63 +213,63 @@ const AssessmentDetails = () => {
                       <th className="border border-border p-3 text-left font-semibold">Risk Category</th>
                       <th className="border border-border p-3 text-left font-semibold">Screening Criteria</th>
                       <th className="border border-border p-3 text-left font-semibold">Threshold</th>
+                      <th className="border border-border p-3 text-left font-semibold">Performance</th>
                       <th className="border border-border p-3 text-left font-semibold">Assessment Outcome</th>
                     </tr>
                   </thead>
                   <tbody>
                     {[
-                      { category: "Environmental", criteria: "Thermal Coal Mining", threshold: "1-5%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Thermal Coal Power Generation", threshold: "5-25%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Oil & Gas Extraction - Unconventional", threshold: "0-5%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Oil & Gas Extraction - Arctic/Deep Sea", threshold: "0-5%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Oil & Gas Extraction - Fracking", threshold: "0-5%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Oil & Gas Extraction - Tar Sands", threshold: "0-5%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Nuclear Power Generation", threshold: "0%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Uranium Mining", threshold: "0%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Asbestos Production", threshold: "0%", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Environmental Violations", threshold: "Risk score above 4", outcome: "Warning" },
-                      { category: "Environmental", criteria: "Deforestation & Illegal Logging", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Biodiversity Destruction", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Pollution & Contamination", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Climate Change Non-Alignment", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Environmental", criteria: "Hazardous Waste", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Controversial Weapons", threshold: "0%", outcome: "Pass" },
-                      { category: "Social", criteria: "Conventional Weapons", threshold: "5-10%", outcome: "Pass" },
-                      { category: "Social", criteria: "Tobacco Production", threshold: "0-5%", outcome: "Pass" },
-                      { category: "Social", criteria: "Tobacco Distribution", threshold: "5-10%", outcome: "Pass" },
-                      { category: "Social", criteria: "Alcohol Production", threshold: "10%", outcome: "Pass" },
-                      { category: "Social", criteria: "Gambling Operations", threshold: "10%", outcome: "Pass" },
-                      { category: "Social", criteria: "Adult Entertainment", threshold: "10%", outcome: "Pass" },
-                      { category: "Social", criteria: "Human Rights Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Labor Rights Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Child Labor", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Forced Labor", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Workplace Safety Violations", threshold: "Risk score above 4", outcome: "Fail" },
-                      { category: "Social", criteria: "Conflict Minerals", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Supply Chain Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Social", criteria: "Community Impact Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "UN Global Compact Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "OECD Guidelines Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Corruption & Bribery", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Tax Evasion & Avoidance", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Money Laundering", threshold: "Risk score above 4", outcome: "Warning" },
-                      { category: "Governance", criteria: "Cybersecurity Failures", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Data Privacy Violations", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Board Governance Failures", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Sanctioned Countries/Entities", threshold: "Risk score above 4", outcome: "Pass" },
-                      { category: "Governance", criteria: "Regulatory Non-Compliance", threshold: "Risk score above 4", outcome: "Pass" }
+                      { category: "Environmental", criteria: "Thermal Coal Mining", threshold: "1-5%", performance: "2%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Thermal Coal Power Generation", threshold: "5-25%", performance: "30%", outcome: "Manual ESDD Required" },
+                      { category: "Environmental", criteria: "Oil & Gas Extraction - Unconventional", threshold: "0-5%", performance: "1%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Oil & Gas Extraction - Arctic/Deep Sea", threshold: "0-5%", performance: "0%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Oil & Gas Extraction - Fracking", threshold: "0-5%", performance: "3%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Oil & Gas Extraction - Tar Sands", threshold: "0-5%", performance: "0%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Nuclear Power Generation", threshold: "0%", performance: "0%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Uranium Mining", threshold: "0%", performance: "0%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Asbestos Production", threshold: "0%", performance: "0%", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Environmental Violations", threshold: "Risk score above 4", performance: "Risk score: 6", outcome: "Manual ESDD Required" },
+                      { category: "Environmental", criteria: "Deforestation & Illegal Logging", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Biodiversity Destruction", threshold: "Risk score above 4", performance: "Risk score: 3", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Pollution & Contamination", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Climate Change Non-Alignment", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Environmental", criteria: "Hazardous Waste", threshold: "Risk score above 4", performance: "Risk score: 3", outcome: "Pass" },
+                      { category: "Social", criteria: "Controversial Weapons", threshold: "0%", performance: "0%", outcome: "Pass" },
+                      { category: "Social", criteria: "Conventional Weapons", threshold: "5-10%", performance: "12%", outcome: "Manual ESDD Required" },
+                      { category: "Social", criteria: "Tobacco Production", threshold: "0-5%", performance: "0%", outcome: "Pass" },
+                      { category: "Social", criteria: "Tobacco Distribution", threshold: "5-10%", performance: "7%", outcome: "Pass" },
+                      { category: "Social", criteria: "Alcohol Production", threshold: "10%", performance: "8%", outcome: "Pass" },
+                      { category: "Social", criteria: "Gambling Operations", threshold: "10%", performance: "0%", outcome: "Pass" },
+                      { category: "Social", criteria: "Adult Entertainment", threshold: "10%", performance: "0%", outcome: "Pass" },
+                      { category: "Social", criteria: "Human Rights Violations", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Social", criteria: "Labor Rights Violations", threshold: "Risk score above 4", performance: "Risk score: 3", outcome: "Pass" },
+                      { category: "Social", criteria: "Child Labor", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Social", criteria: "Forced Labor", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Social", criteria: "Workplace Safety Violations", threshold: "Risk score above 4", performance: "Risk score: 5", outcome: "Manual ESDD Required" },
+                      { category: "Social", criteria: "Conflict Minerals", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Social", criteria: "Supply Chain Violations", threshold: "Risk score above 4", performance: "Risk score: 3", outcome: "Pass" },
+                      { category: "Social", criteria: "Community Impact Violations", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Governance", criteria: "UN Global Compact Violations", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Governance", criteria: "OECD Guidelines Violations", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Governance", criteria: "Corruption & Bribery", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Governance", criteria: "Tax Evasion & Avoidance", threshold: "Risk score above 4", performance: "Risk score: 3", outcome: "Pass" },
+                      { category: "Governance", criteria: "Money Laundering", threshold: "Risk score above 4", performance: "Risk score: 6", outcome: "Manual ESDD Required" },
+                      { category: "Governance", criteria: "Cybersecurity Failures", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" },
+                      { category: "Governance", criteria: "Data Privacy Violations", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Governance", criteria: "Board Governance Failures", threshold: "Risk score above 4", performance: "Risk score: 3", outcome: "Pass" },
+                      { category: "Governance", criteria: "Sanctioned Countries/Entities", threshold: "Risk score above 4", performance: "Risk score: 1", outcome: "Pass" },
+                      { category: "Governance", criteria: "Regulatory Non-Compliance", threshold: "Risk score above 4", performance: "Risk score: 2", outcome: "Pass" }
                     ].map((row, index) => (
                       <tr key={index} className="hover:bg-muted/50">
                         <td className="border border-border p-3">{index + 1}</td>
                         <td className="border border-border p-3">{row.category}</td>
                         <td className="border border-border p-3">{row.criteria}</td>
                         <td className="border border-border p-3">{row.threshold}</td>
+                        <td className="border border-border p-3">{row.performance}</td>
                         <td className="border border-border p-3">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             row.outcome === 'Pass' 
                               ? 'bg-green-100 text-green-800' 
-                              : row.outcome === 'Warning'
-                              ? 'bg-yellow-100 text-yellow-800'
                               : 'bg-red-100 text-red-800'
                           }`}>
                             {row.outcome}
