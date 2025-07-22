@@ -128,6 +128,7 @@ const CreateAssessment = () => {
             file_path: fileName,
             file_size: uploadedFile.size,
             content_type: uploadedFile.type,
+            title: title.trim(), // Set title to client name
           });
 
         if (docError) {
