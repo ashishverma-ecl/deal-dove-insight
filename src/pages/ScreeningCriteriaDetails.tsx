@@ -15,7 +15,6 @@ const ScreeningCriteriaDetails = () => {
   
   const decodedCriteria = criteria ? decodeURIComponent(criteria) : "";
 
-  // Mock data for different criteria - in a real app, this would come from a database
   const getCriteriaDetails = (criteriaName: string) => {
     const baseDetails = {
       overview: `This screening criteria evaluates ${criteriaName.toLowerCase()} risks in corporate lending and investment decisions.`,
@@ -116,18 +115,11 @@ const ScreeningCriteriaDetails = () => {
             </div>
             <Button
               onClick={() => {
-                // Try to get assessment ID from browser history or use a fallback
-                const currentUrl = window.location.href;
-                console.log('Current URL:', currentUrl);
-                
-                // Extract assessment ID from the referrer or use a hardcoded fallback
-                // Since we're in the screening criteria for an assessment, let's go back to dashboard
-                // and then they can navigate to the right assessment
                 if (assessmentId) {
-                  console.log('Navigating to:', `/assessment/${assessmentId}`);
+                  console.log('Navigating back to assessment:', assessmentId);
                   navigate(`/assessment/${assessmentId}`);
                 } else {
-                  console.log('Going back to dashboard since no assessment ID');
+                  console.log('No assessment ID found, going to dashboard');
                   navigate('/dashboard');
                 }
               }}
