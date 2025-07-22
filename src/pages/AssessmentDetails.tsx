@@ -162,10 +162,12 @@ const AssessmentDetails = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                  <FileText className="h-5 w-5 text-primary-foreground" />
-                </div>
+              <div className="flex items-center gap-3">
+                <img 
+                  src="/lovable-uploads/61690229-7cfd-4603-b3d7-cf1f5b7ccd95.png" 
+                  alt="Logo" 
+                  className="h-10 w-auto"
+                />
                 <h1 className="text-xl font-bold text-foreground">Assessment Platform</h1>
               </div>
             </div>
