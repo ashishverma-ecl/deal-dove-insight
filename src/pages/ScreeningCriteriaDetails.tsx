@@ -116,13 +116,19 @@ const ScreeningCriteriaDetails = () => {
             </div>
             <Button
               onClick={() => {
-                console.log('Button clicked! Assessment ID:', assessmentId);
+                // Try to get assessment ID from browser history or use a fallback
+                const currentUrl = window.location.href;
+                console.log('Current URL:', currentUrl);
+                
+                // Extract assessment ID from the referrer or use a hardcoded fallback
+                // Since we're in the screening criteria for an assessment, let's go back to dashboard
+                // and then they can navigate to the right assessment
                 if (assessmentId) {
                   console.log('Navigating to:', `/assessment/${assessmentId}`);
                   navigate(`/assessment/${assessmentId}`);
                 } else {
-                  console.log('No assessment ID, going back');
-                  navigate(-1);
+                  console.log('Going back to dashboard since no assessment ID');
+                  navigate('/dashboard');
                 }
               }}
               variant="outline"
