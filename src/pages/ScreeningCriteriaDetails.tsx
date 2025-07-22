@@ -150,87 +150,108 @@ const ScreeningCriteriaDetails = () => {
         </div>
 
         {hasPercentageThreshold ? (
-          // New template for percentage-based thresholds
-          <div className="space-y-8">
+          // New template matching the uploaded design for percentage-based thresholds
+          <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">Performance</h2>
-              <div className="bg-card border border-border rounded-lg p-6">
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Performance Value</h3>
-                      <div className="bg-muted p-4 rounded-md">
-                        <p className="text-2xl font-bold text-primary">
-                          {decodedCriteria === "Thermal Coal Mining" ? "2%" : 
-                           decodedCriteria === "Thermal Coal Power Generation" ? "30%" :
-                           decodedCriteria === "Uranium Mining" ? "0%" :
-                           decodedCriteria === "Nuclear Power Generation" ? "0%" :
-                           decodedCriteria === "Conventional Weapons" ? "12%" :
-                           decodedCriteria === "Tobacco Distribution" ? "7%" :
-                           decodedCriteria === "Alcohol Production" ? "8%" :
-                           "0%"}
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Threshold</h3>
-                      <div className="bg-muted p-4 rounded-md">
-                        <p className="text-lg font-medium text-foreground">
-                          {details.threshold || "0%"}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Comparison Against Threshold</h3>
-                    <div className={`p-4 rounded-md border-l-4 ${
-                      (decodedCriteria === "Thermal Coal Power Generation" || 
-                       decodedCriteria === "Conventional Weapons") 
-                        ? "bg-red-50 border-red-500 text-red-800" 
-                        : "bg-green-50 border-green-500 text-green-800"
-                    }`}>
-                      <p className="font-medium">
-                        {(decodedCriteria === "Thermal Coal Power Generation" || 
-                          decodedCriteria === "Conventional Weapons") 
-                          ? "Performance exceeds threshold - Manual ESDD Required" 
-                          : "Performance is within acceptable threshold - Pass"}
+              <h2 className="text-xl font-bold text-foreground mb-4">Performance</h2>
+              <div className="border border-border rounded-lg p-6 bg-card">
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Performance Value</h3>
+                    <div className="bg-muted/50 p-4 rounded-md">
+                      <p className="text-3xl font-bold text-primary">
+                        {decodedCriteria === "Thermal Coal Mining" ? "2%" : 
+                         decodedCriteria === "Thermal Coal Power Generation" ? "30%" :
+                         decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "1%" :
+                         decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "0%" :
+                         decodedCriteria === "Oil & Gas Extraction - Fracking" ? "3%" :
+                         decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "0%" :
+                         decodedCriteria === "Nuclear Power Generation" ? "0%" :
+                         decodedCriteria === "Uranium Mining" ? "0%" :
+                         decodedCriteria === "Asbestos Production" ? "0%" :
+                         decodedCriteria === "Controversial Weapons" ? "0%" :
+                         decodedCriteria === "Conventional Weapons" ? "12%" :
+                         decodedCriteria === "Tobacco Production" ? "0%" :
+                         decodedCriteria === "Tobacco Distribution" ? "7%" :
+                         decodedCriteria === "Alcohol Production" ? "8%" :
+                         decodedCriteria === "Gambling Operations" ? "0%" :
+                         decodedCriteria === "Adult Entertainment" ? "0%" :
+                         "0%"}
                       </p>
                     </div>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Threshold</h3>
+                    <div className="bg-muted/50 p-4 rounded-md">
+                      <p className="text-lg font-medium text-foreground">
+                        {details.threshold || "0%"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Comparison Against Threshold</h3>
+                  <div className={`p-4 rounded-md border-l-4 ${
+                    (decodedCriteria === "Thermal Coal Power Generation" || 
+                     decodedCriteria === "Conventional Weapons") 
+                      ? "bg-red-50 border-red-500" 
+                      : "bg-green-50 border-green-500"
+                  }`}>
+                    <p className={`font-medium ${
+                      (decodedCriteria === "Thermal Coal Power Generation" || 
+                       decodedCriteria === "Conventional Weapons") 
+                        ? "text-red-800" 
+                        : "text-green-800"
+                    }`}>
+                      {(decodedCriteria === "Thermal Coal Power Generation" || 
+                        decodedCriteria === "Conventional Weapons") 
+                        ? "Performance exceeds threshold - Manual ESDD Required" 
+                        : "Performance is within acceptable threshold - Pass"}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">Reference</h2>
-              <div className="bg-card border border-border rounded-lg p-6">
+              <h2 className="text-xl font-bold text-foreground mb-4">Reference</h2>
+              <div className="border border-border rounded-lg p-6 bg-card">
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Referenced Document</h3>
-                    <div className="bg-muted p-4 rounded-md">
-                      <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Referenced Document</h3>
+                    <div className="bg-muted/50 p-4 rounded-md">
+                      <div className="flex items-center gap-2 mb-3">
                         <FileText className="h-5 w-5 text-primary" />
                         <p className="font-medium text-foreground">Deutsche-Bank-Summary-ESDD.pdf</p>
                       </div>
-                      <div className="text-sm text-muted-foreground space-y-1">
-                        <p><span className="font-medium">Page Number:</span> {
+                      <div className="space-y-2 text-sm text-muted-foreground">
+                        <div><span className="font-medium">Page Number:</span> {
                           decodedCriteria === "Thermal Coal Mining" ? "Page 15, Section 4.2" :
                           decodedCriteria === "Thermal Coal Power Generation" ? "Page 16, Section 4.3" :
-                          decodedCriteria === "Uranium Mining" ? "Page 18, Section 4.5" :
-                          decodedCriteria === "Nuclear Power Generation" ? "Page 19, Section 4.6" :
-                          decodedCriteria === "Conventional Weapons" ? "Page 28, Section 7.1" :
-                          decodedCriteria === "Tobacco Distribution" ? "Page 33, Section 8.2" :
-                          decodedCriteria === "Alcohol Production" ? "Page 35, Section 8.4" :
+                          decodedCriteria === "Oil & Gas Extraction - Unconventional" ? "Page 17, Section 4.4" :
+                          decodedCriteria === "Oil & Gas Extraction - Arctic/Deep Sea" ? "Page 18, Section 4.5" :
+                          decodedCriteria === "Oil & Gas Extraction - Fracking" ? "Page 19, Section 4.6" :
+                          decodedCriteria === "Oil & Gas Extraction - Tar Sands" ? "Page 20, Section 4.7" :
+                          decodedCriteria === "Nuclear Power Generation" ? "Page 21, Section 4.8" :
+                          decodedCriteria === "Uranium Mining" ? "Page 22, Section 4.9" :
+                          decodedCriteria === "Asbestos Production" ? "Page 23, Section 4.10" :
+                          decodedCriteria === "Controversial Weapons" ? "Page 26, Section 6.1" :
+                          decodedCriteria === "Conventional Weapons" ? "Page 27, Section 6.2" :
+                          decodedCriteria === "Tobacco Production" ? "Page 28, Section 6.3" :
+                          decodedCriteria === "Tobacco Distribution" ? "Page 29, Section 6.4" :
+                          decodedCriteria === "Alcohol Production" ? "Page 30, Section 6.5" :
+                          decodedCriteria === "Gambling Operations" ? "Page 31, Section 6.6" :
+                          decodedCriteria === "Adult Entertainment" ? "Page 32, Section 6.7" :
                           "Page 25, Section 7.2"
-                        }</p>
-                        <p><span className="font-medium">Reference Source:</span> Company Annual Report 2024, ESG Risk Assessment Section</p>
-                        <p><span className="font-medium">Data Extraction Date:</span> January 15, 2025</p>
+                        }</div>
+                        <div><span className="font-medium">Reference Source:</span> Company Annual Report 2024, ESG Risk Assessment Section</div>
+                        <div><span className="font-medium">Data Extraction Date:</span> January 15, 2025</div>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Additional Context</h3>
-                    <div className="bg-muted p-4 rounded-md">
+                    <h3 className="text-sm font-medium text-muted-foreground mb-3">Additional Context</h3>
+                    <div className="bg-muted/50 p-4 rounded-md">
                       <p className="text-sm text-muted-foreground">
                         Performance data extracted from company&apos;s disclosed revenue breakdown and risk assessment reports. 
                         Cross-referenced with third-party ESG databases and regulatory filings to ensure accuracy and completeness.
