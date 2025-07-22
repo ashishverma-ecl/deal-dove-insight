@@ -134,10 +134,10 @@ const ScreeningCriteriaDetails = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <FileText className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold text-foreground">{decodedCriteria}</h1>
+            <FileText className="h-6 w-6 text-primary" />
+            <h1 className="text-2xl font-bold text-foreground">{decodedCriteria}</h1>
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
               riskLevel === 'High' ? 'bg-red-100 text-red-800' :
               riskLevel === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -146,7 +146,7 @@ const ScreeningCriteriaDetails = () => {
               {riskLevel} Risk
             </span>
           </div>
-          <p className="text-muted-foreground text-lg">{details.overview}</p>
+          <p className="text-muted-foreground">{details.overview}</p>
         </div>
 
         {hasPercentageThreshold ? (
