@@ -14,50 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      assessment_documents: {
-        Row: {
-          assessment_id: string
-          content_type: string | null
-          file_name: string
-          file_path: string
-          file_size: number | null
-          id: string
-          title: string | null
-          uploaded_at: string
-          url: string | null
-        }
-        Insert: {
-          assessment_id: string
-          content_type?: string | null
-          file_name: string
-          file_path: string
-          file_size?: number | null
-          id?: string
-          title?: string | null
-          uploaded_at?: string
-          url?: string | null
-        }
-        Update: {
-          assessment_id?: string
-          content_type?: string | null
-          file_name?: string
-          file_path?: string
-          file_size?: number | null
-          id?: string
-          title?: string | null
-          uploaded_at?: string
-          url?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "assessment_documents_assessment_id_fkey"
-            columns: ["assessment_id"]
-            isOneToOne: false
-            referencedRelation: "assessments"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       assessments: {
         Row: {
           created_at: string
@@ -82,6 +38,30 @@ export type Database = {
           title?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          file_path: string
+          id: string
+          session_id: string
+          status: string | null
+          uploaded_at: string | null
+        }
+        Insert: {
+          file_path: string
+          id?: string
+          session_id: string
+          status?: string | null
+          uploaded_at?: string | null
+        }
+        Update: {
+          file_path?: string
+          id?: string
+          session_id?: string
+          status?: string | null
+          uploaded_at?: string | null
         }
         Relationships: []
       }
