@@ -30,7 +30,8 @@ serve(async (req) => {
       "https://climatewarrior87.app.n8n.cloud/webhook-test/b2f5e351-bf53-4565-9f0c-7735eb92a0b2",
       "https://climatewarrior87.app.n8n.cloud/webhook-test/e6724b85-4582-40b6-bb82-d127fb9b00e6",
       "https://climatewarrior87.app.n8n.cloud/webhook-test/e9171c46-f42b-4dec-b411-47faa89c790c",
-      "https://climatewarrior87.app.n8n.cloud/webhook/e9171c46-f42b-4dec-b411-47faa89c790c"
+      "https://climatewarrior87.app.n8n.cloud/webhook/e9171c46-f42b-4dec-b411-47faa89c790c",
+      "https://climatewarrior87.app.n8n.cloud/webhook-test/017a6a51-ed45-4a77-9d2f-92415c2daa2e"
     ];
 
     // Send webhooks in parallel
