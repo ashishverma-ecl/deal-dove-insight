@@ -7,6 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, FileText, ArrowLeft, Plus } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
 
 interface UploadedFile {
   id: string;
@@ -90,6 +91,9 @@ const CreateAssessment = () => {
         return;
       }
 
+      // Generate unique session ID for this assessment run
+      const sessionId = uuidv4();
+
       // Create assessment record
       const { data: assessment, error: assessmentError } = await supabase
         .from("assessments")
@@ -124,7 +128,7 @@ const CreateAssessment = () => {
           .from("assessment-documents")
           .getPublicUrl(fileName);
 
-        // Create document record
+        // Create document record in assessment_documents table
         const { error: docError } = await supabase
           .from("assessment_documents")
           .insert({
@@ -139,6 +143,19 @@ const CreateAssessment = () => {
 
         if (docError) {
           throw docError;
+        }
+
+        // Also create entry in documents table with session ID
+        const { error: sessionDocError } = await supabase
+          .from("documents")
+          .insert({
+            session_id: sessionId,
+            file_path: fileName,
+            status: "uploaded",
+          });
+
+        if (sessionDocError) {
+          throw sessionDocError;
         }
       });
 
