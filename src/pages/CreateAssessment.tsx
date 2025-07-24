@@ -128,7 +128,7 @@ const CreateAssessment = () => {
           .from("assessment-documents")
           .getPublicUrl(fileName);
 
-        // Create document record in assessment_documents table
+        // Create document record in assessment_documents table with session_id
         const { error: docError } = await supabase
           .from("assessment_documents")
           .insert({
@@ -139,23 +139,11 @@ const CreateAssessment = () => {
             content_type: uploadedFile.type,
             title: title.trim(), // Set title to client name
             url: urlData.publicUrl, // Store the public URL
+            session_id: sessionId, // Add session ID to track this upload session
           });
 
         if (docError) {
           throw docError;
-        }
-
-        // Also create entry in documents table with session ID
-        const { error: sessionDocError } = await supabase
-          .from("documents")
-          .insert({
-            session_id: sessionId,
-            file_path: fileName,
-            status: "uploaded",
-          });
-
-        if (sessionDocError) {
-          throw sessionDocError;
         }
       });
 

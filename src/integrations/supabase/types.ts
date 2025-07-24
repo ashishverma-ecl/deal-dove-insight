@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      assessment_documents: {
+        Row: {
+          assessment_id: string
+          content_type: string | null
+          created_at: string
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          session_id: string | null
+          title: string | null
+          updated_at: string
+          uploaded_at: string
+          url: string | null
+        }
+        Insert: {
+          assessment_id: string
+          content_type?: string | null
+          created_at?: string
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          session_id?: string | null
+          title?: string | null
+          updated_at?: string
+          uploaded_at?: string
+          url?: string | null
+        }
+        Update: {
+          assessment_id?: string
+          content_type?: string | null
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          session_id?: string | null
+          title?: string | null
+          updated_at?: string
+          uploaded_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
       assessments: {
         Row: {
           created_at: string
