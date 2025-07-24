@@ -22,6 +22,7 @@ const CreateAssessment = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [sessionId, setSessionId] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -29,6 +30,11 @@ const CreateAssessment = () => {
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
+
+    // Generate session ID when first files are selected (if not already generated)
+    if (uploadedFiles.length === 0 && !sessionId) {
+      setSessionId(uuidv4());
+    }
 
     const newFiles: UploadedFile[] = Array.from(files).map((file) => ({
       id: crypto.randomUUID(),
@@ -175,7 +181,7 @@ const CreateAssessment = () => {
 
       toast({
         title: "Success",
-        description: "Assessment created successfully with all documents uploaded",
+        description: `Assessment created successfully with session ID: ${sessionId}`,
       });
 
       navigate(`/assessment/${assessment.id}`);
@@ -296,6 +302,14 @@ const CreateAssessment = () => {
                       <Plus className="w-4 h-4 mr-2" />
                       Add More Documents
                     </Button>
+                  </div>
+                )}
+
+                {/* Session ID Display */}
+                {sessionId && (
+                  <div className="p-3 bg-muted/50 rounded-lg border">
+                    <p className="text-sm font-medium text-muted-foreground">Session ID</p>
+                    <p className="text-sm font-mono">{sessionId}</p>
                   </div>
                 )}
 
