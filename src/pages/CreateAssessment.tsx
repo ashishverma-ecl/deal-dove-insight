@@ -144,7 +144,7 @@ const CreateAssessment = () => {
 
       await Promise.all(uploadPromises);
 
-      // Trigger webhook notifications
+      // Trigger webhook notifications via Edge Function
       const webhookData = {
         assessment_id: assessment.id,
         title: assessment.title,
@@ -153,28 +153,20 @@ const CreateAssessment = () => {
         timestamp: new Date().toISOString(),
       };
 
-      const webhookUrls = [
-        "https://climatewarrior87.app.n8n.cloud/webhook-test/c272f091-8936-474f-bd6f-6bf94c3caa37",
-        "https://climatewarrior87.app.n8n.cloud/webhook-test/6569f426-d7a7-4ea8-b4ac-c8a88976b473",
-        "https://climatewarrior87.app.n8n.cloud/webhook-test/b2f5e351-bf53-4565-9f0c-7735eb92a0b2",
-        "https://climatewarrior87.app.n8n.cloud/webhook-test/e6724b85-4582-40b6-bb82-d127fb9b00e6"
-      ];
+      try {
+        const { error: webhookError } = await supabase.functions.invoke('notify-webhooks', {
+          body: webhookData
+        });
 
-      webhookUrls.forEach(async (url) => {
-        try {
-          await fetch(url, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            mode: "no-cors",
-            body: JSON.stringify(webhookData),
-          });
-        } catch (webhookError) {
-          console.error(`Webhook notification failed for ${url}:`, webhookError);
-          // Don't break the flow if webhook fails
+        if (webhookError) {
+          console.error('Webhook notification failed:', webhookError);
+        } else {
+          console.log('Webhook notifications sent successfully');
         }
-      });
+      } catch (webhookError) {
+        console.error('Webhook notification error:', webhookError);
+        // Don't break the flow if webhook fails
+      }
 
       toast({
         title: "Success",
