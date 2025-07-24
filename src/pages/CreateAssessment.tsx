@@ -334,7 +334,7 @@ const CreateAssessment = () => {
                     disabled={isCreating || isUploading || uploadedFiles.length === 0 || !title.trim()}
                     size="lg"
                   >
-                    {isCreating || isUploading ? "Creating..." : "Create Assessment"}
+                    {isCreating || isUploading ? "Running..." : "Run Assessment"}
                   </Button>
                 </div>
               </CardContent>
