@@ -144,6 +144,27 @@ const CreateAssessment = () => {
 
       await Promise.all(uploadPromises);
 
+      // Trigger webhook notification
+      try {
+        await fetch("https://climatewarrior87.app.n8n.cloud/webhook-test/c272f091-8936-474f-bd6f-6bf94c3caa37", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "no-cors",
+          body: JSON.stringify({
+            assessment_id: assessment.id,
+            title: assessment.title,
+            user_email: user.email,
+            documents_count: uploadedFiles.length,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+      } catch (webhookError) {
+        console.error("Webhook notification failed:", webhookError);
+        // Don't break the flow if webhook fails
+      }
+
       toast({
         title: "Success",
         description: "Assessment created successfully with all documents uploaded",
