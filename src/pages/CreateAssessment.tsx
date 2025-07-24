@@ -155,7 +155,8 @@ const CreateAssessment = () => {
 
       const webhookUrls = [
         "https://climatewarrior87.app.n8n.cloud/webhook-test/c272f091-8936-474f-bd6f-6bf94c3caa37",
-        "https://climatewarrior87.app.n8n.cloud/webhook-test/6569f426-d7a7-4ea8-b4ac-c8a88976b473"
+        "https://climatewarrior87.app.n8n.cloud/webhook-test/6569f426-d7a7-4ea8-b4ac-c8a88976b473",
+        "https://climatewarrior87.app.n8n.cloud/webhook-test/b2f5e351-bf53-4565-9f0c-7735eb92a0b2"
       ];
 
       webhookUrls.forEach(async (url) => {
