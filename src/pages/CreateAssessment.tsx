@@ -144,26 +144,35 @@ const CreateAssessment = () => {
 
       await Promise.all(uploadPromises);
 
-      // Trigger webhook notification
-      try {
-        await fetch("https://climatewarrior87.app.n8n.cloud/webhook-test/c272f091-8936-474f-bd6f-6bf94c3caa37", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          mode: "no-cors",
-          body: JSON.stringify({
-            assessment_id: assessment.id,
-            title: assessment.title,
-            user_email: user.email,
-            documents_count: uploadedFiles.length,
-            timestamp: new Date().toISOString(),
-          }),
-        });
-      } catch (webhookError) {
-        console.error("Webhook notification failed:", webhookError);
-        // Don't break the flow if webhook fails
-      }
+      // Trigger webhook notifications
+      const webhookData = {
+        assessment_id: assessment.id,
+        title: assessment.title,
+        user_email: user.email,
+        documents_count: uploadedFiles.length,
+        timestamp: new Date().toISOString(),
+      };
+
+      const webhookUrls = [
+        "https://climatewarrior87.app.n8n.cloud/webhook-test/c272f091-8936-474f-bd6f-6bf94c3caa37",
+        "https://climatewarrior87.app.n8n.cloud/webhook-test/6569f426-d7a7-4ea8-b4ac-c8a88976b473"
+      ];
+
+      webhookUrls.forEach(async (url) => {
+        try {
+          await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            mode: "no-cors",
+            body: JSON.stringify(webhookData),
+          });
+        } catch (webhookError) {
+          console.error(`Webhook notification failed for ${url}:`, webhookError);
+          // Don't break the flow if webhook fails
+        }
+      });
 
       toast({
         title: "Success",
