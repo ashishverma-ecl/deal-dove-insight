@@ -10,6 +10,7 @@ interface WebhookData {
   title: string;
   user_email: string;
   documents_count: number;
+  session_id: string;
   timestamp: string;
 }
 

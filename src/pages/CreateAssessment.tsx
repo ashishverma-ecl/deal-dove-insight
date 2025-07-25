@@ -161,6 +161,7 @@ const CreateAssessment = () => {
         title: assessment.title,
         user_email: user.email,
         documents_count: uploadedFiles.length,
+        session_id: sessionId,
         timestamp: new Date().toISOString(),
       };
 
