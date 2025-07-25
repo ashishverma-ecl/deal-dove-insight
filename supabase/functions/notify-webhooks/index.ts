@@ -25,7 +25,7 @@ serve(async (req) => {
     console.log('Received webhook data:', webhookData);
 
     const webhookUrls = [
-      "https://climatewarrior87.app.n8n.cloud/webhook-test/017a6a51-ed45-4a77-9d2f-92415c2daa2e"
+      "https://climatewarrior87.app.n8n.cloud/webhook/017a6a51-ed45-4a77-9d2f-92415c2daa2e"
     ];
 
     // Send webhooks in parallel
