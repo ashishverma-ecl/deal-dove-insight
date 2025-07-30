@@ -82,15 +82,35 @@ const ChatBotWidget = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Add system message to indicate message was sent successfully
-      const systemMessage: Message = {
+      // Get the response text
+      const responseText = await response.text();
+      
+      // Try to parse as JSON, fallback to plain text
+      let botResponseContent = responseText;
+      try {
+        const jsonResponse = JSON.parse(responseText);
+        // Handle different response formats
+        if (jsonResponse.message) {
+          botResponseContent = jsonResponse.message;
+        } else if (typeof jsonResponse === 'string') {
+          botResponseContent = jsonResponse;
+        } else {
+          botResponseContent = responseText;
+        }
+      } catch {
+        // Use responseText as is if not valid JSON
+        botResponseContent = responseText;
+      }
+
+      // Add bot response to chat
+      const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Message sent successfully! The response will be processed by the webhook.",
+        content: botResponseContent,
         role: 'system',
         timestamp: new Date()
       };
 
-      setMessages(prev => [...prev, systemMessage]);
+      setMessages(prev => [...prev, botMessage]);
 
     } catch (error) {
       console.error('Error sending message to webhook:', error);
