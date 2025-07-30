@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, FileText, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ChatBot from "@/components/ChatBot";
 
 interface Assessment {
   id: string;
@@ -291,6 +292,12 @@ const AssessmentDetails = () => {
           </Card>
         </div>
       </div>
+      
+      {/* ESDD Chatbot */}
+      <ChatBot 
+        assessmentData={assessment}
+        assessmentId={id}
+      />
     </div>
   );
 };
