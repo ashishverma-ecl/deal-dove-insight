@@ -1,9 +1,15 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.52.0'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
+
+// Initialize Supabase client
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
 interface WebhookData {
   assessment_id: string;
@@ -24,6 +30,18 @@ serve(async (req) => {
     const webhookData: WebhookData = await req.json();
     
     console.log('Received webhook data:', webhookData);
+
+    // Truncate test_results table to start fresh for this new session
+    try {
+      const { error: truncateError } = await supabase.rpc('clear_test_results');
+      if (truncateError) {
+        console.error('Error truncating test_results:', truncateError);
+      } else {
+        console.log('Successfully truncated test_results table for new session');
+      }
+    } catch (error) {
+      console.error('Failed to truncate test_results:', error);
+    }
 
     const webhookUrls = [
       "https://climatewarrior87.app.n8n.cloud/webhook/017a6a51-ed45-4a77-9d2f-92415c2daa2e", // Production
