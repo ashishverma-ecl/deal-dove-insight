@@ -97,12 +97,9 @@ const CreateAssessment = () => {
         return;
       }
 
-      // Get existing session ID from chatbot widget or generate new one
-      let sessionId = sessionStorage.getItem('chatbot_session_id');
-      if (!sessionId) {
-        sessionId = uuidv4();
-        sessionStorage.setItem('chatbot_session_id', sessionId);
-      }
+      // Generate a new session ID for this assessment run
+      const sessionId = uuidv4();
+      sessionStorage.setItem('chatbot_session_id', sessionId);
 
       // Create assessment record
       const { data: assessment, error: assessmentError } = await supabase
