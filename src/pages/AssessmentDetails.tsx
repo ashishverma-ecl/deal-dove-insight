@@ -22,6 +22,7 @@ interface AssessmentDocument {
   content_type: string;
   file_path: string;
   uploaded_at: string;
+  session_id: string | null;
 }
 
 const AssessmentDetails = () => {
@@ -193,6 +194,9 @@ const AssessmentDetails = () => {
               <span>Status: <span className="font-medium capitalize">{assessment.status}</span></span>
               <span>Created: {formatDate(assessment.created_at)}</span>
               <span>Updated: {formatDate(assessment.updated_at)}</span>
+              {documents.length > 0 && documents[0].session_id && (
+                <span>Session ID: <span className="font-mono font-medium">{documents[0].session_id}</span></span>
+              )}
             </div>
           </div>
         </div>
