@@ -20,12 +20,13 @@ const ChatBotWidget = () => {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [chatId, setChatId] = useState<string>("");
+  const [sessionId, setSessionId] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Generate or retrieve chat ID
+  // Generate or retrieve chat ID and session ID
   useEffect(() => {
-    const generateChatId = () => {
+    const generateId = () => {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let result = '';
       for (let i = 0; i < 10; i++) {
@@ -38,11 +39,21 @@ const ChatBotWidget = () => {
     let existingChatId = localStorage.getItem('chatbot_chat_id');
     
     if (!existingChatId) {
-      existingChatId = generateChatId();
+      existingChatId = generateId();
       localStorage.setItem('chatbot_chat_id', existingChatId);
     }
     
     setChatId(existingChatId);
+
+    // Generate session ID (new for each browser session)
+    let existingSessionId = sessionStorage.getItem('chatbot_session_id');
+    
+    if (!existingSessionId) {
+      existingSessionId = generateId();
+      sessionStorage.setItem('chatbot_session_id', existingSessionId);
+    }
+    
+    setSessionId(existingSessionId);
   }, []);
 
   const scrollToBottom = () => {
@@ -70,6 +81,7 @@ const ChatBotWidget = () => {
     try {
       console.log('Sending message to webhook:', userMessage.content);
       console.log('Chat ID:', chatId);
+      console.log('Session ID:', sessionId);
 
       const response = await fetch('https://climatewarrior87.app.n8n.cloud/webhook-test/5c839b3b-d21a-4420-b2e0-b3d47d7436ae', {
         method: 'POST',
@@ -79,7 +91,8 @@ const ChatBotWidget = () => {
         },
         body: JSON.stringify({
           message_from_user: userMessage.content,
-          chat_id: chatId
+          chat_id: chatId,
+          session_id: sessionId
         })
       });
 
