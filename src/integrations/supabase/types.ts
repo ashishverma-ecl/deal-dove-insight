@@ -86,39 +86,27 @@ export type Database = {
         }
         Relationships: []
       }
-      test_results: {
+      documents: {
         Row: {
-          chat_model: string | null
-          client: string | null
-          context: string | null
-          created_at: string
-          embedding_model: string | null
-          id: number
-          kpi: string | null
-          response: string | null
-          source: string | null
+          file_path: string
+          id: string
+          session_id: string
+          status: string | null
+          uploaded_at: string | null
         }
         Insert: {
-          chat_model?: string | null
-          client?: string | null
-          context?: string | null
-          created_at?: string
-          embedding_model?: string | null
-          id?: number
-          kpi?: string | null
-          response?: string | null
-          source?: string | null
+          file_path: string
+          id?: string
+          session_id: string
+          status?: string | null
+          uploaded_at?: string | null
         }
         Update: {
-          chat_model?: string | null
-          client?: string | null
-          context?: string | null
-          created_at?: string
-          embedding_model?: string | null
-          id?: number
-          kpi?: string | null
-          response?: string | null
-          source?: string | null
+          file_path?: string
+          id?: string
+          session_id?: string
+          status?: string | null
+          uploaded_at?: string | null
         }
         Relationships: []
       }
@@ -127,10 +115,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      clear_test_results: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
