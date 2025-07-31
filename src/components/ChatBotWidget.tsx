@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -67,6 +68,9 @@ const ChatBotWidget = () => {
     setIsLoading(true);
 
     try {
+      console.log('Sending message to webhook:', userMessage.content);
+      console.log('Chat ID:', chatId);
+
       const response = await fetch('https://climatewarrior87.app.n8n.cloud/webhook-test/5c839b3b-d21a-4420-b2e0-b3d47d7436ae', {
         method: 'POST',
         mode: 'cors',
@@ -79,17 +83,22 @@ const ChatBotWidget = () => {
         })
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       // Get the response text
       const responseText = await response.text();
+      console.log('Response text:', responseText);
       
       // Try to parse as JSON, fallback to plain text
       let botResponseContent = responseText;
       try {
         const jsonResponse = JSON.parse(responseText);
+        console.log('Parsed JSON response:', jsonResponse);
         // Handle different response formats
         if (jsonResponse.message) {
           botResponseContent = jsonResponse.message;
@@ -100,8 +109,11 @@ const ChatBotWidget = () => {
         }
       } catch {
         // Use responseText as is if not valid JSON
+        console.log('Response is not JSON, using as plain text');
         botResponseContent = responseText;
       }
+
+      console.log('Final bot response content:', botResponseContent);
 
       // Add bot response to chat
       const botMessage: Message = {
@@ -202,7 +214,7 @@ const ChatBotWidget = () => {
                 <div className="flex justify-start">
                   <div className="bg-muted text-muted-foreground rounded-lg px-3 py-2 text-sm flex items-center gap-2">
                     <Loader2 className="h-3 w-3 animate-spin" />
-                    <span>Sending message...</span>
+                    <span>Waiting for response...</span>
                   </div>
                 </div>
               )}
