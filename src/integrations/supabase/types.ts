@@ -95,7 +95,6 @@ export type Database = {
           embedding_model: string | null
           id: number
           kpi: string | null
-          output: string | null
           response: string | null
           source: string | null
         }
@@ -107,7 +106,6 @@ export type Database = {
           embedding_model?: string | null
           id?: number
           kpi?: string | null
-          output?: string | null
           response?: string | null
           source?: string | null
         }
@@ -119,7 +117,6 @@ export type Database = {
           embedding_model?: string | null
           id?: number
           kpi?: string | null
-          output?: string | null
           response?: string | null
           source?: string | null
         }
