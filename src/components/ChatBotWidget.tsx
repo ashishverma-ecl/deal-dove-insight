@@ -184,13 +184,13 @@ const ChatBotWidget = () => {
   return (
     <div className="fixed bottom-4 right-4 z-50 w-80 sm:w-96">
       <Card className="shadow-2xl border-0 bg-card/95 backdrop-blur-sm">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-lg font-semibold">Chat Assistant</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 bg-purple-600 rounded-t-lg">
+          <CardTitle className="text-lg font-semibold text-white">ESDD Assistant</CardTitle>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsOpen(false)}
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 text-white hover:bg-purple-700"
           >
             <X className="h-4 w-4" />
           </Button>
