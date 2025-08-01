@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -64,6 +65,23 @@ const ChatBotWidget = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Function to save conversation to Supabase
+  const saveConversationToSupabase = async (message: string) => {
+    try {
+      const { error } = await supabase.rpc('upsert_chatbot_conversation', {
+        p_session_id: sessionId,
+        p_chat_id: chatId,
+        p_new_message: message
+      });
+
+      if (error) {
+        console.error('Error saving conversation to Supabase:', error);
+      }
+    } catch (error) {
+      console.error('Error calling Supabase function:', error);
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -77,6 +95,9 @@ const ChatBotWidget = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
+
+    // Save user message to Supabase
+    await saveConversationToSupabase(`USER: ${userMessage.content}`);
 
     try {
       console.log('Sending message to webhook:', userMessage.content);
@@ -137,6 +158,9 @@ const ChatBotWidget = () => {
       };
 
       setMessages(prev => [...prev, botMessage]);
+
+      // Save bot response to Supabase
+      await saveConversationToSupabase(`BOT: ${botResponseContent}`);
 
     } catch (error) {
       console.error('Error sending message to webhook:', error);
