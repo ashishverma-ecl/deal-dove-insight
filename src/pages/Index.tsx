@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Brain, FileCheck, Shield, Settings, Zap } from "lucide-react";
+import { Sparkles, ScrollText, ShieldCheck, Sliders, GitMerge } from "lucide-react";
 
 const Index = () => {
   return (
@@ -63,35 +63,35 @@ const Index = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="p-6">
                 <CardContent className="text-center p-0">
-                  <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="text-lg font-semibold mb-2">AI-Powered Risk Discovery</h3>
                   <p className="text-muted-foreground">Leverage advanced AI to automatically identify and assess reputational and ESG risks across global data sources.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
-                  <FileCheck className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <ScrollText className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="text-lg font-semibold mb-2">Automated, Auditable Reports</h3>
                   <p className="text-muted-foreground">Generate consistent, comprehensive due diligence reports with full audit trails for regulatory compliance.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
-                  <Shield className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <ShieldCheck className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="text-lg font-semibold mb-2">Regulatory Compliance</h3>
                   <p className="text-muted-foreground">Ensure adherence to international standards and regulatory requirements with built-in compliance frameworks.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
-                  <Settings className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <Sliders className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="text-lg font-semibold mb-2">Customizable Assessments</h3>
                   <p className="text-muted-foreground">Tailor risk assessment criteria and reporting formats to meet your organization's specific requirements.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
-                  <Zap className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <GitMerge className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="text-lg font-semibold mb-2">Seamless Integration</h3>
                   <p className="text-muted-foreground">Integrate effortlessly with existing banking systems and workflows for maximum operational efficiency.</p>
                 </CardContent>
