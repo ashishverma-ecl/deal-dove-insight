@@ -1,7 +1,12 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, FileText, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, FileText, AlertTriangle, CheckCircle, XCircle, MessageSquare, Upload } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const ScreeningCriteriaDetails = () => {
   const { criteria } = useParams<{ criteria: string }>();
@@ -127,6 +132,118 @@ const ScreeningCriteriaDetails = () => {
   };
 
   const riskLevel = getRiskLevel(decodedCriteria);
+
+  // Remark functionality state
+  const [showRemarkForm, setShowRemarkForm] = useState(false);
+  const [comment, setComment] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [remarks, setRemarks] = useState<any[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Get session ID from URL or generate one
+  const sessionId = assessmentId || `session_${Date.now()}`;
+
+  // Fetch current user and remarks on component mount
+  useEffect(() => {
+    const fetchUserAndRemarks = async () => {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      setCurrentUser(user);
+
+      // Fetch existing remarks for this session
+      const { data, error } = await supabase
+        .from('user_remarks')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching remarks:', error);
+      } else {
+        setRemarks(data || []);
+      }
+    };
+
+    fetchUserAndRemarks();
+  }, [sessionId]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setSelectedFile(file || null);
+  };
+
+  const handleSubmitRemark = async () => {
+    if (!comment.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a comment",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!currentUser) {
+      toast({
+        title: "Error", 
+        description: "You must be logged in to add remarks",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const remarkData = {
+        session_id: sessionId,
+        user_name: currentUser?.email || 'Anonymous User',
+        user_comment: comment.trim(),
+        uploaded_document_name: selectedFile?.name || null,
+      };
+
+      const { error } = await supabase
+        .from('user_remarks')
+        .insert([remarkData]);
+
+      if (error) {
+        throw error;
+      }
+
+      // Refresh remarks list
+      const { data, error: fetchError } = await supabase
+        .from('user_remarks')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+
+      if (fetchError) {
+        console.error('Error fetching updated remarks:', fetchError);
+      } else {
+        setRemarks(data || []);
+      }
+
+      // Reset form
+      setComment("");
+      setSelectedFile(null);
+      setShowRemarkForm(false);
+
+      toast({
+        title: "Success",
+        description: "Remark added successfully",
+      });
+
+    } catch (error) {
+      console.error('Error submitting remark:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add remark. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -384,6 +501,127 @@ const ScreeningCriteriaDetails = () => {
               </div>
             </>
           )}
+
+          {/* Add Remark Section */}
+          <div className="mt-12 border-t pt-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-foreground">Remarks</h2>
+              <Button
+                onClick={() => setShowRemarkForm(!showRemarkForm)}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <MessageSquare className="h-4 w-4" />
+                {showRemarkForm ? 'Cancel' : 'Add Remark'}
+              </Button>
+            </div>
+
+            {/* Remark Form */}
+            {showRemarkForm && (
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="text-lg">Add New Remark</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label htmlFor="comment">Comment *</Label>
+                    <Textarea
+                      id="comment"
+                      placeholder="Enter your remark here..."
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      className="mt-1"
+                      rows={4}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="document">Upload Document (Optional)</Label>
+                    <div className="mt-1 flex items-center gap-2">
+                      <input
+                        id="document"
+                        type="file"
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('document')?.click()}
+                        className="flex items-center gap-2"
+                      >
+                        <Upload className="h-4 w-4" />
+                        Choose File
+                      </Button>
+                      {selectedFile && (
+                        <span className="text-sm text-muted-foreground">
+                          {selectedFile.name}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 pt-4">
+                    <Button 
+                      onClick={handleSubmitRemark}
+                      disabled={isSubmitting || !comment.trim()}
+                      className="flex items-center gap-2"
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit Remark'}
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowRemarkForm(false);
+                        setComment('');
+                        setSelectedFile(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Remarks Display */}
+            <div className="space-y-4">
+              {remarks.length === 0 ? (
+                <Card>
+                  <CardContent className="text-center py-8">
+                    <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground">No remarks yet. Be the first to add one!</p>
+                  </CardContent>
+                </Card>
+              ) : (
+                remarks.map((remark) => (
+                  <Card key={remark.id}>
+                    <CardContent className="pt-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-foreground">{remark.user_name}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {new Date(remark.created_at).toLocaleDateString()} at{' '}
+                            {new Date(remark.created_at).toLocaleTimeString()}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <p className="text-foreground mb-3 whitespace-pre-wrap">{remark.user_comment}</p>
+                      
+                      {remark.uploaded_document_name && (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted p-2 rounded">
+                          <FileText className="h-4 w-4" />
+                          <span>Attached: {remark.uploaded_document_name}</span>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
