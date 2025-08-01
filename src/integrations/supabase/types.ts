@@ -122,6 +122,36 @@ export type Database = {
         }
         Relationships: []
       }
+      user_remarks: {
+        Row: {
+          created_at: string
+          id: string
+          session_id: string
+          updated_at: string
+          uploaded_document_name: string | null
+          user_comment: string
+          user_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          session_id: string
+          updated_at?: string
+          uploaded_document_name?: string | null
+          user_comment: string
+          user_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          session_id?: string
+          updated_at?: string
+          uploaded_document_name?: string | null
+          user_comment?: string
+          user_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
