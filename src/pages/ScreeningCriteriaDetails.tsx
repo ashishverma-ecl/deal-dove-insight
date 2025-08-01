@@ -141,8 +141,7 @@ const ScreeningCriteriaDetails = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
-  // Get session ID from URL or generate one
-  const sessionId = assessmentId || `session_${Date.now()}`;
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   // Fetch current user and remarks on component mount
   useEffect(() => {
@@ -151,22 +150,42 @@ const ScreeningCriteriaDetails = () => {
       const { data: { user } } = await supabase.auth.getUser();
       setCurrentUser(user);
 
-      // Fetch existing remarks for this session
-      const { data, error } = await supabase
-        .from('user_remarks')
-        .select('*')
-        .eq('session_id', sessionId)
-        .order('created_at', { ascending: true });
+      // First, get the session_id from assessment_documents table
+      if (assessmentId) {
+        const { data: sessionData, error: sessionError } = await supabase
+          .from('assessment_documents')
+          .select('session_id')
+          .eq('assessment_id', assessmentId)
+          .limit(1)
+          .single();
 
-      if (error) {
-        console.error('Error fetching remarks:', error);
-      } else {
-        setRemarks(data || []);
+        if (sessionError) {
+          console.error('Error fetching session_id:', sessionError);
+          return;
+        }
+
+        const fetchedSessionId = sessionData?.session_id;
+        setSessionId(fetchedSessionId);
+
+        if (fetchedSessionId) {
+          // Fetch existing remarks for this session
+          const { data, error } = await supabase
+            .from('user_remarks')
+            .select('*')
+            .eq('session_id', fetchedSessionId)
+            .order('created_at', { ascending: true });
+
+          if (error) {
+            console.error('Error fetching remarks:', error);
+          } else {
+            setRemarks(data || []);
+          }
+        }
       }
     };
 
     fetchUserAndRemarks();
-  }, [sessionId]);
+  }, [assessmentId]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
