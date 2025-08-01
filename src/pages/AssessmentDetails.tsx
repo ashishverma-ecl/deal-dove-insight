@@ -205,7 +205,7 @@ const AssessmentDetails = () => {
               <CardTitle>Assessment Outcome</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-lg font-medium text-foreground mb-6">
+              <p className="text-sm text-foreground mb-6">
                 As per the ESDD screening outcome a manual ESDD is recommended
               </p>
               
