@@ -42,11 +42,13 @@ const Index = () => {
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed text-left">
               Reputational Risk Assessment Solution is a GenAI-powered browser-based tool that automates and streamlines the Environmental and Social Due Diligence (ESDD) process for banks engaged in corporate lending. It scans global data sources to identify reputational and ESG risks, generates consistent due diligence reports, and supports compliance with international standards—enabling faster, smarter, and more sustainable lending decisions.
             </p>
-            <Link to="/auth">
-              <Button size="lg" className="text-lg px-8 py-6">
-                Sign In
-              </Button>
-            </Link>
+            <div className="mt-12 text-center">
+              <Link to="/auth">
+                <Button size="lg" className="text-lg px-8 py-6">
+                  Sign In
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </main>
