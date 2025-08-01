@@ -202,6 +202,46 @@ const AssessmentDetails = () => {
         </div>
 
         <div className="grid gap-6">
+          {/* Assessment Summary Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Assessment Outcome</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg font-medium text-foreground mb-6">
+                As per the ESDD screening outcome a manual ESDD is recommended
+              </p>
+              
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-4">Summary Notes</h3>
+                <div className="space-y-3">
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <h4 className="font-medium text-red-800 mb-2">Environmental Risks</h4>
+                    <ul className="text-sm text-red-700 space-y-1">
+                      <li>• <strong>Thermal Coal Power Generation:</strong> Performance (30%) exceeds threshold (5-25%), indicating significant exposure to coal-based power generation activities.</li>
+                      <li>• <strong>Environmental Violations:</strong> Risk score of 6 surpasses acceptable threshold of 4, suggesting potential environmental compliance issues.</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                    <h4 className="font-medium text-orange-800 mb-2">Social Risks</h4>
+                    <ul className="text-sm text-orange-700 space-y-1">
+                      <li>• <strong>Conventional Weapons:</strong> Revenue exposure (12%) exceeds threshold (5-10%), requiring detailed assessment of weapons-related business activities.</li>
+                      <li>• <strong>Workplace Safety Violations:</strong> Risk score of 5 above threshold of 4, indicating potential workplace safety concerns that need investigation.</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <h4 className="font-medium text-yellow-800 mb-2">Governance Risks</h4>
+                    <ul className="text-sm text-yellow-700 space-y-1">
+                      <li>• <strong>Money Laundering:</strong> Risk score of 6 significantly exceeds threshold of 4, requiring comprehensive review of financial controls and compliance measures.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>ESDD Screening Results</CardTitle>
