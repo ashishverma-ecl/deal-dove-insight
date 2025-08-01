@@ -28,11 +28,11 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-16">
         <div className="flex items-center gap-12 max-w-6xl mx-auto">
-          <div className="flex-shrink-0">
+          <div className="flex-1">
             <img 
               src="/lovable-uploads/2c691036-89c2-4415-a541-c20af0347307.png" 
               alt="Business professionals collaborating" 
-              className="w-96 h-auto rounded-lg shadow-lg"
+              className="w-full h-auto rounded-lg shadow-lg"
             />
           </div>
           <div className="flex-1">
