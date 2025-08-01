@@ -86,6 +86,33 @@ export type Database = {
         }
         Relationships: []
       }
+      chatbot_conversations: {
+        Row: {
+          chat_id: string
+          conversation: string
+          created_at: string
+          id: string
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          chat_id: string
+          conversation?: string
+          created_at?: string
+          id?: string
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          chat_id?: string
+          conversation?: string
+          created_at?: string
+          id?: string
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       test_results: {
         Row: {
           chat_model: string | null
@@ -159,6 +186,10 @@ export type Database = {
     Functions: {
       clear_test_results: {
         Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      upsert_chatbot_conversation: {
+        Args: { p_session_id: string; p_chat_id: string; p_new_message: string }
         Returns: undefined
       }
     }
