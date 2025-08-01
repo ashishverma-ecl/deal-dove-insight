@@ -36,7 +36,7 @@ const Index = () => {
             />
           </div>
           <div className="flex-1">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent text-left">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent text-left">
               Reputational Risk Assessment Solution
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed text-left">
