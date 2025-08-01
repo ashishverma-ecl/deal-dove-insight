@@ -7,7 +7,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
+      <header className="bg-primary border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img 
@@ -16,11 +16,11 @@ const Index = () => {
               className="h-10 w-auto"
             />
             <div>
-              <p className="text-lg font-bold text-foreground">Reputational Risk Assessment Solution</p>
+              <p className="text-lg font-bold text-primary-foreground">Reputational Risk Assessment Solution</p>
             </div>
           </div>
           <Link to="/auth">
-            <Button variant="outline">Sign In</Button>
+            <Button variant="secondary">Sign In</Button>
           </Link>
         </div>
       </header>
