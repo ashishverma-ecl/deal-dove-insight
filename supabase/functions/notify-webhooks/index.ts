@@ -45,7 +45,8 @@ serve(async (req) => {
 
     const webhookUrls = [
       //"https://climatewarrior87.app.n8n.cloud/webhook/017a6a51-ed45-4a77-9d2f-92415c2daa2e", // Production
-      "https://climatewarrior87.app.n8n.cloud/webhook-test/017a6a51-ed45-4a77-9d2f-92415c2daa2e" // Test
+      "https://climatewarrior87.app.n8n.cloud/webhook-test/017a6a51-ed45-4a77-9d2f-92415c2daa2e", // Test
+      "https://climatewarrior87.app.n8n.cloud/webhook/5c839b3b-d21a-4420-b2e0-b3d47d7436ae" // Additional webhook
     ];
 
     // Send webhooks in parallel
