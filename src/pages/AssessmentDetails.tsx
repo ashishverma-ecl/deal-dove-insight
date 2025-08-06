@@ -32,7 +32,6 @@ const AssessmentDetails = () => {
   const { toast } = useToast();
   const [assessment, setAssessment] = useState<Assessment | null>(null);
   const [documents, setDocuments] = useState<AssessmentDocument[]>([]);
-  const [sessionId, setSessionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,11 +69,6 @@ const AssessmentDetails = () => {
       }
 
       setDocuments(documentsData || []);
-      
-      // Get the session_id from the first document (if any)
-      if (documentsData && documentsData.length > 0) {
-        setSessionId(documentsData[0].session_id);
-      }
     } catch (error: any) {
       console.error("Error fetching assessment details:", error);
       toast({
@@ -254,14 +248,7 @@ const AssessmentDetails = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {sessionId ? (
-                <ESDDResultsTable sessionId={sessionId} assessmentId={id!} />
-              ) : (
-                <div className="text-center p-8">
-                  <p className="text-muted-foreground">No documents uploaded for this assessment yet.</p>
-                  <p className="text-sm text-muted-foreground mt-2">Please upload assessment documents to view screening results.</p>
-                </div>
-              )}
+              <ESDDResultsTable sessionId="test" assessmentId={id!} />
             </CardContent>
           </Card>
         </div>
