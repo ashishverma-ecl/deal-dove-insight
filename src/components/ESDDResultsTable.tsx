@@ -33,12 +33,12 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
       setLoading(true);
       console.log("Fetching results for session ID:", sessionId);
       
-      // Use RPC to query final_results table since it's not in the generated types
+      // Use RPC to call our database function
       const { data, error } = await supabase.rpc('get_final_results', { 
         session_id_param: sessionId 
       });
 
-      console.log("Query result:", { data, error });
+      console.log("RPC result:", { data, error });
 
       if (error) {
         console.error("Database error:", error);
