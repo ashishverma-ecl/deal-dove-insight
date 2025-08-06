@@ -31,13 +31,14 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   const fetchResults = async () => {
     try {
       setLoading(true);
+      console.log("Fetching results for session ID:", sessionId);
       
-      // Use raw SQL query to fetch from final_results table
-      const { data, error } = await supabase
-        .from("final_results" as any)
-        .select("*")
-        .eq("session_id", sessionId)
-        .order("sr_no");
+      // Use RPC to query final_results table since it's not in the generated types
+      const { data, error } = await supabase.rpc('get_final_results', { 
+        session_id_param: sessionId 
+      });
+
+      console.log("Query result:", { data, error });
 
       if (error) {
         console.error("Database error:", error);
@@ -56,6 +57,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         session_id: row.session_id,
       }));
 
+      console.log("Transformed data:", transformedData);
       setResults(transformedData);
     } catch (error: any) {
       console.error("Error fetching final results:", error);
