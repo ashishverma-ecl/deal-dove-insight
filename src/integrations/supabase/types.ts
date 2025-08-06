@@ -113,6 +113,57 @@ export type Database = {
         }
         Relationships: []
       }
+      final_results: {
+        Row: {
+          assessment_outcome: string | null
+          chat_model: string | null
+          context: string | null
+          created_at: string
+          embedding_model: string | null
+          id: number
+          page_number: string | null
+          performance: string | null
+          referenced_document: string | null
+          risk_category: string | null
+          screening_criteria: string | null
+          session_id: string | null
+          sr_no: string | null
+          threshold: string | null
+        }
+        Insert: {
+          assessment_outcome?: string | null
+          chat_model?: string | null
+          context?: string | null
+          created_at?: string
+          embedding_model?: string | null
+          id?: number
+          page_number?: string | null
+          performance?: string | null
+          referenced_document?: string | null
+          risk_category?: string | null
+          screening_criteria?: string | null
+          session_id?: string | null
+          sr_no?: string | null
+          threshold?: string | null
+        }
+        Update: {
+          assessment_outcome?: string | null
+          chat_model?: string | null
+          context?: string | null
+          created_at?: string
+          embedding_model?: string | null
+          id?: number
+          page_number?: string | null
+          performance?: string | null
+          referenced_document?: string | null
+          risk_category?: string | null
+          screening_criteria?: string | null
+          session_id?: string | null
+          sr_no?: string | null
+          threshold?: string | null
+        }
+        Relationships: []
+      }
       test_results: {
         Row: {
           chat_model: string | null
@@ -123,6 +174,7 @@ export type Database = {
           id: number
           kpi: string | null
           response: string | null
+          session_id: string | null
           source: string | null
         }
         Insert: {
@@ -134,6 +186,7 @@ export type Database = {
           id?: number
           kpi?: string | null
           response?: string | null
+          session_id?: string | null
           source?: string | null
         }
         Update: {
@@ -145,6 +198,7 @@ export type Database = {
           id?: number
           kpi?: string | null
           response?: string | null
+          session_id?: string | null
           source?: string | null
         }
         Relationships: []
@@ -187,6 +241,25 @@ export type Database = {
       clear_test_results: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      get_final_results: {
+        Args: { session_id_param: string }
+        Returns: {
+          id: number
+          sr_no: string
+          risk_category: string
+          screening_criteria: string
+          threshold: string
+          performance: string
+          assessment_outcome: string
+          session_id: string
+          referenced_document: string
+          page_number: string
+          context: string
+          chat_model: string
+          embedding_model: string
+          created_at: string
+        }[]
       }
       upsert_chatbot_conversation: {
         Args: { p_session_id: string; p_chat_id: string; p_new_message: string }
