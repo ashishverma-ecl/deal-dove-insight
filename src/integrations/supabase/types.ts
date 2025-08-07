@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_output: {
+        Row: {
+          context: string | null
+          created_at: string
+          id: string
+          performance: string | null
+          risk_category: string | null
+          screening_criterion: string | null
+          sr_no: string | null
+          threshold: string | null
+          updated_at: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          id?: string
+          performance?: string | null
+          risk_category?: string | null
+          screening_criterion?: string | null
+          sr_no?: string | null
+          threshold?: string | null
+          updated_at?: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          id?: string
+          performance?: string | null
+          risk_category?: string | null
+          screening_criterion?: string | null
+          sr_no?: string | null
+          threshold?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       assessment_documents: {
         Row: {
           assessment_id: string
