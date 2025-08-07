@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-interface FinalResult {
-  id: number;
+interface AIOutputResult {
+  id: string;
   sr_no: string | null;
   risk_category: string | null;
-  screening_criteria: string | null;
+  screening_criterion: string | null;
   threshold: string | null;
   performance: string | null;
-  assessment_outcome: string | null;
+  within_threshold: string | null;
+  context: string | null;
   session_id: string | null;
 }
 
@@ -20,7 +21,7 @@ interface ESDDResultsTableProps {
 }
 
 const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) => {
-  const [results, setResults] = useState<FinalResult[]>([]);
+  const [results, setResults] = useState<AIOutputResult[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -33,12 +34,14 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
       setLoading(true);
       console.log("Fetching results for session ID:", sessionId);
       
-      // Use RPC to call our database function
-      const { data, error } = await supabase.rpc('get_final_results', { 
-        session_id_param: sessionId 
-      });
+      // Query AI_output table directly
+      const { data, error } = await supabase
+        .from('ai_output')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('sr_no');
 
-      console.log("RPC result:", { data, error });
+      console.log("AI_output query result:", { data, error });
 
       if (error) {
         console.error("Database error:", error);
@@ -46,21 +49,22 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
       }
 
       // Transform the data to match our interface
-      const transformedData: FinalResult[] = (data || []).map((row: any) => ({
-        id: row.id || 0,
+      const transformedData: AIOutputResult[] = (data || []).map((row: any) => ({
+        id: row.id || '',
         sr_no: row.sr_no,
         risk_category: row.risk_category,
-        screening_criteria: row.screening_criteria,
+        screening_criterion: row.screening_criterion,
         threshold: row.threshold,
         performance: row.performance,
-        assessment_outcome: row.assessment_outcome,
+        within_threshold: row.within_threshold,
+        context: row.context,
         session_id: row.session_id,
       }));
 
       console.log("Transformed data:", transformedData);
       setResults(transformedData);
     } catch (error: any) {
-      console.error("Error fetching final results:", error);
+      console.error("Error fetching AI output results:", error);
       toast({
         title: "Error",
         description: "Failed to load screening results from database",
@@ -98,12 +102,13 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
       <table className="w-full border-collapse border border-border">
         <thead>
           <tr className="bg-muted">
-            <th className="border border-border p-3 text-left font-semibold">Sl. No.</th>
+            <th className="border border-border p-3 text-left font-semibold">Sr. No.</th>
             <th className="border border-border p-3 text-left font-semibold">Risk Category</th>
             <th className="border border-border p-3 text-left font-semibold">Screening Criteria</th>
             <th className="border border-border p-3 text-left font-semibold">Threshold</th>
             <th className="border border-border p-3 text-left font-semibold">Performance</th>
-            <th className="border border-border p-3 text-left font-semibold">Assessment Outcome</th>
+            <th className="border border-border p-3 text-left font-semibold">Within Threshold</th>
+            <th className="border border-border p-3 text-left font-semibold">Context</th>
           </tr>
         </thead>
         <tbody>
@@ -112,12 +117,12 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
               <td className="border border-border p-3">{result.sr_no || '-'}</td>
               <td className="border border-border p-3">{result.risk_category || '-'}</td>
               <td className="border border-border p-3">
-                {result.screening_criteria ? (
+                {result.screening_criterion ? (
                   <Link 
-                    to={`/screening-criteria/${encodeURIComponent(result.screening_criteria)}?assessmentId=${assessmentId}`}
+                    to={`/screening-criteria/${encodeURIComponent(result.screening_criterion)}?assessmentId=${assessmentId}`}
                     className="text-primary hover:underline cursor-pointer"
                   >
-                    {result.screening_criteria}
+                    {result.screening_criterion}
                   </Link>
                 ) : (
                   '-'
@@ -126,17 +131,22 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
               <td className="border border-border p-3">{result.threshold || '-'}</td>
               <td className="border border-border p-3">{result.performance || '-'}</td>
               <td className="border border-border p-3">
-                {result.assessment_outcome ? (
+                {result.within_threshold ? (
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    result.assessment_outcome.toLowerCase().includes('pass')
+                    result.within_threshold.toLowerCase().includes('yes') || result.within_threshold.toLowerCase().includes('pass')
                       ? 'bg-green-100 text-green-800' 
                       : 'bg-red-100 text-red-800'
                   }`}>
-                    {result.assessment_outcome}
+                    {result.within_threshold}
                   </span>
                 ) : (
                   '-'
                 )}
+              </td>
+              <td className="border border-border p-3 max-w-xs">
+                <div className="truncate" title={result.context || ''}>
+                  {result.context || '-'}
+                </div>
               </td>
             </tr>
           ))}
