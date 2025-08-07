@@ -22,6 +22,7 @@ const CreateAssessment = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [isWaitingForResults, setIsWaitingForResults] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -62,6 +63,47 @@ const CreateAssessment = () => {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const pollForResults = async (sessionId: string, assessmentId: string) => {
+    const maxPollingTime = 5 * 60 * 1000; // 5 minutes
+    const pollingInterval = 5000; // 5 seconds
+    const startTime = Date.now();
+
+    const poll = async (): Promise<boolean> => {
+      try {
+        const { data, error } = await supabase
+          .from('ai_output')
+          .select('id')
+          .eq('session_id', sessionId)
+          .limit(1);
+
+        if (error) {
+          console.error('Error polling for results:', error);
+          return false;
+        }
+
+        if (data && data.length > 0) {
+          console.log('Results found for session:', sessionId);
+          return true;
+        }
+
+        // Check if we've exceeded the maximum polling time
+        if (Date.now() - startTime > maxPollingTime) {
+          console.log('Polling timeout reached');
+          return false;
+        }
+
+        // Wait before polling again
+        await new Promise(resolve => setTimeout(resolve, pollingInterval));
+        return poll();
+      } catch (error) {
+        console.error('Polling error:', error);
+        return false;
+      }
+    };
+
+    return poll();
   };
 
   const handleCreateAssessment = async () => {
@@ -183,10 +225,27 @@ const CreateAssessment = () => {
 
       toast({
         title: "Success",
-        description: `Assessment created successfully with session ID: ${sessionId}`,
+        description: `Assessment created successfully. Processing documents...`,
       });
 
-      navigate(`/assessment/${assessment.id}`);
+      // Start polling for results
+      setIsWaitingForResults(true);
+      const resultsFound = await pollForResults(sessionId, assessment.id);
+      
+      if (resultsFound) {
+        toast({
+          title: "Assessment Complete",
+          description: "Analysis results are now available",
+        });
+        navigate(`/assessment/${assessment.id}`);
+      } else {
+        toast({
+          title: "Processing Timeout",
+          description: "Assessment is still processing. You can check results later from the dashboard.",
+          variant: "destructive",
+        });
+        navigate(`/dashboard`);
+      }
     } catch (error: any) {
       console.error("Error creating assessment:", error);
       toast({
@@ -197,6 +256,7 @@ const CreateAssessment = () => {
     } finally {
       setIsUploading(false);
       setIsCreating(false);
+      setIsWaitingForResults(false);
     }
   };
 
@@ -348,14 +408,30 @@ const CreateAssessment = () => {
                   </div>
                 )}
 
+                {/* Processing Status */}
+                {isWaitingForResults && (
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                      <div>
+                        <p className="font-medium text-blue-800">Processing Assessment</p>
+                        <p className="text-sm text-blue-600">
+                          Analyzing documents and generating results. This may take a few minutes...
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Create Assessment Button */}
                 <div className="flex justify-end pt-4">
                   <Button
                     onClick={handleCreateAssessment}
-                    disabled={isCreating || isUploading || uploadedFiles.length === 0 || !title.trim()}
+                    disabled={isCreating || isUploading || isWaitingForResults || uploadedFiles.length === 0 || !title.trim()}
                     size="lg"
                   >
-                    {isCreating || isUploading ? "Running..." : "Run Assessment"}
+                    {isCreating || isUploading ? "Uploading..." : 
+                     isWaitingForResults ? "Processing..." : "Run Assessment"}
                   </Button>
                 </div>
               </CardContent>
