@@ -39,7 +39,8 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         .from('ai_output')
         .select('*')
         .eq('session_id', sessionId)
-        .order('sr_no');
+        .order('session_id', { ascending: false })
+        .order('sr_no', { ascending: true });
 
       console.log("AI_output query result:", { data, error });
 
