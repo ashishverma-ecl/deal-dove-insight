@@ -39,8 +39,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         .from('ai_output')
         .select('*')
         .eq('session_id', sessionId)
-        .order('session_id', { ascending: false })
-        .order('sr_no', { ascending: true });
+        .order('session_id', { ascending: false });
 
       console.log("AI_output query result:", { data, error });
 
@@ -61,6 +60,13 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         context: row.context,
         session_id: row.session_id,
       }));
+
+      // Sort by sr_no as numbers
+      transformedData.sort((a, b) => {
+        const aNum = parseInt(a.sr_no || '0');
+        const bNum = parseInt(b.sr_no || '0');
+        return aNum - bNum;
+      });
 
       console.log("Transformed data:", transformedData);
       setResults(transformedData);
