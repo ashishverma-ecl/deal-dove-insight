@@ -22,9 +22,11 @@ export type Database = {
           performance: string | null
           risk_category: string | null
           screening_criterion: string | null
+          session_id: string | null
           sr_no: string | null
           threshold: string | null
           updated_at: string
+          within_threshold: string | null
         }
         Insert: {
           context?: string | null
@@ -33,9 +35,11 @@ export type Database = {
           performance?: string | null
           risk_category?: string | null
           screening_criterion?: string | null
+          session_id?: string | null
           sr_no?: string | null
           threshold?: string | null
           updated_at?: string
+          within_threshold?: string | null
         }
         Update: {
           context?: string | null
@@ -44,9 +48,11 @@ export type Database = {
           performance?: string | null
           risk_category?: string | null
           screening_criterion?: string | null
+          session_id?: string | null
           sr_no?: string | null
           threshold?: string | null
           updated_at?: string
+          within_threshold?: string | null
         }
         Relationships: []
       }
