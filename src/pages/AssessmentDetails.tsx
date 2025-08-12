@@ -220,16 +220,6 @@ const AssessmentDetails = () => {
           </div>
         </div>
 
-        {/* Assessment Outcome Alert */}
-        <div className="mb-6 p-4 bg-muted/50 border border-border rounded-lg">
-          <p className="text-sm text-foreground">
-            As per the ESDD screening outcome {hasManualEsdd ? (
-              <span className="text-red-600 font-medium">a manual ESDD is recommended</span>
-            ) : (
-              <span className="text-green-600 font-medium">the client has passed the assessment</span>
-            )}.
-          </p>
-        </div>
 
         <div className="grid gap-6">
           {/* Assessment Summary Section */}
@@ -238,6 +228,14 @@ const AssessmentDetails = () => {
               <CardTitle>Assessment Outcome</CardTitle>
             </CardHeader>
             <CardContent>
+              <p className="text-sm text-foreground mb-6">
+                As per the ESDD screening outcome {hasManualEsdd ? (
+                  <span className="text-red-600 font-medium">a manual ESDD is recommended</span>
+                ) : (
+                  <span className="text-green-600 font-medium">the client has passed the assessment</span>
+                )}.
+              </p>
+              
               <div>
                 <h3 className="text-lg font-semibold text-foreground mb-4">Summary Notes</h3>
                 <div className="space-y-3">
