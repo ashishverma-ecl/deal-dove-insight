@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard";
 import CreateAssessment from "./pages/CreateAssessment";
 import AssessmentDetails from "./pages/AssessmentDetails";
 import ScreeningCriteriaDetails from "./pages/ScreeningCriteriaDetails";
-import WebhookTest from "./pages/WebhookTest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,7 +26,6 @@ const App = () => (
           <Route path="/create-assessment" element={<CreateAssessment />} />
           <Route path="/assessment/:id" element={<AssessmentDetails />} />
           <Route path="/screening-criteria/:criteria" element={<ScreeningCriteriaDetails />} />
-          <Route path="/webhook-test" element={<WebhookTest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
