@@ -34,6 +34,7 @@ const AssessmentDetails = () => {
   const [documents, setDocuments] = useState<AssessmentDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [hasManualEsdd, setHasManualEsdd] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -73,7 +74,21 @@ const AssessmentDetails = () => {
       
       // Get session_id from the first document if available
       if (documentsData && documentsData.length > 0 && documentsData[0].session_id) {
-        setSessionId(documentsData[0].session_id);
+        const currentSessionId = documentsData[0].session_id;
+        setSessionId(currentSessionId);
+        
+        // Check for "Manual ESDD" in ai_output table
+        const { data: aiOutputData, error: aiOutputError } = await supabase
+          .from('ai_output')
+          .select('within_threshold')
+          .eq('session_id', currentSessionId);
+        
+        if (!aiOutputError && aiOutputData) {
+          const hasManualEsddValue = aiOutputData.some(row => 
+            row.within_threshold === "Manual ESDD"
+          );
+          setHasManualEsdd(hasManualEsddValue);
+        }
       }
     } catch (error: any) {
       console.error("Error fetching assessment details:", error);
@@ -204,6 +219,15 @@ const AssessmentDetails = () => {
             </div>
           </div>
         </div>
+
+        {/* Assessment Outcome Alert */}
+        {hasManualEsdd && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-foreground">
+              As per the ESDD screening outcome a <span className="text-red-600 font-medium">manual ESDD is recommended</span>.
+            </p>
+          </div>
+        )}
 
         <div className="grid gap-6">
           {/* Assessment Summary Section */}
