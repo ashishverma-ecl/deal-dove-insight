@@ -26,6 +26,12 @@ interface AssessmentDocument {
   session_id: string | null;
 }
 
+interface ManualEsddEntry {
+  risk_category: string;
+  screening_criterion: string;
+  context: string;
+}
+
 const AssessmentDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -35,6 +41,7 @@ const AssessmentDetails = () => {
   const [loading, setLoading] = useState(true);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [hasManualEsdd, setHasManualEsdd] = useState(false);
+  const [manualEsddEntries, setManualEsddEntries] = useState<ManualEsddEntry[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -80,7 +87,7 @@ const AssessmentDetails = () => {
         // Check for "Manual ESDD" in ai_output table
         const { data: aiOutputData, error: aiOutputError } = await supabase
           .from('ai_output')
-          .select('within_threshold')
+          .select('*')
           .eq('session_id', currentSessionId);
         
         if (!aiOutputError && aiOutputData) {
@@ -88,6 +95,12 @@ const AssessmentDetails = () => {
             row.within_threshold === "Manual ESDD"
           );
           setHasManualEsdd(hasManualEsddValue);
+          
+          // Get all Manual ESDD entries with context
+          const manualEsddRows = aiOutputData.filter(row => 
+            row.within_threshold === "Manual ESDD"
+          );
+          setManualEsddEntries(manualEsddRows);
         }
       }
     } catch (error: any) {
@@ -236,33 +249,55 @@ const AssessmentDetails = () => {
                 )}.
               </p>
               
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-4">Summary Notes</h3>
-                <div className="space-y-3">
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <h4 className="font-medium text-red-800 mb-2">Environmental Risks</h4>
-                    <ul className="text-sm text-red-700 space-y-1">
-                      <li>• <strong>Thermal Coal Power Generation:</strong> Performance (30%) exceeds threshold (5-25%), indicating significant exposure to coal-based power generation activities.</li>
-                      <li>• <strong>Environmental Violations:</strong> Risk score of 6 surpasses acceptable threshold of 4, suggesting potential environmental compliance issues.</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                    <h4 className="font-medium text-orange-800 mb-2">Social Risks</h4>
-                    <ul className="text-sm text-orange-700 space-y-1">
-                      <li>• <strong>Conventional Weapons:</strong> Revenue exposure (12%) exceeds threshold (5-10%), requiring detailed assessment of weapons-related business activities.</li>
-                      <li>• <strong>Workplace Safety Violations:</strong> Risk score of 5 above threshold of 4, indicating potential workplace safety concerns that need investigation.</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <h4 className="font-medium text-yellow-800 mb-2">Governance Risks</h4>
-                    <ul className="text-sm text-yellow-700 space-y-1">
-                      <li>• <strong>Money Laundering:</strong> Risk score of 6 significantly exceeds threshold of 4, requiring comprehensive review of financial controls and compliance measures.</li>
-                    </ul>
+              {manualEsddEntries.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-4">Summary Notes</h3>
+                  <div className="space-y-3">
+                    {(() => {
+                      // Group entries by risk category
+                      const groupedEntries = manualEsddEntries.reduce((acc, entry) => {
+                        const category = entry.risk_category || 'Other';
+                        if (!acc[category]) {
+                          acc[category] = [];
+                        }
+                        acc[category].push(entry);
+                        return acc;
+                      }, {} as Record<string, any[]>);
+
+                      // Define colors for different risk categories
+                      const getCategoryColor = (category: string) => {
+                        const lowerCategory = category.toLowerCase();
+                        if (lowerCategory.includes('environmental')) {
+                          return { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', content: 'text-red-700' };
+                        }
+                        if (lowerCategory.includes('social')) {
+                          return { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-800', content: 'text-orange-700' };
+                        }
+                        if (lowerCategory.includes('governance')) {
+                          return { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-800', content: 'text-yellow-700' };
+                        }
+                        return { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-800', content: 'text-gray-700' };
+                      };
+
+                      return Object.entries(groupedEntries).map(([category, entries]) => {
+                        const colors = getCategoryColor(category);
+                        return (
+                          <div key={category} className={`p-4 ${colors.bg} border ${colors.border} rounded-lg`}>
+                            <h4 className={`font-medium ${colors.text} mb-2`}>{category}</h4>
+                            <ul className={`text-sm ${colors.content} space-y-1`}>
+                              {entries.map((entry, index) => (
+                                <li key={index}>
+                                  • <strong>{entry.screening_criterion}:</strong> {entry.context}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      });
+                    })()}
                   </div>
                 </div>
-              </div>
+              )}
             </CardContent>
           </Card>
 
