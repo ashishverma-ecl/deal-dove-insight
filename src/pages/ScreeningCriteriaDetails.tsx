@@ -142,6 +142,7 @@ const ScreeningCriteriaDetails = () => {
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [performanceValue, setPerformanceValue] = useState<string | null>(null);
 
   // Fetch current user and remarks on component mount
   useEffect(() => {
@@ -179,6 +180,20 @@ const ScreeningCriteriaDetails = () => {
             console.error('Error fetching remarks:', error);
           } else {
             setRemarks(data || []);
+          }
+
+          // Fetch performance value from ai_output table
+          const { data: aiOutputData, error: aiOutputError } = await supabase
+            .from('ai_output')
+            .select('performance')
+            .eq('session_id', fetchedSessionId)
+            .eq('screening_criterion', decodedCriteria)
+            .single();
+
+          if (aiOutputError) {
+            console.error('Error fetching performance data:', aiOutputError);
+          } else {
+            setPerformanceValue(aiOutputData?.performance || null);
           }
         }
       }
@@ -463,9 +478,9 @@ const ScreeningCriteriaDetails = () => {
                     <div>
                       <h3 className="font-medium text-foreground mb-2">Performance Value</h3>
                       <p className="text-2xl font-bold text-primary">
-                        {decodedCriteria === "Thermal Coal Mining" ? "3.2%" :
+                        {performanceValue || (decodedCriteria === "Thermal Coal Mining" ? "3.2%" :
                          decodedCriteria === "Thermal Coal Power Generation" ? "4.8%" :
-                         "2.1%"}
+                         "2.1%")}
                       </p>
                     </div>
                     <div>
