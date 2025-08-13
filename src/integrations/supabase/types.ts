@@ -20,6 +20,7 @@ export type Database = {
           created_at: string
           id: string
           performance: string | null
+          reference_documents: string | null
           risk_category: string | null
           screening_criterion: string | null
           session_id: string | null
@@ -33,6 +34,7 @@ export type Database = {
           created_at?: string
           id?: string
           performance?: string | null
+          reference_documents?: string | null
           risk_category?: string | null
           screening_criterion?: string | null
           session_id?: string | null
@@ -46,6 +48,7 @@ export type Database = {
           created_at?: string
           id?: string
           performance?: string | null
+          reference_documents?: string | null
           risk_category?: string | null
           screening_criterion?: string | null
           session_id?: string | null
