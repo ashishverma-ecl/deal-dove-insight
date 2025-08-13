@@ -492,7 +492,7 @@ const ScreeningCriteriaDetails = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="font-medium text-foreground mb-2">Comparison</h3>
+                    <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
                     <p className="text-green-600 font-medium">
                       Performance value is below threshold - Pass
                     </p>
