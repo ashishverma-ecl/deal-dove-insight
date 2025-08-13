@@ -475,7 +475,7 @@ const ScreeningCriteriaDetails = () => {
                 <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <h3 className="font-medium text-foreground mb-2">Performance</h3>
+                      <h2 className="text-xl font-bold text-foreground mb-2">Performance</h2>
                       <p className="text-lg font-medium text-foreground">
                         {performanceValue || (decodedCriteria === "Thermal Coal Mining" ? "3.2%" :
                          decodedCriteria === "Thermal Coal Power Generation" ? "4.8%" :
@@ -483,7 +483,7 @@ const ScreeningCriteriaDetails = () => {
                       </p>
                     </div>
                     <div>
-                      <h3 className="font-medium text-foreground mb-2">Threshold</h3>
+                      <h2 className="text-xl font-bold text-foreground mb-2">Threshold</h2>
                       <p className="text-lg font-medium text-foreground">
                         {details.threshold || "5% revenue exposure"}
                       </p>
