@@ -144,6 +144,7 @@ const ScreeningCriteriaDetails = () => {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [performanceValue, setPerformanceValue] = useState<string | null>(null);
   const [contextValue, setContextValue] = useState<string | null>(null);
+  const [thresholdValue, setThresholdValue] = useState<string | null>(null);
 
   // Fetch current user and remarks on component mount
   useEffect(() => {
@@ -186,7 +187,7 @@ const ScreeningCriteriaDetails = () => {
           // Fetch performance value from ai_output table
           const { data: aiOutputData, error: aiOutputError } = await supabase
             .from('ai_output')
-            .select('performance, context')
+            .select('performance, context, threshold')
             .eq('session_id', fetchedSessionId)
             .eq('screening_criterion', decodedCriteria)
             .single();
@@ -196,6 +197,7 @@ const ScreeningCriteriaDetails = () => {
           } else {
             setPerformanceValue(aiOutputData?.performance || null);
             setContextValue(aiOutputData?.context || null);
+            setThresholdValue(aiOutputData?.threshold || null);
           }
         }
       }
@@ -485,7 +487,7 @@ const ScreeningCriteriaDetails = () => {
                     <div>
                       <h2 className="text-xl font-bold text-foreground mb-2">Threshold</h2>
                       <p className="text-lg font-medium text-foreground">
-                        {details.threshold || "5% revenue exposure"}
+                        {thresholdValue || "No threshold data available"}
                       </p>
                       {contextValue && (
                         <div className="mt-3 p-3 bg-muted/50 rounded-lg">
