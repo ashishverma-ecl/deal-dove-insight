@@ -175,12 +175,13 @@ const ScreeningCriteriaDetails = () => {
         setSessionId(fetchedSessionId);
 
         if (fetchedSessionId) {
-          // Fetch existing remarks for this session
-          console.log('Fetching remarks for session:', fetchedSessionId);
+          // Fetch existing remarks for this session and specific screening criteria
+          console.log('Fetching remarks for session:', fetchedSessionId, 'and criteria:', decodedCriteria);
           const { data: remarksData, error: remarksError } = await supabase
             .from('user_remarks')
             .select('*')
             .eq('session_id', fetchedSessionId)
+            .eq('screening_criterion', decodedCriteria)
             .order('created_at', { ascending: true });
 
           if (remarksError) {
@@ -245,6 +246,7 @@ const ScreeningCriteriaDetails = () => {
     try {
       const remarkData = {
         session_id: sessionId,
+        screening_criterion: decodedCriteria,
         user_name: currentUser?.email || 'Anonymous User',
         user_comment: comment.trim(),
         uploaded_document_name: selectedFile?.name || null,
@@ -258,12 +260,13 @@ const ScreeningCriteriaDetails = () => {
         throw error;
       }
 
-      // Refresh remarks list
-      console.log('Refreshing remarks for session:', sessionId);
+      // Refresh remarks list for this specific screening criteria
+      console.log('Refreshing remarks for session:', sessionId, 'and criteria:', decodedCriteria);
       const { data, error: fetchError } = await supabase
         .from('user_remarks')
         .select('*')
         .eq('session_id', sessionId)
+        .eq('screening_criterion', decodedCriteria)
         .order('created_at', { ascending: true });
 
       if (fetchError) {

@@ -252,6 +252,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          screening_criterion: string | null
           session_id: string
           updated_at: string
           uploaded_document_name: string | null
@@ -261,6 +262,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          screening_criterion?: string | null
           session_id: string
           updated_at?: string
           uploaded_document_name?: string | null
@@ -270,6 +272,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          screening_criterion?: string | null
           session_id?: string
           updated_at?: string
           uploaded_document_name?: string | null
