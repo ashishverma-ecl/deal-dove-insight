@@ -146,6 +146,7 @@ const ScreeningCriteriaDetails = () => {
   const [contextValue, setContextValue] = useState<string | null>(null);
   const [thresholdValue, setThresholdValue] = useState<string | null>(null);
   const [withinThresholdValue, setWithinThresholdValue] = useState<string | null>(null);
+  const [referenceDocumentsValue, setReferenceDocumentsValue] = useState<string | null>(null);
 
   // Fetch current user and remarks on component mount
   useEffect(() => {
@@ -188,7 +189,7 @@ const ScreeningCriteriaDetails = () => {
           // Fetch performance value from ai_output table
           const { data: aiOutputData, error: aiOutputError } = await supabase
             .from('ai_output')
-            .select('performance, context, threshold, within_threshold')
+            .select('performance, context, threshold, within_threshold, reference_documents')
             .eq('session_id', fetchedSessionId)
             .eq('screening_criterion', decodedCriteria)
             .single();
@@ -200,6 +201,7 @@ const ScreeningCriteriaDetails = () => {
             setContextValue(aiOutputData?.context || null);
             setThresholdValue(aiOutputData?.threshold || null);
             setWithinThresholdValue(aiOutputData?.within_threshold || null);
+            setReferenceDocumentsValue(aiOutputData?.reference_documents || null);
           }
         }
       }
@@ -509,11 +511,11 @@ const ScreeningCriteriaDetails = () => {
                   <div>
                     <h3 className="font-medium text-foreground mb-2">Referenced Document</h3>
                     <p className="text-foreground">
-                      {decodedCriteria === "Thermal Coal Mining" 
+                      {referenceDocumentsValue || (decodedCriteria === "Thermal Coal Mining" 
                         ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
                         : decodedCriteria === "Thermal Coal Power Generation"
                         ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
-                        : "Corporate ESG Assessment Report 2024"}
+                        : "Corporate ESG Assessment Report 2024")}
                     </p>
                   </div>
                   <div>
