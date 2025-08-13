@@ -22,7 +22,7 @@ const ScreeningCriteriaDetails = () => {
 
   const getCriteriaDetails = (criteriaName: string) => {
     const baseDetails = {
-      overview: `This screening criteria evaluates ${criteriaName.toLowerCase()} risks in corporate lending and investment decisions.`,
+      overview: "",
       methodology: "Risk assessment based on comprehensive data analysis from multiple global sources including regulatory databases, news sources, and industry reports.",
       riskFactors: [
         "Regulatory compliance violations",
@@ -332,7 +332,6 @@ const ScreeningCriteriaDetails = () => {
           <p className="text-muted-foreground">{details.overview}</p>
           {contextValue && (
             <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-              <h3 className="font-medium text-foreground mb-2">Analysis Context</h3>
               <p className="text-sm text-muted-foreground">{contextValue}</p>
             </div>
           )}
