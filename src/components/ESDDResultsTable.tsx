@@ -140,10 +140,10 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
               <td className="border border-border p-3">
                 {result.within_threshold ? (
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    result.within_threshold.toLowerCase().includes('yes') || result.within_threshold.toLowerCase().includes('pass')
-                      ? 'bg-green-100 text-green-800' 
-                      : result.within_threshold.toLowerCase().includes('manual esdd')
+                    result.within_threshold.toLowerCase().includes('manual esdd')
                       ? 'bg-red-100 text-red-800'
+                      : result.within_threshold.toLowerCase().includes('yes') || result.within_threshold.toLowerCase().includes('pass')
+                      ? 'bg-green-100 text-green-800' 
                       : 'bg-red-100 text-red-800'
                   }`}>
                     {result.within_threshold}
