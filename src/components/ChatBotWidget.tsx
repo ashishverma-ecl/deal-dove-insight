@@ -103,7 +103,7 @@ const ChatBotWidget = () => {
       console.log('Sending message to webhook:', userMessage.content);
       console.log('Chat ID:', chatId);
       console.log('Session ID:', sessionId);
-      const response = await fetch('https://climatewarrior87.app.n8n.cloud/webhook/1b0b5db2-7e7e-4238-a76a-881ca7b435da', {
+      const response = await fetch('https://climatewarrior87.app.n8n.cloud/webhook/ad0e7411-f004-4ef3-b7c7-b8374f18f308', {
         method: 'POST',
         mode: 'cors',
         headers: {
