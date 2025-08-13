@@ -157,6 +157,7 @@ const ScreeningCriteriaDetails = () => {
 
       // First, get the session_id from assessment_documents table
       if (assessmentId) {
+        console.log('Fetching session_id for assessment:', assessmentId);
         const { data: sessionData, error: sessionError } = await supabase
           .from('assessment_documents')
           .select('session_id')
@@ -170,23 +171,27 @@ const ScreeningCriteriaDetails = () => {
         }
 
         const fetchedSessionId = sessionData?.session_id;
+        console.log('Fetched session_id:', fetchedSessionId);
         setSessionId(fetchedSessionId);
 
         if (fetchedSessionId) {
           // Fetch existing remarks for this session
-          const { data, error } = await supabase
+          console.log('Fetching remarks for session:', fetchedSessionId);
+          const { data: remarksData, error: remarksError } = await supabase
             .from('user_remarks')
             .select('*')
             .eq('session_id', fetchedSessionId)
             .order('created_at', { ascending: true });
 
-          if (error) {
-            console.error('Error fetching remarks:', error);
+          if (remarksError) {
+            console.error('Error fetching remarks:', remarksError);
           } else {
-            setRemarks(data || []);
+            console.log('Fetched remarks:', remarksData);
+            setRemarks(remarksData || []);
           }
 
-          // Fetch performance value from ai_output table
+          // Fetch AI output data for this session and criteria
+          console.log('Fetching AI output for session:', fetchedSessionId, 'and criteria:', decodedCriteria);
           const { data: aiOutputData, error: aiOutputError } = await supabase
             .from('ai_output')
             .select('performance, context, threshold, within_threshold, reference_documents')
@@ -197,6 +202,7 @@ const ScreeningCriteriaDetails = () => {
           if (aiOutputError) {
             console.error('Error fetching ai_output data:', aiOutputError);
           } else {
+            console.log('Fetched AI output data:', aiOutputData);
             setPerformanceValue(aiOutputData?.performance || null);
             setContextValue(aiOutputData?.context || null);
             setThresholdValue(aiOutputData?.threshold || null);
@@ -208,7 +214,7 @@ const ScreeningCriteriaDetails = () => {
     };
 
     fetchUserAndRemarks();
-  }, [assessmentId]);
+  }, [assessmentId, decodedCriteria]); // Added decodedCriteria to dependencies
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -253,6 +259,7 @@ const ScreeningCriteriaDetails = () => {
       }
 
       // Refresh remarks list
+      console.log('Refreshing remarks for session:', sessionId);
       const { data, error: fetchError } = await supabase
         .from('user_remarks')
         .select('*')
@@ -262,6 +269,7 @@ const ScreeningCriteriaDetails = () => {
       if (fetchError) {
         console.error('Error fetching updated remarks:', fetchError);
       } else {
+        console.log('Updated remarks:', data);
         setRemarks(data || []);
       }
 
