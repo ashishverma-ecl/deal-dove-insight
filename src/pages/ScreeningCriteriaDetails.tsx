@@ -143,6 +143,7 @@ const ScreeningCriteriaDetails = () => {
 
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [performanceValue, setPerformanceValue] = useState<string | null>(null);
+  const [contextValue, setContextValue] = useState<string | null>(null);
 
   // Fetch current user and remarks on component mount
   useEffect(() => {
@@ -185,15 +186,16 @@ const ScreeningCriteriaDetails = () => {
           // Fetch performance value from ai_output table
           const { data: aiOutputData, error: aiOutputError } = await supabase
             .from('ai_output')
-            .select('performance')
+            .select('performance, context')
             .eq('session_id', fetchedSessionId)
             .eq('screening_criterion', decodedCriteria)
             .single();
 
           if (aiOutputError) {
-            console.error('Error fetching performance data:', aiOutputError);
+            console.error('Error fetching ai_output data:', aiOutputError);
           } else {
             setPerformanceValue(aiOutputData?.performance || null);
+            setContextValue(aiOutputData?.context || null);
           }
         }
       }
@@ -328,6 +330,12 @@ const ScreeningCriteriaDetails = () => {
             </span>
           </div>
           <p className="text-muted-foreground">{details.overview}</p>
+          {contextValue && (
+            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+              <h3 className="font-medium text-foreground mb-2">Analysis Context</h3>
+              <p className="text-sm text-muted-foreground">{contextValue}</p>
+            </div>
+          )}
         </div>
 
         <div className="space-y-8">
