@@ -332,12 +332,6 @@ const ScreeningCriteriaDetails = () => {
               <p className="text-sm text-muted-foreground">{contextValue}</p>
             </div>
           )}
-          {withinThresholdValue && (
-            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-              <h3 className="font-medium text-foreground mb-2">Assessment Outcome</h3>
-              <p className="text-sm text-muted-foreground">{withinThresholdValue}</p>
-            </div>
-          )}
         </div>
 
         <div className="space-y-8">
@@ -502,7 +496,7 @@ const ScreeningCriteriaDetails = () => {
                   <div>
                     <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
                     <p className="text-green-600 font-medium">
-                      Performance value is below threshold - Pass
+                      {withinThresholdValue || "Performance value is below threshold - Pass"}
                     </p>
                   </div>
                 </div>
