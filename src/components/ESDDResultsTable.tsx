@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -114,7 +115,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
             <th className="border border-border p-3 text-left font-semibold">Screening Criteria</th>
             <th className="border border-border p-3 text-left font-semibold">Threshold</th>
             <th className="border border-border p-3 text-left font-semibold">Performance</th>
-            <th className="border border-border p-3 text-left font-semibold">Within Threshold</th>
+            <th className="border border-border p-3 text-left font-semibold">Outcome</th>
             <th className="border border-border p-3 text-left font-semibold">Context</th>
           </tr>
         </thead>
