@@ -508,34 +508,13 @@ const ScreeningCriteriaDetails = () => {
               <div>
                 <h2 className="text-xl font-bold text-foreground mb-4">Reference</h2>
                 <div className="space-y-4">
-                  <div>
-                    <h3 className="font-medium text-foreground mb-2">Referenced Document</h3>
-                    <p className="text-foreground">
-                      {referenceDocumentsValue || (decodedCriteria === "Thermal Coal Mining" 
-                        ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
-                        : decodedCriteria === "Thermal Coal Power Generation"
-                        ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
-                        : "Corporate ESG Assessment Report 2024")}
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-foreground mb-2">Page Number</h3>
-                    <p className="text-foreground">
-                      {decodedCriteria === "Thermal Coal Mining" ? "Page 47-52" :
-                       decodedCriteria === "Thermal Coal Power Generation" ? "Page 23-28" :
-                       "Page 15-18"}
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-foreground mb-2">Additional Context</h3>
-                    <p className="text-muted-foreground">
-                      {decodedCriteria === "Thermal Coal Mining"
-                        ? "Revenue percentage calculated based on coal mining operations relative to total energy portfolio. Includes both metallurgical and thermal coal operations, with thermal coal representing the majority exposure."
-                        : decodedCriteria === "Thermal Coal Power Generation"
-                        ? "Power generation revenue analysis covering coal-fired power plants and renewable energy mix. Percentage reflects coal generation capacity relative to total energy production portfolio."
-                        : "Performance metrics derived from comprehensive ESG data collection and third-party verification processes. Calculations follow industry-standard methodologies for revenue attribution."}
-                    </p>
-                  </div>
+                  <p className="text-foreground">
+                    {referenceDocumentsValue || (decodedCriteria === "Thermal Coal Mining" 
+                      ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
+                      : decodedCriteria === "Thermal Coal Power Generation"
+                      ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
+                      : "Corporate ESG Assessment Report 2024")}
+                  </p>
                 </div>
               </div>
             </>
