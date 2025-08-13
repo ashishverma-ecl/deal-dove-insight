@@ -489,11 +489,6 @@ const ScreeningCriteriaDetails = () => {
                       <p className="text-lg font-medium text-foreground">
                         {thresholdValue || "No threshold data available"}
                       </p>
-                      {contextValue && (
-                        <div className="mt-3 p-3 bg-muted/50 rounded-lg">
-                          <p className="text-sm text-muted-foreground">{contextValue}</p>
-                        </div>
-                      )}
                     </div>
                   </div>
                   <div>
