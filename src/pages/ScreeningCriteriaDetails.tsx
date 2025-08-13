@@ -472,11 +472,10 @@ const ScreeningCriteriaDetails = () => {
             <>
               {/* Performance Section for Percentage-based criteria */}
               <div>
-                <h2 className="text-xl font-bold text-foreground mb-4">Performance</h2>
+                <h3 className="font-medium text-foreground mb-4">Performance</h3>
                 <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <h3 className="font-medium text-foreground mb-2">Performance Value</h3>
                       <p className="text-2xl font-bold text-primary">
                         {performanceValue || (decodedCriteria === "Thermal Coal Mining" ? "3.2%" :
                          decodedCriteria === "Thermal Coal Power Generation" ? "4.8%" :
