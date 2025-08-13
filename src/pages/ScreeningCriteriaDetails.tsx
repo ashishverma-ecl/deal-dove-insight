@@ -321,13 +321,6 @@ const ScreeningCriteriaDetails = () => {
           <div className="flex items-center gap-3 mb-4">
             <FileText className="h-6 w-6 text-primary" />
             <h1 className="text-2xl font-bold text-foreground">{decodedCriteria}</h1>
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-              riskLevel === 'High' ? 'bg-red-100 text-red-800' :
-              riskLevel === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-              'bg-green-100 text-green-800'
-            }`}>
-              {riskLevel} Risk
-            </span>
           </div>
           <p className="text-muted-foreground">{details.overview}</p>
           {contextValue && (
