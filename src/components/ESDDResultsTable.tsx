@@ -49,18 +49,23 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         throw error;
       }
 
-      // Transform the data to match our interface - show ALL results
-      const transformedData: AIOutputResult[] = (data || []).map((row: any) => ({
-        id: row.id || '',
-        sr_no: row.sr_no,
-        risk_category: row.risk_category,
-        screening_criterion: row.screening_criterion,
-        threshold: row.threshold,
-        performance: row.performance,
-        within_threshold: row.within_threshold,
-        context: row.context,
-        session_id: row.session_id,
-      }));
+      // Transform and filter out empty rows
+      const transformedData: AIOutputResult[] = (data || [])
+        .map((row: any) => ({
+          id: row.id || '',
+          sr_no: row.sr_no,
+          risk_category: row.risk_category,
+          screening_criterion: row.screening_criterion,
+          threshold: row.threshold,
+          performance: row.performance,
+          within_threshold: row.within_threshold,
+          context: row.context,
+          session_id: row.session_id,
+        }))
+        .filter((row) => 
+          // Keep rows that have at least screening criterion or risk category
+          row.screening_criterion || row.risk_category
+        );
 
       // Sort by sr_no as numbers
       transformedData.sort((a, b) => {
