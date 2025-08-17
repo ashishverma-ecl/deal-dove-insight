@@ -49,7 +49,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         throw error;
       }
 
-      // Transform the data to match our interface
+      // Transform the data to match our interface - show ALL results
       const transformedData: AIOutputResult[] = (data || []).map((row: any) => ({
         id: row.id || '',
         sr_no: row.sr_no,
