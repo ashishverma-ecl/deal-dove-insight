@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import Reports from "./pages/Reports";
 import CreateAssessment from "./pages/CreateAssessment";
 import AssessmentDetails from "./pages/AssessmentDetails";
 import ScreeningCriteriaDetails from "./pages/ScreeningCriteriaDetails";
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/reports" element={<Reports />} />
           <Route path="/create-assessment" element={<CreateAssessment />} />
           <Route path="/assessment/:id" element={<AssessmentDetails />} />
           <Route path="/screening-criteria/:criteria" element={<ScreeningCriteriaDetails />} />

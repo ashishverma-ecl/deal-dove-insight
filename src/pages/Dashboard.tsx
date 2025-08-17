@@ -107,7 +107,9 @@ const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">View Reports</Button>
+              <Link to="/reports">
+                <Button variant="outline" className="w-full">View Reports</Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
