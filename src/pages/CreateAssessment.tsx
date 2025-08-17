@@ -66,26 +66,46 @@ const CreateAssessment = () => {
   };
 
   const pollForResults = async (sessionId: string, assessmentId: string) => {
-    const maxPollingTime = 5 * 60 * 1000; // 5 minutes
-    const pollingInterval = 5000; // 5 seconds
+    const maxPollingTime = 10 * 60 * 1000; // 10 minutes for complete processing
+    const pollingInterval = 10000; // 10 seconds
     const startTime = Date.now();
+    let previousResultCount = 0;
+    let stableCheckCount = 0;
+    const requiredStableChecks = 3; // Number of consecutive checks with same count
 
     const poll = async (): Promise<boolean> => {
       try {
-        const { data, error } = await supabase
+        // Check current number of results for this session
+        const { data: resultsData, error: resultsError } = await supabase
           .from('ai_output')
-          .select('id')
-          .eq('session_id', sessionId)
-          .limit(1);
+          .select('id, screening_criterion')
+          .eq('session_id', sessionId);
 
-        if (error) {
-          console.error('Error polling for results:', error);
+        if (resultsError) {
+          console.error('Error polling for results:', resultsError);
           return false;
         }
 
-        if (data && data.length > 0) {
-          console.log('Results found for session:', sessionId);
-          return true;
+        const currentResultCount = resultsData?.length || 0;
+        console.log(`Current results count: ${currentResultCount} for session: ${sessionId}`);
+
+        // Check if processing is complete by looking for stability in result count
+        if (currentResultCount > 0) {
+          if (currentResultCount === previousResultCount) {
+            stableCheckCount++;
+            console.log(`Stable check ${stableCheckCount}/${requiredStableChecks} - Count unchanged at ${currentResultCount}`);
+            
+            // If count has been stable for required checks, consider processing complete
+            if (stableCheckCount >= requiredStableChecks) {
+              console.log('Processing appears complete - result count stable');
+              return true;
+            }
+          } else {
+            // Count changed, reset stability counter
+            stableCheckCount = 0;
+            previousResultCount = currentResultCount;
+            console.log(`Result count increased to ${currentResultCount}, continuing to monitor...`);
+          }
         }
 
         // Check if we've exceeded the maximum polling time
