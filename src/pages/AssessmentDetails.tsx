@@ -183,9 +183,9 @@ const AssessmentDetails = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Assessment Not Found</h1>
-          <Button onClick={() => navigate("/dashboard")} variant="outline">
+          <Button onClick={() => navigate("/reports")} variant="outline">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
+            Back
           </Button>
         </div>
       </div>
@@ -211,11 +211,11 @@ const AssessmentDetails = () => {
               </div>
             </div>
             <Button
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/reports")}
               variant="outline"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Dashboard
+              Back
             </Button>
           </div>
         </div>
