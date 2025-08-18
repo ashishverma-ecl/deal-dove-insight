@@ -462,20 +462,45 @@ const ScreeningCriteriaDetails = () => {
                 <h2 className="text-xl font-bold text-foreground mb-4">Risk Score Framework</h2>
                 <div className="space-y-4">
                   <p className="text-muted-foreground mb-6">
-                    Risk assessment framework based on a 1-10 scale, where 1 represents very low risk and 10 represents very high risk.
+                    Risk assessment framework based on a 1-5 scale for environmental compliance evaluation.
                   </p>
                   
                   <div className="grid gap-4">
                     {[
-                      { score: "1-2", level: "Very Low Risk", criteria: "Minimal risk exposure with strong controls and no recent incidents", color: "bg-green-50 border-green-200 text-green-800" },
-                      { score: "3-4", level: "Low Risk", criteria: "Limited risk exposure with adequate controls and rare minor incidents", color: "bg-green-50 border-green-200 text-green-800" },
-                      { score: "5-6", level: "Medium Risk", criteria: "Moderate risk exposure with some control gaps and occasional incidents", color: "bg-yellow-50 border-yellow-200 text-yellow-800" },
-                      { score: "7-8", level: "High Risk", criteria: "Significant risk exposure with control weaknesses and regular incidents", color: "bg-red-50 border-red-200 text-red-800" },
-                      { score: "9-10", level: "Very High Risk", criteria: "Severe risk exposure with inadequate controls and frequent serious incidents", color: "bg-red-50 border-red-200 text-red-800" }
+                      { 
+                        score: "1", 
+                        level: "Full Compliance", 
+                        criteria: "No environmental violations found. The company complies with all EBA environmental guidelines and EU regulations, including emissions reductions, pollution controls, and biodiversity protection. The company has demonstrated full integration of environmental risk management practices as outlined by EBA.", 
+                        color: "bg-green-50 border-green-200 text-green-800" 
+                      },
+                      { 
+                        score: "2", 
+                        level: "Low Risk", 
+                        criteria: "Minor environmental violations or isolated non-compliance with EBA guidelines have been identified. These violations are being addressed.", 
+                        color: "bg-green-50 border-green-200 text-green-800" 
+                      },
+                      { 
+                        score: "3", 
+                        level: "Moderate Risk", 
+                        criteria: "Several significant environmental violations have been identified, including failure to meet key EBA guidelines and EU regulations. The company is actively working to resolve the issues.", 
+                        color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+                      },
+                      { 
+                        score: "4", 
+                        level: "High Risk", 
+                        criteria: "Multiple major violations have been identified with little or no efforts to comply with EBA guidelines and EU regulations. The company has not demonstrated adequate steps for remediation or compliance.", 
+                        color: "bg-red-50 border-red-200 text-red-800" 
+                      },
+                      { 
+                        score: "5", 
+                        level: "Critical Risk", 
+                        criteria: "These are severe violations that pose a substantial threat to environmental sustainability. The company has demonstrated lack of corrective measures, imminent environmental damage, EU environmental breaches.", 
+                        color: "bg-red-50 border-red-200 text-red-800" 
+                      }
                     ].map((item, index) => (
                       <div key={index} className={`p-4 rounded-lg border ${item.color}`}>
                         <div className="flex items-center justify-between mb-2">
-                          <span className="font-bold text-lg">{item.score}</span>
+                          <span className="font-bold text-lg">Score {item.score}</span>
                           <span className="font-medium">{item.level}</span>
                         </div>
                         <p className="text-sm">{item.criteria}</p>
