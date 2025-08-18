@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Edit } from "lucide-react";
 
 interface AIOutputResult {
   id: string;
@@ -39,6 +40,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [editedRows, setEditedRows] = useState<Record<string, EditedRow>>({});
+  const [editingContext, setEditingContext] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -67,6 +69,29 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   const isFieldEdited = (resultId: string, field: string) => {
     const editedRow = editedRows[resultId];
     return editedRow && editedRow[field as keyof EditedRow] !== undefined;
+  };
+
+  const handleContextEdit = (resultId: string) => {
+    setEditingContext(resultId);
+  };
+
+  const handleContextSave = (resultId: string) => {
+    setEditingContext(null);
+  };
+
+  const handleContextCancel = (resultId: string) => {
+    // Remove any changes to context for this row
+    setEditedRows(prev => {
+      const updated = { ...prev };
+      if (updated[resultId]) {
+        delete updated[resultId].context;
+        if (Object.keys(updated[resultId]).length === 1) { // Only 'id' left
+          delete updated[resultId];
+        }
+      }
+      return updated;
+    });
+    setEditingContext(null);
   };
 
   const handleSubmit = async () => {
@@ -254,13 +279,49 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                   />
                 </td>
                 <td className={`border border-border p-3 max-w-xs ${isFieldEdited(result.id, 'context') ? 'bg-blue-50' : ''}`}>
-                  <Textarea
-                    value={getDisplayValue(result, 'context', result.context || '')}
-                    onChange={(e) => handleFieldEdit(result.id, 'context', e.target.value)}
-                    className="min-w-[200px] text-sm resize-none"
-                    rows={3}
-                    placeholder="Enter context"
-                  />
+                  {editingContext === result.id ? (
+                    <div className="space-y-2">
+                      <Textarea
+                        value={getDisplayValue(result, 'context', result.context || '')}
+                        onChange={(e) => handleFieldEdit(result.id, 'context', e.target.value)}
+                        className="min-w-[200px] text-sm resize-none"
+                        rows={3}
+                        placeholder="Enter context"
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => handleContextSave(result.id)}
+                          className="text-xs px-2 py-1"
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleContextCancel(result.id)}
+                          className="text-xs px-2 py-1"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="group relative cursor-pointer min-h-[60px] flex items-center"
+                      onMouseEnter={() => {}}
+                    >
+                      <div className="truncate pr-8" title={getDisplayValue(result, 'context', result.context || '')}>
+                        {getDisplayValue(result, 'context', result.context || '') || '-'}
+                      </div>
+                      <Edit 
+                        size={16} 
+                        className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-muted-foreground hover:text-foreground"
+                        onClick={() => handleContextEdit(result.id)}
+                      />
+                    </div>
+                  )}
                 </td>
                 <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-blue-50' : ''}`}>
                   <Textarea
