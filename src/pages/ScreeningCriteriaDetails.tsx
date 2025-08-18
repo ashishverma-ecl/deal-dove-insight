@@ -354,22 +354,22 @@ const ScreeningCriteriaDetails = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h2 className="text-xl font-bold text-foreground mb-2">Performance</h2>
-                  <p className="text-muted-foreground">Not applicable</p>
+                  <p className="text-muted-foreground">{performanceValue || "Not applicable"}</p>
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-foreground mb-2">Threshold</h2>
-                  <p className="text-muted-foreground">0-5%</p>
+                  <p className="text-muted-foreground">{thresholdValue || "0-5%"}</p>
                 </div>
               </div>
               
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
-                  <p className="text-muted-foreground">Not applicable</p>
+                  <p className="text-muted-foreground">{withinThresholdValue || "Not applicable"}</p>
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-foreground mb-2">Reference</h2>
-                  <p className="text-muted-foreground">Not available</p>
+                  <p className="text-muted-foreground">{referenceDocumentsValue || "Not available"}</p>
                 </div>
               </div>
 
