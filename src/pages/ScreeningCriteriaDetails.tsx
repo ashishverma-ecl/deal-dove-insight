@@ -271,6 +271,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "OECD Guidelines Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "No evidence of OECD violations. Company demonstrates proactive adherence to all OECD Guidelines chapters, verified by NCP records, audits, or disclosures.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "Isolated allegation or NCP enquiry without confirmation of wrongdoing, remediated promptly, with corrective measures in place.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple allegations or controversies in different OECD principle areas without complete resolution. Limited corrective action or partial disclosures. No independent verification.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "NCP final statement or credible evidence confirming systemic non-compliance in one or more OECD chapters. Inadequate remediation or transparency.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Ongoing, systemic, and severe violations across multiple OECD principle areas. Repeated NCP findings of non-compliance, refusal to cooperate with OECD processes, or sanctions resulting from violations.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
