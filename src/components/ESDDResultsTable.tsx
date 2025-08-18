@@ -137,8 +137,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         description: "All changes have been saved and session marked as reviewed.",
       });
 
-      // Clear edited rows and refresh data to show updated values
-      setEditedRows({});
+      // Clear edit mode but keep edited rows highlighted
       setEditingField(null);
       await fetchResults();
       
