@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       ai_output: {
         Row: {
+          comments: string | null
           context: string | null
           created_at: string
           id: string
@@ -25,11 +26,13 @@ export type Database = {
           screening_criterion: string | null
           session_id: string | null
           sr_no: string | null
+          status: string | null
           threshold: string | null
           updated_at: string
           within_threshold: string | null
         }
         Insert: {
+          comments?: string | null
           context?: string | null
           created_at?: string
           id?: string
@@ -39,11 +42,13 @@ export type Database = {
           screening_criterion?: string | null
           session_id?: string | null
           sr_no?: string | null
+          status?: string | null
           threshold?: string | null
           updated_at?: string
           within_threshold?: string | null
         }
         Update: {
+          comments?: string | null
           context?: string | null
           created_at?: string
           id?: string
@@ -53,6 +58,7 @@ export type Database = {
           screening_criterion?: string | null
           session_id?: string | null
           sr_no?: string | null
+          status?: string | null
           threshold?: string | null
           updated_at?: string
           within_threshold?: string | null
@@ -209,6 +215,42 @@ export type Database = {
         }
         Relationships: []
       }
+      kpi_prompt_list: {
+        Row: {
+          created_at: string
+          id: number
+          is_quant: string | null
+          prompt: string | null
+          risk_category: string | null
+          scoring_criteria: string | null
+          screening_criteria: string | null
+          serial_number: string | null
+          threshold: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_quant?: string | null
+          prompt?: string | null
+          risk_category?: string | null
+          scoring_criteria?: string | null
+          screening_criteria?: string | null
+          serial_number?: string | null
+          threshold?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_quant?: string | null
+          prompt?: string | null
+          risk_category?: string | null
+          scoring_criteria?: string | null
+          screening_criteria?: string | null
+          serial_number?: string | null
+          threshold?: string | null
+        }
+        Relationships: []
+      }
       test_results: {
         Row: {
           chat_model: string | null
@@ -293,24 +335,24 @@ export type Database = {
       get_final_results: {
         Args: { session_id_param: string }
         Returns: {
+          assessment_outcome: string
+          chat_model: string
+          context: string
+          created_at: string
+          embedding_model: string
           id: number
-          sr_no: string
+          page_number: string
+          performance: string
+          referenced_document: string
           risk_category: string
           screening_criteria: string
-          threshold: string
-          performance: string
-          assessment_outcome: string
           session_id: string
-          referenced_document: string
-          page_number: string
-          context: string
-          chat_model: string
-          embedding_model: string
-          created_at: string
+          sr_no: string
+          threshold: string
         }[]
       }
       upsert_chatbot_conversation: {
-        Args: { p_session_id: string; p_chat_id: string; p_new_message: string }
+        Args: { p_chat_id: string; p_new_message: string; p_session_id: string }
         Returns: undefined
       }
     }

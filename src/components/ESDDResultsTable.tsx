@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface AIOutputResult {
   id: string;
@@ -14,6 +17,16 @@ interface AIOutputResult {
   within_threshold: string | null;
   context: string | null;
   session_id: string | null;
+  comments?: string | null;
+  status?: string | null;
+}
+
+interface EditedRow {
+  id: string;
+  performance?: string;
+  within_threshold?: string;
+  context?: string;
+  comments?: string;
 }
 
 interface ESDDResultsTableProps {
@@ -24,11 +37,89 @@ interface ESDDResultsTableProps {
 const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) => {
   const [results, setResults] = useState<AIOutputResult[]>([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [editedRows, setEditedRows] = useState<Record<string, EditedRow>>({});
   const { toast } = useToast();
 
   useEffect(() => {
     fetchResults();
   }, [sessionId]);
+
+  const handleFieldEdit = (resultId: string, field: string, value: string) => {
+    setEditedRows(prev => ({
+      ...prev,
+      [resultId]: {
+        ...prev[resultId],
+        id: resultId,
+        [field]: value
+      }
+    }));
+  };
+
+  const getDisplayValue = (result: AIOutputResult, field: string, originalValue: string) => {
+    const editedRow = editedRows[result.id];
+    if (editedRow && editedRow[field as keyof EditedRow] !== undefined) {
+      return editedRow[field as keyof EditedRow] || '';
+    }
+    return originalValue || '';
+  };
+
+  const isFieldEdited = (resultId: string, field: string) => {
+    const editedRow = editedRows[resultId];
+    return editedRow && editedRow[field as keyof EditedRow] !== undefined;
+  };
+
+  const handleSubmit = async () => {
+    if (Object.keys(editedRows).length === 0) {
+      toast({
+        title: "No changes to submit",
+        description: "Please make some edits before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      // Update each edited row
+      for (const [rowId, editedData] of Object.entries(editedRows)) {
+        const { id, ...updateData } = editedData;
+        
+        const { error } = await supabase
+          .from('ai_output')
+          .update(updateData)
+          .eq('id', rowId);
+
+        if (error) throw error;
+      }
+
+      // Update status to 'reviewed' for all records in this session
+      const { error: statusError } = await supabase
+        .from('ai_output')
+        .update({ status: 'reviewed' })
+        .eq('session_id', sessionId);
+
+      if (statusError) throw statusError;
+
+      toast({
+        title: "Success",
+        description: "Changes have been saved successfully.",
+      });
+
+      // Clear edited rows and refresh data
+      setEditedRows({});
+      await fetchResults();
+    } catch (error: any) {
+      console.error("Error submitting changes:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save changes. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const fetchResults = async () => {
     try {
@@ -61,6 +152,8 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
           within_threshold: row.within_threshold,
           context: row.context,
           session_id: row.session_id,
+          comments: row.comments,
+          status: row.status,
         }))
         .filter((row) => 
           // Keep rows that have at least screening criterion or risk category
@@ -111,62 +204,90 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse border border-border">
-        <thead>
-          <tr className="bg-muted">
-            <th className="border border-border p-3 text-left font-semibold">Sr. No.</th>
-            <th className="border border-border p-3 text-left font-semibold">Risk Category</th>
-            <th className="border border-border p-3 text-left font-semibold">Screening Criteria</th>
-            <th className="border border-border p-3 text-left font-semibold">Threshold</th>
-            <th className="border border-border p-3 text-left font-semibold">Performance</th>
-            <th className="border border-border p-3 text-left font-semibold">Outcome</th>
-            <th className="border border-border p-3 text-left font-semibold">Context</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.map((result) => (
-            <tr key={result.id} className="hover:bg-muted/50">
-              <td className="border border-border p-3">{result.sr_no || '-'}</td>
-              <td className="border border-border p-3">{result.risk_category || '-'}</td>
-              <td className="border border-border p-3">
-                {result.screening_criterion ? (
-                  <Link 
-                    to={`/screening-criteria/${encodeURIComponent(result.screening_criterion)}?assessmentId=${assessmentId}`}
-                    className="text-primary hover:underline cursor-pointer"
-                  >
-                    {result.screening_criterion}
-                  </Link>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="border border-border p-3">{result.threshold || '-'}</td>
-              <td className="border border-border p-3">{result.performance || '-'}</td>
-              <td className="border border-border p-3">
-                {result.within_threshold ? (
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    result.within_threshold.toLowerCase().includes('manual esdd')
-                      ? 'bg-destructive text-destructive-foreground'
-                      : result.within_threshold.toLowerCase().includes('yes') || result.within_threshold.toLowerCase().includes('pass')
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {result.within_threshold}
-                  </span>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="border border-border p-3 max-w-xs">
-                <div className="truncate" title={result.context || ''}>
-                  {result.context || '-'}
-                </div>
-              </td>
+    <div className="space-y-4">
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-border">
+          <thead>
+            <tr className="bg-muted">
+              <th className="border border-border p-3 text-left font-semibold">Sr. No.</th>
+              <th className="border border-border p-3 text-left font-semibold">Risk Category</th>
+              <th className="border border-border p-3 text-left font-semibold">Screening Criteria</th>
+              <th className="border border-border p-3 text-left font-semibold">Threshold</th>
+              <th className="border border-border p-3 text-left font-semibold">Performance</th>
+              <th className="border border-border p-3 text-left font-semibold">Outcome</th>
+              <th className="border border-border p-3 text-left font-semibold">Context</th>
+              <th className="border border-border p-3 text-left font-semibold">Comments</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {results.map((result) => (
+              <tr key={result.id} className="hover:bg-muted/50">
+                <td className="border border-border p-3">{result.sr_no || '-'}</td>
+                <td className="border border-border p-3">{result.risk_category || '-'}</td>
+                <td className="border border-border p-3">
+                  {result.screening_criterion ? (
+                    <Link 
+                      to={`/screening-criteria/${encodeURIComponent(result.screening_criterion)}?assessmentId=${assessmentId}`}
+                      className="text-primary hover:underline cursor-pointer"
+                    >
+                      {result.screening_criterion}
+                    </Link>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+                <td className="border border-border p-3">{result.threshold || '-'}</td>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'performance') ? 'bg-blue-50' : ''}`}>
+                  <Input
+                    value={getDisplayValue(result, 'performance', result.performance || '')}
+                    onChange={(e) => handleFieldEdit(result.id, 'performance', e.target.value)}
+                    className="min-w-[120px] text-sm"
+                    placeholder="Enter performance"
+                  />
+                </td>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'within_threshold') ? 'bg-blue-50' : ''}`}>
+                  <Input
+                    value={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}
+                    onChange={(e) => handleFieldEdit(result.id, 'within_threshold', e.target.value)}
+                    className="min-w-[120px] text-sm"
+                    placeholder="Enter outcome"
+                  />
+                </td>
+                <td className={`border border-border p-3 max-w-xs ${isFieldEdited(result.id, 'context') ? 'bg-blue-50' : ''}`}>
+                  <Textarea
+                    value={getDisplayValue(result, 'context', result.context || '')}
+                    onChange={(e) => handleFieldEdit(result.id, 'context', e.target.value)}
+                    className="min-w-[200px] text-sm resize-none"
+                    rows={3}
+                    placeholder="Enter context"
+                  />
+                </td>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-blue-50' : ''}`}>
+                  <Textarea
+                    value={getDisplayValue(result, 'comments', result.comments || '')}
+                    onChange={(e) => handleFieldEdit(result.id, 'comments', e.target.value)}
+                    className="min-w-[200px] text-sm resize-none"
+                    rows={3}
+                    placeholder="Enter comments"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      {Object.keys(editedRows).length > 0 && (
+        <div className="flex justify-center">
+          <Button 
+            onClick={handleSubmit} 
+            disabled={submitting}
+            className="px-8 py-2"
+          >
+            {submitting ? "Submitting..." : "Submit Changes"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
