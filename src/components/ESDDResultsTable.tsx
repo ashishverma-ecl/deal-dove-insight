@@ -258,7 +258,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                   )}
                 </td>
                 <td className="border border-border p-3">{result.threshold || '-'}</td>
-                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'performance') ? 'bg-blue-50' : ''}`}>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'performance') ? 'bg-gray-100' : ''}`}>
                   {isFieldInEditMode(result.id, 'performance') ? (
                     <div className="space-y-2">
                       <Input
@@ -302,7 +302,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                     </div>
                   )}
                 </td>
-                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'within_threshold') ? 'bg-blue-50' : ''}`}>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'within_threshold') ? 'bg-gray-100' : ''}`}>
                   {isFieldInEditMode(result.id, 'within_threshold') ? (
                     <div className="space-y-2">
                       <Input
@@ -365,7 +365,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                     {result.context || '-'}
                   </div>
                 </td>
-                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-blue-50' : ''}`}>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-gray-100' : ''}`}>
                   {isFieldInEditMode(result.id, 'comments') ? (
                     <div className="space-y-2">
                       <Textarea
@@ -416,13 +416,21 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         </table>
       </div>
       
+      {/* Legend */}
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
+          <span>Value has been edited</span>
+        </div>
+      </div>
+      
       <div className="flex justify-center">
         <Button 
           onClick={handleSubmit} 
           disabled={submitting}
           className="px-8 py-2"
         >
-          {submitting ? "Submitting..." : "Submit Changes"}
+          {submitting ? "Submitting..." : "Submit"}
         </Button>
       </div>
     </div>
