@@ -133,6 +133,112 @@ const ScreeningCriteriaDetails = () => {
 
   const riskLevel = getRiskLevel(decodedCriteria);
 
+  const getRiskScoreFramework = (criteriaName: string) => {
+    switch (criteriaName) {
+      case "Deforestation & Illegal Logging":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The system shows clear evidence of being EUDR-ready, with commodity mapping completed, geolocation used for all EU-bound volumes, a live DDS process, a documented risk assessment and mitigation plan (including satellite checks), supplier contracts that prohibit deforestation post-2020 and ensure legal compliance, a published monitoring cadence, and an accessible grievance channel. There are no credible allegations pending.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "Policies align with the EUDR and NDPE, with over 90% geolocation coverage and a time-bound plan to address small gaps. DDS preparation is underway with pilot filings, and any isolated legacy allegations have been addressed with completed remediation. The system mainly operates in low to standard-risk regions.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "There are material gaps in traceability (e.g., only at the mill level) for some of the EU supply chain, and DDS has not been filed yet. A risk assessment is referenced but lacks evidence of systematic mitigation. There is partial reliance on certifications, and while allegations recur in parts of the supply chain, there has been no third-party verification of remediation. The supply mix includes both standard and high-risk sourcing.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "A significant portion of volumes lack plot-level geolocation, and sourcing is done from high-risk regions without enhanced due diligence. There is credible evidence of post-2020 deforestation, forest degradation, or illegal logging in the supply chain, with weak or denied remediation. DDS is not yet ready, and supplier enforcement is either weak or non-existent.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "There are confirmed links to post-2020 deforestation, illegal logging, active land-use violations, or enforcement actions (such as seizures, sanctions, or injunctions). Remediation efforts are either non-existent or ineffective, and there is continued sale to the EU without DDS. There is a refusal to provide geolocation, and the system has a high dependency on high-risk regions. It is recommended to not proceed, exit, or escalate the matter.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
+      case "Biodiversity Destruction":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has a biodiversity policy aligned with CBD guidelines, conducts biodiversity EIAs for all relevant projects, and does not operate in protected or high-biodiversity areas without offsets. It reports measurable positive biodiversity outcomes, and independent verification is available.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has isolated minor impacts in non-critical areas, conducts EIAs, and requires limited restoration. Remediation has been completed with evidence, and over 90% of operations are biodiversity-compliant. There are no repeated incidents.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company experiences multiple but non-systemic biodiversity impacts, with incomplete or delayed mitigation or restoration. Monitoring is limited, and there is partial compliance with CBD targets. Occasionally, operations occur in sensitive areas without offsets.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has systemic biodiversity impacts in sensitive or protected areas, with inadequate or no mitigation efforts. There is recurring non-compliance with CBD objectives, and credible NGO/media allegations remain unremediated.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is causing ongoing, large-scale biodiversity destruction, with confirmed illegal operations in protected areas. There is a loss of IUCN Red List species due to company activity, and no mitigation or restoration efforts are made. The company is under regulatory investigation or has been sanctioned.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
+      default:
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "No violations found. The company complies with all relevant guidelines and regulations. The company has demonstrated full integration of risk management practices.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "Minor violations or isolated non-compliance have been identified. These violations are being addressed.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Several significant violations have been identified. The company is actively working to resolve the issues.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Multiple major violations have been identified with little or no efforts to comply. The company has not demonstrated adequate steps for remediation.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "These are severe violations that pose a substantial threat. The company has demonstrated lack of corrective measures.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+    }
+  };
+
   // Remark functionality state
   const [showRemarkForm, setShowRemarkForm] = useState(false);
   const [comment, setComment] = useState("");
@@ -383,38 +489,7 @@ const ScreeningCriteriaDetails = () => {
                   </p>
                   
                    <div className="grid gap-4">
-                     {[
-                       { 
-                         score: "1", 
-                         level: "Full Compliance", 
-                         criteria: "The system shows clear evidence of being EUDR-ready, with commodity mapping completed, geolocation used for all EU-bound volumes, a live DDS process, a documented risk assessment and mitigation plan (including satellite checks), supplier contracts that prohibit deforestation post-2020 and ensure legal compliance, a published monitoring cadence, and an accessible grievance channel. There are no credible allegations pending.", 
-                         color: "bg-green-50 border-green-200 text-green-800" 
-                       },
-                       { 
-                         score: "2", 
-                         level: "Low Risk", 
-                         criteria: "Policies align with the EUDR and NDPE, with over 90% geolocation coverage and a time-bound plan to address small gaps. DDS preparation is underway with pilot filings, and any isolated legacy allegations have been addressed with completed remediation. The system mainly operates in low to standard-risk regions.", 
-                         color: "bg-green-50 border-green-200 text-green-800" 
-                       },
-                       { 
-                         score: "3", 
-                         level: "Moderate Risk", 
-                         criteria: "There are material gaps in traceability (e.g., only at the mill level) for some of the EU supply chain, and DDS has not been filed yet. A risk assessment is referenced but lacks evidence of systematic mitigation. There is partial reliance on certifications, and while allegations recur in parts of the supply chain, there has been no third-party verification of remediation. The supply mix includes both standard and high-risk sourcing.", 
-                         color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
-                       },
-                       { 
-                         score: "4", 
-                         level: "High Risk", 
-                         criteria: "A significant portion of volumes lack plot-level geolocation, and sourcing is done from high-risk regions without enhanced due diligence. There is credible evidence of post-2020 deforestation, forest degradation, or illegal logging in the supply chain, with weak or denied remediation. DDS is not yet ready, and supplier enforcement is either weak or non-existent.", 
-                         color: "bg-red-50 border-red-200 text-red-800" 
-                       },
-                       { 
-                         score: "5", 
-                         level: "Critical Risk", 
-                         criteria: "There are confirmed links to post-2020 deforestation, illegal logging, active land-use violations, or enforcement actions (such as seizures, sanctions, or injunctions). Remediation efforts are either non-existent or ineffective, and there is continued sale to the EU without DDS. There is a refusal to provide geolocation, and the system has a high dependency on high-risk regions. It is recommended to not proceed, exit, or escalate the matter.", 
-                         color: "bg-red-50 border-red-200 text-red-800" 
-                       }
-                     ].map((item, index) => (
+                     {getRiskScoreFramework(decodedCriteria).map((item, index) => (
                       <div key={index} className={`p-4 rounded-lg border ${item.color}`}>
                         <div className="flex items-center justify-between mb-2">
                           <span className="font-bold text-lg">Score {item.score}</span>
