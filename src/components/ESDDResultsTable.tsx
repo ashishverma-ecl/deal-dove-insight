@@ -26,7 +26,6 @@ interface EditedRow {
   id: string;
   performance?: string;
   within_threshold?: string;
-  context?: string;
   comments?: string;
 }
 
@@ -40,7 +39,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [editedRows, setEditedRows] = useState<Record<string, EditedRow>>({});
-  const [editingContext, setEditingContext] = useState<string | null>(null);
+  const [editingField, setEditingField] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -71,27 +70,31 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
     return editedRow && editedRow[field as keyof EditedRow] !== undefined;
   };
 
-  const handleContextEdit = (resultId: string) => {
-    setEditingContext(resultId);
+  const handleFieldEditStart = (resultId: string, field: string) => {
+    setEditingField(`${resultId}-${field}`);
   };
 
-  const handleContextSave = (resultId: string) => {
-    setEditingContext(null);
+  const handleFieldEditSave = (resultId: string, field: string) => {
+    setEditingField(null);
   };
 
-  const handleContextCancel = (resultId: string) => {
-    // Remove any changes to context for this row
+  const handleFieldEditCancel = (resultId: string, field: string) => {
+    // Remove any changes for this field
     setEditedRows(prev => {
       const updated = { ...prev };
       if (updated[resultId]) {
-        delete updated[resultId].context;
+        delete updated[resultId][field as keyof EditedRow];
         if (Object.keys(updated[resultId]).length === 1) { // Only 'id' left
           delete updated[resultId];
         }
       }
       return updated;
     });
-    setEditingContext(null);
+    setEditingField(null);
+  };
+
+  const isFieldInEditMode = (resultId: string, field: string) => {
+    return editingField === `${resultId}-${field}`;
   };
 
   const handleSubmit = async () => {
@@ -263,36 +266,19 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                 </td>
                 <td className="border border-border p-3">{result.threshold || '-'}</td>
                 <td className={`border border-border p-3 ${isFieldEdited(result.id, 'performance') ? 'bg-blue-50' : ''}`}>
-                  <Input
-                    value={getDisplayValue(result, 'performance', result.performance || '')}
-                    onChange={(e) => handleFieldEdit(result.id, 'performance', e.target.value)}
-                    className="min-w-[120px] text-sm"
-                    placeholder="Enter performance"
-                  />
-                </td>
-                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'within_threshold') ? 'bg-blue-50' : ''}`}>
-                  <Input
-                    value={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}
-                    onChange={(e) => handleFieldEdit(result.id, 'within_threshold', e.target.value)}
-                    className="min-w-[120px] text-sm"
-                    placeholder="Enter outcome"
-                  />
-                </td>
-                <td className={`border border-border p-3 max-w-xs ${isFieldEdited(result.id, 'context') ? 'bg-blue-50' : ''}`}>
-                  {editingContext === result.id ? (
+                  {isFieldInEditMode(result.id, 'performance') ? (
                     <div className="space-y-2">
-                      <Textarea
-                        value={getDisplayValue(result, 'context', result.context || '')}
-                        onChange={(e) => handleFieldEdit(result.id, 'context', e.target.value)}
-                        className="min-w-[200px] text-sm resize-none"
-                        rows={3}
-                        placeholder="Enter context"
+                      <Input
+                        value={getDisplayValue(result, 'performance', result.performance || '')}
+                        onChange={(e) => handleFieldEdit(result.id, 'performance', e.target.value)}
+                        className="min-w-[120px] text-sm"
+                        placeholder="Enter performance"
                         autoFocus
                       />
                       <div className="flex gap-2">
                         <Button
                           size="sm"
-                          onClick={() => handleContextSave(result.id)}
+                          onClick={() => handleFieldEditSave(result.id, 'performance')}
                           className="text-xs px-2 py-1"
                         >
                           Save
@@ -300,7 +286,101 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleContextCancel(result.id)}
+                          onClick={() => handleFieldEditCancel(result.id, 'performance')}
+                          className="text-xs px-2 py-1"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="group relative cursor-pointer min-h-[40px] flex items-center"
+                      onMouseEnter={() => {}}
+                    >
+                      <div className="truncate pr-8" title={getDisplayValue(result, 'performance', result.performance || '')}>
+                        {getDisplayValue(result, 'performance', result.performance || '') || '-'}
+                      </div>
+                      <Edit 
+                        size={16} 
+                        className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-muted-foreground hover:text-foreground"
+                        onClick={() => handleFieldEditStart(result.id, 'performance')}
+                      />
+                    </div>
+                  )}
+                </td>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'within_threshold') ? 'bg-blue-50' : ''}`}>
+                  {isFieldInEditMode(result.id, 'within_threshold') ? (
+                    <div className="space-y-2">
+                      <Input
+                        value={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}
+                        onChange={(e) => handleFieldEdit(result.id, 'within_threshold', e.target.value)}
+                        className="min-w-[120px] text-sm"
+                        placeholder="Enter outcome"
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => handleFieldEditSave(result.id, 'within_threshold')}
+                          className="text-xs px-2 py-1"
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleFieldEditCancel(result.id, 'within_threshold')}
+                          className="text-xs px-2 py-1"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="group relative cursor-pointer min-h-[40px] flex items-center"
+                      onMouseEnter={() => {}}
+                    >
+                      <div className="truncate pr-8" title={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}>
+                        {getDisplayValue(result, 'within_threshold', result.within_threshold || '') || '-'}
+                      </div>
+                      <Edit 
+                        size={16} 
+                        className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-muted-foreground hover:text-foreground"
+                        onClick={() => handleFieldEditStart(result.id, 'within_threshold')}
+                      />
+                    </div>
+                  )}
+                </td>
+                <td className="border border-border p-3 max-w-xs">
+                  <div className="truncate" title={result.context || ''}>
+                    {result.context || '-'}
+                  </div>
+                </td>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-blue-50' : ''}`}>
+                  {isFieldInEditMode(result.id, 'comments') ? (
+                    <div className="space-y-2">
+                      <Textarea
+                        value={getDisplayValue(result, 'comments', result.comments || '')}
+                        onChange={(e) => handleFieldEdit(result.id, 'comments', e.target.value)}
+                        className="min-w-[200px] text-sm resize-none"
+                        rows={3}
+                        placeholder="Enter comments"
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => handleFieldEditSave(result.id, 'comments')}
+                          className="text-xs px-2 py-1"
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleFieldEditCancel(result.id, 'comments')}
                           className="text-xs px-2 py-1"
                         >
                           Cancel
@@ -312,25 +392,16 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                       className="group relative cursor-pointer min-h-[60px] flex items-center"
                       onMouseEnter={() => {}}
                     >
-                      <div className="truncate pr-8" title={getDisplayValue(result, 'context', result.context || '')}>
-                        {getDisplayValue(result, 'context', result.context || '') || '-'}
+                      <div className="truncate pr-8" title={getDisplayValue(result, 'comments', result.comments || '')}>
+                        {getDisplayValue(result, 'comments', result.comments || '') || '-'}
                       </div>
                       <Edit 
                         size={16} 
                         className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-muted-foreground hover:text-foreground"
-                        onClick={() => handleContextEdit(result.id)}
+                        onClick={() => handleFieldEditStart(result.id, 'comments')}
                       />
                     </div>
                   )}
-                </td>
-                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-blue-50' : ''}`}>
-                  <Textarea
-                    value={getDisplayValue(result, 'comments', result.comments || '')}
-                    onChange={(e) => handleFieldEdit(result.id, 'comments', e.target.value)}
-                    className="min-w-[200px] text-sm resize-none"
-                    rows={3}
-                    placeholder="Enter comments"
-                  />
                 </td>
               </tr>
             ))}
