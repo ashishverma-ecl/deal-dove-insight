@@ -373,66 +373,6 @@ const ScreeningCriteriaDetails = () => {
                 </div>
               </div>
 
-              {/* Risk Score */}
-              <div>
-                <h2 className="text-xl font-bold text-foreground mb-4">Risk Score</h2>
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="font-medium text-foreground mb-2">Risk Score</h3>
-                      <p className="text-2xl font-bold text-primary">
-                        {decodedCriteria === "Environmental Violations" ? "6" :
-                         decodedCriteria === "Money Laundering" ? "6" :
-                         decodedCriteria === "Workplace Safety Violations" ? "5" :
-                         decodedCriteria === "Human Rights Violations" ? "2" :
-                         decodedCriteria === "Deforestation & Illegal Logging" ? "2" :
-                         decodedCriteria === "Biodiversity Destruction" ? "3" :
-                         decodedCriteria === "Pollution & Contamination" ? "1" :
-                         decodedCriteria === "Climate Change Non-Alignment" ? "2" :
-                         decodedCriteria === "Hazardous Waste" ? "3" :
-                         decodedCriteria === "Labor Rights Violations" ? "3" :
-                         decodedCriteria === "Child Labor" ? "1" :
-                         decodedCriteria === "Forced Labor" ? "1" :
-                         decodedCriteria === "Conflict Minerals" ? "2" :
-                         decodedCriteria === "Supply Chain Violations" ? "3" :
-                         decodedCriteria === "Community Impact Violations" ? "2" :
-                         decodedCriteria === "UN Global Compact Violations" ? "1" :
-                         decodedCriteria === "OECD Guidelines Violations" ? "2" :
-                         decodedCriteria === "Corruption & Bribery" ? "1" :
-                         decodedCriteria === "Tax Evasion & Avoidance" ? "3" :
-                         decodedCriteria === "Cybersecurity Failures" ? "2" :
-                         decodedCriteria === "Data Privacy Violations" ? "1" :
-                         decodedCriteria === "Board Governance Failures" ? "3" :
-                         decodedCriteria === "Sanctioned Countries/Entities" ? "1" :
-                         decodedCriteria === "Regulatory Non-Compliance" ? "2" :
-                         "4"}
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-foreground mb-2">Threshold</h3>
-                      <p className="text-lg font-medium text-foreground">
-                        Risk score above 4
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-foreground mb-2">Outcome</h3>
-                    <p className={`font-medium ${
-                      (decodedCriteria === "Environmental Violations" ||
-                       decodedCriteria === "Money Laundering" ||
-                       decodedCriteria === "Workplace Safety Violations") 
-                        ? "text-red-600" 
-                        : "text-green-600"
-                    }`}>
-                      {(decodedCriteria === "Environmental Violations" ||
-                        decodedCriteria === "Money Laundering" ||
-                        decodedCriteria === "Workplace Safety Violations") 
-                        ? "Risk score exceeds threshold - Manual ESDD Required" 
-                        : "Risk score is within acceptable threshold - Pass"}
-                    </p>
-                  </div>
-                </div>
-              </div>
 
               {/* Risk Score Framework */}
               <div>
