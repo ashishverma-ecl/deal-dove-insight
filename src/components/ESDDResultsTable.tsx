@@ -336,7 +336,21 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                       onMouseEnter={() => {}}
                     >
                       <div className="truncate pr-8" title={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}>
-                        {getDisplayValue(result, 'within_threshold', result.within_threshold || '') || '-'}
+                        {getDisplayValue(result, 'within_threshold', result.within_threshold || '') ? (
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            getDisplayValue(result, 'within_threshold', result.within_threshold || '').toLowerCase().includes('manual esdd')
+                              ? 'bg-red-100 text-red-800'
+                              : getDisplayValue(result, 'within_threshold', result.within_threshold || '').toLowerCase().includes('pass')
+                              ? 'bg-green-100 text-green-800' 
+                              : getDisplayValue(result, 'within_threshold', result.within_threshold || '').toLowerCase().includes('not applicable')
+                              ? 'bg-amber-100 text-amber-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {getDisplayValue(result, 'within_threshold', result.within_threshold || '')}
+                          </span>
+                        ) : (
+                          '-'
+                        )}
                       </div>
                       <Edit 
                         size={16} 
