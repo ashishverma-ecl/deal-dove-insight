@@ -105,31 +105,44 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         for (const [rowId, editedData] of Object.entries(editedRows)) {
           const { id, ...updateData } = editedData;
           
+          console.log("Updating row:", rowId, "with data:", updateData);
+          
           const { error } = await supabase
             .from('ai_output')
             .update(updateData)
             .eq('id', rowId);
 
-          if (error) throw error;
+          if (error) {
+            console.error("Error updating row:", rowId, error);
+            throw error;
+          }
         }
       }
 
       // Update status to 'reviewed' for all records in this session
+      console.log("Updating status to 'reviewed' for session:", sessionId);
+      
       const { error: statusError } = await supabase
         .from('ai_output')
         .update({ status: 'reviewed' })
         .eq('session_id', sessionId);
 
-      if (statusError) throw statusError;
+      if (statusError) {
+        console.error("Error updating status:", statusError);
+        throw statusError;
+      }
 
       toast({
         title: "Success",
-        description: "Changes have been saved successfully.",
+        description: "All changes have been saved and session marked as reviewed.",
       });
 
-      // Clear edited rows and refresh data
+      // Clear edited rows and refresh data to show updated values
       setEditedRows({});
+      setEditingField(null);
       await fetchResults();
+      
+      console.log("Submit completed successfully");
     } catch (error: any) {
       console.error("Error submitting changes:", error);
       toast({
