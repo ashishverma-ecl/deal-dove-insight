@@ -339,6 +339,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Tax Evasion & Avoidance":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "There is no evidence of tax evasion or aggressive avoidance. The company provides transparent public tax reporting aligned with OECD principles, including country-by-country reporting and BEPS compliance.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "An isolated allegation or audit finding occurred without confirmation of wrongdoing. Any identified issue was promptly remediated with improved transparency and policy updates.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple allegations or confirmed minor incidents of tax avoidance occurred in different jurisdictions, but not on a systemic scale. Remediation efforts were limited or partial, with gaps in public tax disclosures.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Credible evidence or regulatory findings confirm significant tax evasion or aggressive avoidance strategies affecting multiple jurisdictions. Remediation is inadequate, delayed, or the company faces repeat allegations.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Ongoing, systemic, and severe tax evasion or avoidance schemes exist across multiple operations, confirmed by regulatory or judicial findings. The company refuses to cooperate with tax authorities, faces significant penalties, or has repeatedly violated OECD tax-related principles.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
