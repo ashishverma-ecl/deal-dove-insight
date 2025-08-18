@@ -203,6 +203,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Human Rights Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has a public human rights policy aligned with UNGC Principles 1 & 2 and the UDHR, with a fully implemented human rights due diligence (HRDD) system across operations and the supply chain. It publishes annual impact assessments, has had no credible allegations in the past five years, provides independent third-party verification, and offers accessible grievance mechanisms with disclosed remediation records in all operating regions.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has minor, isolated allegations (e.g., a single discrimination complaint) that were investigated and remediated. The HRDD system covers over 90% of operations and key suppliers, with regular training and documented stakeholder engagement. There have been no repeat incidents.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has multiple credible allegations in limited regions or supply chain tiers. The HRDD system is partial, covering only direct operations, and remediation efforts are underway but incomplete. Grievance mechanisms exist but lack accessibility or transparency for affected stakeholders.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has systemic or recurring credible allegations, such as suppression of unions, forced displacement, or indigenous rights violations. There is an absence of comprehensive HRDD, with weak or absent remediation efforts and a failure to engage affected communities. Transparency in reporting is lacking.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is involved in ongoing severe violations, such as complicity in killings, torture, or forced labor. There is no human rights policy or HRDD system in place, and the company refuses to remediate or engage. It is under investigation or sanctioned by international bodies, such as the UN or OECD NCP, for human rights abuses.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
