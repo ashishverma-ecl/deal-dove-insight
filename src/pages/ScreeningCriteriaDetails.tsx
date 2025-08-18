@@ -457,6 +457,16 @@ const ScreeningCriteriaDetails = () => {
   const [thresholdValue, setThresholdValue] = useState<string | null>(null);
   const [withinThresholdValue, setWithinThresholdValue] = useState<string | null>(null);
   const [referenceDocumentsValue, setReferenceDocumentsValue] = useState<string | null>(null);
+  
+  // Store original values to detect edits
+  const [originalPerformanceValue, setOriginalPerformanceValue] = useState<string | null>(null);
+  const [originalWithinThresholdValue, setOriginalWithinThresholdValue] = useState<string | null>(null);
+  const [originalComments, setOriginalComments] = useState<string | null>(null);
+
+  // Utility function to check if a value has been edited
+  const isValueEdited = (currentValue: string | null, originalValue: string | null): boolean => {
+    return currentValue !== originalValue && originalValue !== null;
+  };
 
   // Fetch current user and remarks on component mount
   useEffect(() => {
@@ -505,7 +515,7 @@ const ScreeningCriteriaDetails = () => {
           console.log('Fetching AI output for session:', fetchedSessionId, 'and criteria:', decodedCriteria);
           const { data: aiOutputData, error: aiOutputError } = await supabase
             .from('ai_output')
-            .select('performance, context, threshold, within_threshold, reference_documents')
+            .select('performance, context, threshold, within_threshold, reference_documents, comments')
             .eq('session_id', fetchedSessionId)
             .eq('screening_criterion', decodedCriteria)
             .single();
@@ -519,6 +529,26 @@ const ScreeningCriteriaDetails = () => {
             setThresholdValue(aiOutputData?.threshold || null);
             setWithinThresholdValue(aiOutputData?.within_threshold || null);
             setReferenceDocumentsValue(aiOutputData?.reference_documents || null);
+            
+            // Also fetch the original values to detect if they've been edited
+            const { data: originalData, error: originalError } = await supabase
+              .from('ai_output')
+              .select('performance, within_threshold, comments')
+              .eq('session_id', fetchedSessionId)
+              .eq('screening_criterion', decodedCriteria)
+              .eq('status', 'pending') // Original values before editing
+              .single();
+            
+            if (!originalError && originalData) {
+              setOriginalPerformanceValue(originalData.performance);
+              setOriginalWithinThresholdValue(originalData.within_threshold);
+              setOriginalComments(originalData.comments);
+            } else {
+              // If no pending status found, use current values as original
+              setOriginalPerformanceValue(aiOutputData?.performance || null);
+              setOriginalWithinThresholdValue(aiOutputData?.within_threshold || null);
+              setOriginalComments(aiOutputData?.comments || null);
+            }
           }
         }
       }
@@ -662,7 +692,7 @@ const ScreeningCriteriaDetails = () => {
             <>
               {/* Performance, Threshold, Outcome, Reference Section */}
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
+                <div className={`p-3 rounded ${isValueEdited(performanceValue, originalPerformanceValue) ? 'bg-gray-300' : ''}`}>
                   <h2 className="text-xl font-bold text-foreground mb-2">Performance</h2>
                   <p className="text-muted-foreground">{performanceValue || "Not applicable"}</p>
                 </div>
@@ -673,7 +703,7 @@ const ScreeningCriteriaDetails = () => {
               </div>
               
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
+                <div className={`p-3 rounded ${isValueEdited(withinThresholdValue, originalWithinThresholdValue) ? 'bg-gray-300' : ''}`}>
                   <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
                   <p className="text-muted-foreground">{withinThresholdValue || "Not applicable"}</p>
                 </div>
@@ -712,7 +742,7 @@ const ScreeningCriteriaDetails = () => {
               <div>
                 <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div>
+                    <div className={`p-3 rounded ${isValueEdited(performanceValue, originalPerformanceValue) ? 'bg-gray-300' : ''}`}>
                       <h2 className="text-xl font-bold text-foreground mb-2">Performance</h2>
                       <p className="text-lg font-medium text-foreground">
                         {performanceValue || (decodedCriteria === "Thermal Coal Mining" ? "3.2%" :
@@ -727,7 +757,7 @@ const ScreeningCriteriaDetails = () => {
                       </p>
                     </div>
                   </div>
-                  <div>
+                  <div className={`p-3 rounded ${isValueEdited(withinThresholdValue, originalWithinThresholdValue) ? 'bg-gray-300' : ''}`}>
                     <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
                     <p className="text-foreground font-medium">
                       {withinThresholdValue || "Performance value is below threshold - Pass"}
