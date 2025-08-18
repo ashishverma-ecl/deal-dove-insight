@@ -373,6 +373,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Money Laundering":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has a comprehensive AML framework fully aligned with FATF Recommendations, conducts regular independent audits, maintains robust KYC/CDD processes, has zero enforcement actions, and provides transparent public disclosures on AML measures.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has an AML policy and systems in place, with minor procedural gaps identified and promptly remediated. No confirmed violations have occurred, and disclosures are transparent.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has partial AML implementation, such as inconsistent CDD practices, isolated regulatory warnings, and gaps in reporting or monitoring. Remediation is in progress but remains unverified.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has significant AML deficiencies, including confirmed violations or fines, inadequate KYC/CDD processes, operations in high-risk jurisdictions without effective mitigation, and weak disclosures.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is experiencing ongoing, systemic AML failures, with repeated violations, deliberate evasion of AML requirements, and refusal to cooperate with regulators. It is under sanctions or criminal investigation for money laundering.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
