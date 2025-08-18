@@ -100,37 +100,52 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      console.log("Starting submit process for session:", sessionId);
+      console.log("Edited rows to update:", editedRows);
+
       // Update each edited row if there are any changes
       if (Object.keys(editedRows).length > 0) {
         for (const [rowId, editedData] of Object.entries(editedRows)) {
           const { id, ...updateData } = editedData;
           
-          console.log("Updating row:", rowId, "with data:", updateData);
+          console.log("Updating row ID:", rowId);
+          console.log("Update data:", updateData);
           
-          const { error } = await supabase
+          // Ensure comments field is included if it was edited
+          if (updateData.comments !== undefined) {
+            console.log("Comments being updated:", updateData.comments);
+          }
+          
+          const { data, error } = await supabase
             .from('ai_output')
             .update(updateData)
-            .eq('id', rowId);
+            .eq('id', rowId)
+            .select();
 
           if (error) {
             console.error("Error updating row:", rowId, error);
             throw error;
           }
+          
+          console.log("Successfully updated row:", rowId, "Result:", data);
         }
       }
 
-      // Update status to 'reviewed' for all records in this session
-      console.log("Updating status to 'reviewed' for session:", sessionId);
+      // Update status to 'reviewed' for ALL records in this session (even non-edited ones)
+      console.log("Updating status to 'reviewed' for ALL records in session:", sessionId);
       
-      const { error: statusError } = await supabase
+      const { data: statusUpdateData, error: statusError } = await supabase
         .from('ai_output')
         .update({ status: 'reviewed' })
-        .eq('session_id', sessionId);
+        .eq('session_id', sessionId)
+        .select();
 
       if (statusError) {
-        console.error("Error updating status:", statusError);
+        console.error("Error updating status to reviewed:", statusError);
         throw statusError;
       }
+      
+      console.log("Successfully updated status for all records in session. Updated records:", statusUpdateData?.length)
 
       toast({
         title: "Success",
