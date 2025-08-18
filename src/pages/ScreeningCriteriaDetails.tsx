@@ -305,6 +305,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Corruption & Bribery":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "There is no evidence of corruption or bribery. The company proactively adheres to UNCAC principles with robust anti-bribery policies, employee training, third-party due diligence, and independent audits confirming compliance.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "An isolated allegation or regulatory inquiry related to bribery or facilitation payments occurred, but no wrongdoing was confirmed. Any identified issue has been promptly remediated with documented corrective measures and process improvements.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple allegations or confirmed minor incidents of bribery, fraud, or corrupt practices in different jurisdictions or business units, but without evidence of systemic issues. Remediation efforts are partial or lack independent verification.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Credible evidence or regulatory findings confirm significant bribery or corruption involving senior management, major contracts, or cross-border dealings. Remediation is inadequate, delayed, or lacks transparency, raising ongoing governance concerns.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Ongoing, systemic, and severe corruption or bribery exists across multiple operations or jurisdictions. There are repeated regulatory or judicial findings, refusal to cooperate with investigations, and substantial penalties, sanctions, or criminal convictions under anti-corruption laws.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
