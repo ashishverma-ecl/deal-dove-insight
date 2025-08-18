@@ -98,27 +98,20 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
   };
 
   const handleSubmit = async () => {
-    if (Object.keys(editedRows).length === 0) {
-      toast({
-        title: "No changes to submit",
-        description: "Please make some edits before submitting.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setSubmitting(true);
     try {
-      // Update each edited row
-      for (const [rowId, editedData] of Object.entries(editedRows)) {
-        const { id, ...updateData } = editedData;
-        
-        const { error } = await supabase
-          .from('ai_output')
-          .update(updateData)
-          .eq('id', rowId);
+      // Update each edited row if there are any changes
+      if (Object.keys(editedRows).length > 0) {
+        for (const [rowId, editedData] of Object.entries(editedRows)) {
+          const { id, ...updateData } = editedData;
+          
+          const { error } = await supabase
+            .from('ai_output')
+            .update(updateData)
+            .eq('id', rowId);
 
-        if (error) throw error;
+          if (error) throw error;
+        }
       }
 
       // Update status to 'reviewed' for all records in this session
@@ -409,17 +402,15 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
         </table>
       </div>
       
-      {Object.keys(editedRows).length > 0 && (
-        <div className="flex justify-center">
-          <Button 
-            onClick={handleSubmit} 
-            disabled={submitting}
-            className="px-8 py-2"
-          >
-            {submitting ? "Submitting..." : "Submit Changes"}
-          </Button>
-        </div>
-      )}
+      <div className="flex justify-center">
+        <Button 
+          onClick={handleSubmit} 
+          disabled={submitting}
+          className="px-8 py-2"
+        >
+          {submitting ? "Submitting..." : "Submit Changes"}
+        </Button>
+      </div>
     </div>
   );
 };
