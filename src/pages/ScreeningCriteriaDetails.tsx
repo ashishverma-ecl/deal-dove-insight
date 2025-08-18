@@ -350,51 +350,6 @@ const ScreeningCriteriaDetails = () => {
         <div className="space-y-8">
           {useRiskScoreTemplate ? (
             <>
-              {/* Risk Summary */}
-              <div>
-                <h2 className="text-xl font-bold text-foreground mb-4">Risk Summary</h2>
-                <div className="space-y-4">
-                  <p className="text-muted-foreground">
-                    {decodedCriteria === "Environmental Violations" 
-                      ? "Recent analysis indicates moderate environmental risk exposure through offshore operations and industrial activities. Multiple incidents of water contamination and air quality violations have been documented across facility operations. The company has established environmental management protocols, however, recurring violations suggest implementation gaps in compliance monitoring systems."
-                      : decodedCriteria === "Money Laundering"
-                      ? "High-risk exposure identified through correspondent banking relationships and cross-border transaction monitoring gaps. Recent regulatory investigations have highlighted deficiencies in customer due diligence processes and suspicious activity reporting. The institution has enhanced AML controls following regulatory feedback, but legacy system limitations continue to pose compliance challenges."
-                      : decodedCriteria === "Workplace Safety Violations"
-                      ? "Elevated workplace safety risk profile due to industrial operations and heavy machinery environments. Multiple OSHA violations documented over the past 18 months, including incidents related to protective equipment failures and inadequate safety training protocols. Management has committed to enhanced safety measures and increased training frequency."
-                      : "Analysis of available public information and regulatory databases indicates controlled risk exposure within acceptable parameters. Current risk management frameworks appear adequate for the identified exposure level, with regular monitoring and compliance reporting in place."}
-                  </p>
-                  
-                  {/* News Source Information */}
-                  <div className="border-t pt-4 mt-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
-                      <div>
-                        <span className="font-medium">News Article:</span>
-                        <p>{decodedCriteria === "Environmental Violations" 
-                          ? "Industrial Operations Face Environmental Scrutiny"
-                          : decodedCriteria === "Money Laundering"
-                          ? "Banking Sector AML Compliance Under Review"
-                          : decodedCriteria === "Workplace Safety Violations"
-                          ? "Manufacturing Safety Standards Implementation"
-                          : "Corporate Risk Management Assessment"}</p>
-                      </div>
-                      <div>
-                        <span className="font-medium">News Agency:</span>
-                        <p>{decodedCriteria === "Environmental Violations"
-                          ? "Environmental Business Journal"
-                          : decodedCriteria === "Money Laundering"
-                          ? "Financial Times"
-                          : decodedCriteria === "Workplace Safety Violations"
-                          ? "Industrial Safety News"
-                          : "Corporate Governance Weekly"}</p>
-                      </div>
-                      <div>
-                        <span className="font-medium">Date:</span>
-                        <p>January 12, 2025</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Risk Score */}
               <div>
