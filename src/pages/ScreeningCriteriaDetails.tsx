@@ -237,6 +237,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Labor Rights Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "No evidence of labor rights violations. The company fully complies with ILO Conventions No. 87 (Freedom of Association), No. 98 (Right to Organize and Collective Bargaining), and No. 100 (Equal Remuneration). Compliance is verified through audits, ILO databases, or ESG disclosures. The firm has publicly available labor policies, grievance redressal mechanisms, and high ESG ratings confirming adherence.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "There is a single, documented instance of a labor issue such as a delay in wage payments, unclear grievance procedures, or ambiguous union recognition policy. These are localized and non-systemic (e.g., one facility or subcontractor), and the company has acknowledged the incident and implemented a time-bound corrective action plan. There is evidence of follow-up via internal audits or stakeholder communication, indicating intent to align with ILO norms.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple but non-systemic violations are observed, such as delayed wages at multiple facilities, uncertified working hours, or frequent contractor-based employment lacking benefits. The company may publish partial disclosures (e.g., Code of Conduct) but lacks site-level verification, or corrective efforts are in early stages. There is no third-party validation, and the company does not provide full transparency on monitoring mechanisms.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "There is widespread evidence of labor rights violations such as consistent underpayment, forced overtime without consent, or banning of unions across operations or major suppliers. The company may deny the issues or provide inadequate disclosures. No third-party audits are available, and internal grievance mechanisms are either absent or dysfunctional. These violations suggest a pattern of disregard for ILO core labor standards.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "There are ongoing, systemic, and intentional abuses such as active union busting, physical threats against organizers, racial or gender-based pay discrimination, or use of forced/bonded labor. No remediation or transparency is evident. The company may be under investigation, face NGO blacklisting, or operate in high-risk jurisdictions with no effective labor oversight.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
