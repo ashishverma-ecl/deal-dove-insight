@@ -509,6 +509,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Forced Labor":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company complies with ILO Conventions No. 29 and No. 105, with no evidence of forced, bonded, or compulsory labor in its operations or supply chain. Policies prohibit all forms of coercion, involuntary work, debt bondage, or retention of workers' identity documents. Recruitment is ethical, with no fees charged to workers, and grievance mechanisms are accessible, trusted, and effective.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "A single case of forced or bonded labor occurred in a subcontractor or isolated facility, but it is not ongoing. The company has addressed the issue with immediate remediation, such as releasing affected workers and implementing corrective actions. No repeat incidents have occurred in the last two audit cycles.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple incidents of forced labor indicators, such as excessive recruitment fees or passport retention, were found in lower-tier suppliers or informal contractors, but not widely across operations. Monitoring and enforcement are weak, relying on supplier self-certification without independent verification, and corrective actions remain incomplete or lack transparency.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "There is evidence of forced labor in the company's operations or major suppliers, including coercion, debt bondage, and involuntary overtime. The company may deny these issues or issue generic statements without clear remediation measures. No credible audits or effective supplier monitoring exist, and grievance mechanisms are inaccessible.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company engages in systemic use of forced labor, including bonded labor, trafficking, or state-imposed forced labor. No remediation efforts are evident, and the company does not acknowledge the issue. It may be under legal investigation, sanctioned, or blacklisted by NGOs, operating in high-risk jurisdictions with inadequate oversight.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
