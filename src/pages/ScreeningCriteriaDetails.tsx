@@ -1169,22 +1169,22 @@ const ScreeningCriteriaDetails = () => {
               {/* Performance, Threshold, Outcome, Reference Section */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div className={`p-3 rounded ${isValueEdited(performanceValue, originalPerformanceValue) ? 'bg-gray-300' : ''}`}>
-                  <h2 className="text-xl font-bold text-foreground mb-2">Performance</h2>
+                  <h2 className="text-xl font-bold text-foreground mb-2 text-left">Performance</h2>
                   <p className="text-muted-foreground">{performanceValue || "Not applicable"}</p>
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-foreground mb-2">Threshold</h2>
+                  <h2 className="text-xl font-bold text-foreground mb-2 text-left">Threshold</h2>
                   <p className="text-muted-foreground">{thresholdValue || "0-5%"}</p>
                 </div>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-6">
                 <div className={`p-3 rounded ${isValueEdited(withinThresholdValue, originalWithinThresholdValue) ? 'bg-gray-300' : ''}`}>
-                  <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
+                  <h2 className="text-xl font-bold text-foreground mb-2 text-left">Outcome</h2>
                   <p className="text-muted-foreground">{withinThresholdValue || "Not applicable"}</p>
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-foreground mb-2">Reference</h2>
+                  <h2 className="text-xl font-bold text-foreground mb-2 text-left">Reference</h2>
                   <p className="text-muted-foreground">{referenceDocumentsValue || "Not available"}</p>
                 </div>
               </div>
@@ -1219,7 +1219,7 @@ const ScreeningCriteriaDetails = () => {
                 <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className={`p-3 rounded ${isValueEdited(performanceValue, originalPerformanceValue) ? 'bg-gray-300' : ''}`}>
-                      <h2 className="text-xl font-bold text-foreground mb-2">Performance</h2>
+                      <h2 className="text-xl font-bold text-foreground mb-2 text-left">Performance</h2>
                       <p className="text-lg font-medium text-foreground">
                         {performanceValue || (decodedCriteria === "Thermal Coal Mining" ? "3.2%" :
                          decodedCriteria === "Thermal Coal Power Generation" ? "4.8%" :
@@ -1227,32 +1227,29 @@ const ScreeningCriteriaDetails = () => {
                       </p>
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-foreground mb-2">Threshold</h2>
+                      <h2 className="text-xl font-bold text-foreground mb-2 text-left">Threshold</h2>
                       <p className="text-lg font-medium text-foreground">
                         {thresholdValue || "No threshold data available"}
                       </p>
                     </div>
                   </div>
                   <div className={`p-3 rounded ${isValueEdited(withinThresholdValue, originalWithinThresholdValue) ? 'bg-gray-300' : ''}`}>
-                    <h2 className="text-xl font-bold text-foreground mb-2">Outcome</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-2 text-left">Outcome</h2>
                     <p className="text-foreground font-medium">
                       {withinThresholdValue || "Performance value is below threshold - Pass"}
                     </p>
                   </div>
-                </div>
-              </div>
-
-              {/* Reference Section for Percentage-based criteria */}
-              <div>
-                <h2 className="text-xl font-bold text-foreground mb-4">Reference</h2>
-                <div className="space-y-4">
-                  <p className="text-foreground">
-                    {referenceDocumentsValue || (decodedCriteria === "Thermal Coal Mining" 
-                      ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
-                      : decodedCriteria === "Thermal Coal Power Generation"
-                      ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
-                      : "Corporate ESG Assessment Report 2024")}
-                  </p>
+                  
+                  <div>
+                    <h2 className="text-xl font-bold text-foreground mb-4 text-left">Reference</h2>
+                    <p className="text-foreground">
+                      {referenceDocumentsValue || (decodedCriteria === "Thermal Coal Mining" 
+                        ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
+                        : decodedCriteria === "Thermal Coal Power Generation"
+                        ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
+                        : "Corporate ESG Assessment Report 2024")}
+                    </p>
+                  </div>
                 </div>
               </div>
             </>
