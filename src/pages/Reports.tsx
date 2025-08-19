@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, FileText, Calendar, User, LogOut } from "lucide-react";
+import { ArrowLeft, FileText, Calendar, User, LogOut, Filter } from "lucide-react";
 
 interface Assessment {
   id: string;
@@ -16,7 +17,10 @@ interface Assessment {
 const Reports = () => {
   const [user, setUser] = useState<any>(null);
   const [assessments, setAssessments] = useState<Assessment[]>([]);
+  const [filteredAssessments, setFilteredAssessments] = useState<Assessment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedYear, setSelectedYear] = useState<string>("all");
+  const [selectedMonth, setSelectedMonth] = useState<string>("all");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -44,6 +48,7 @@ const Reports = () => {
         });
       } else {
         setAssessments(data || []);
+        setFilteredAssessments(data || []);
       }
       
       setLoading(false);
@@ -51,6 +56,49 @@ const Reports = () => {
     
     checkUserAndLoadAssessments();
   }, [navigate, toast]);
+
+  // Filter assessments based on year and month
+  useEffect(() => {
+    let filtered = assessments;
+
+    if (selectedYear !== "all") {
+      filtered = filtered.filter(assessment => 
+        new Date(assessment.created_at).getFullYear().toString() === selectedYear
+      );
+    }
+
+    if (selectedMonth !== "all") {
+      filtered = filtered.filter(assessment => 
+        (new Date(assessment.created_at).getMonth() + 1).toString() === selectedMonth
+      );
+    }
+
+    setFilteredAssessments(filtered);
+  }, [assessments, selectedYear, selectedMonth]);
+
+  // Get unique years from assessments
+  const getAvailableYears = () => {
+    const years = assessments.map(assessment => 
+      new Date(assessment.created_at).getFullYear()
+    );
+    return [...new Set(years)].sort((a, b) => b - a);
+  };
+
+  // Get months array
+  const months = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" }
+  ];
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -120,27 +168,68 @@ const Reports = () => {
             </Link>
           </div>
           <h1 className="text-3xl font-bold mb-2">Assessment Reports</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mb-6">
             View and manage your completed due diligence assessments
           </p>
+          
+          {/* Filters */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-2">
+              <Filter className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm font-medium">Filter by:</span>
+            </div>
+            <Select value={selectedYear} onValueChange={setSelectedYear}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Select Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Years</SelectItem>
+                {getAvailableYears().map(year => (
+                  <SelectItem key={year} value={year.toString()}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Select Month" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Months</SelectItem>
+                {months.map(month => (
+                  <SelectItem key={month.value} value={month.value}>
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        {assessments.length === 0 ? (
+        {filteredAssessments.length === 0 ? (
           <Card>
             <CardContent className="py-16 text-center">
               <FileText className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No assessments found</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                {assessments.length === 0 ? "No assessments found" : "No assessments match your filters"}
+              </h3>
               <p className="text-muted-foreground mb-6">
-                You haven't created any assessments yet. Get started by creating your first assessment.
+                {assessments.length === 0 
+                  ? "You haven't created any assessments yet. Get started by creating your first assessment."
+                  : "Try adjusting your filter criteria to see more results."
+                }
               </p>
-              <Link to="/create-assessment">
-                <Button>Create Your First Assessment</Button>
-              </Link>
+              {assessments.length === 0 && (
+                <Link to="/create-assessment">
+                  <Button>Create Your First Assessment</Button>
+                </Link>
+              )}
             </CardContent>
           </Card>
         ) : (
           <div className="grid gap-4">
-            {assessments.map((assessment) => (
+            {filteredAssessments.map((assessment) => (
               <Card key={assessment.id} className="hover:shadow-md transition-shadow">
                 <CardHeader>
                   <div className="flex justify-between items-start">
