@@ -577,6 +577,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Supply Chain Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company's supply chain due diligence is fully aligned with UNGC Principles, with over 95% supplier coverage through audits. Zero tolerance policies are enforced, all incidents are remediated, and there is transparent reporting of supplier performance with third-party verification in place.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "Isolated supplier violations are identified and promptly remediated, with over 80% supplier coverage. Continuous improvement programs and training are in place, and there have been no repeat violations.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple non-systemic violations occur with less than 80% supplier due diligence coverage. Remediation plans are in progress but incomplete, and some repeat issues are found in lower-tier suppliers.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Systemic supplier violations are present in critical sourcing geographies, with inadequate remediation efforts. Supplier monitoring coverage is low, and repeated breaches of UNGC principles occur without supplier disengagement.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Widespread, ongoing supplier violations exist with no due diligence system in place. The company refuses to remediate and is confirmed complicit in forced labor, child labor, or severe environmental harm. It faces sanctions or trade restrictions due to supply chain abuses.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
