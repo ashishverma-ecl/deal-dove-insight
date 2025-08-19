@@ -781,6 +781,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Sanctioned Countries/Entities":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has a robust sanctions compliance program aligned with UN, EU, and US frameworks, with effective screening processes, zero violations, transparent reporting, and regular audits.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has minor procedural lapses or isolated, self-reported breaches, which were promptly corrected, and there were no regulatory penalties.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has multiple instances of inadequate screening or delayed compliance, with partial disclosures and regulatory warnings but no major fines.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has confirmed violations of sanctions laws, significant regulatory fines, weak or absent screening controls, and repeated non-compliance.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is engaged in systemic, deliberate evasion of sanctions, ongoing prohibited transactions, multiple enforcement actions, refusal to cooperate with authorities, and is exposed to criminal investigations.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
