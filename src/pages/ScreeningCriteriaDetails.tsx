@@ -747,6 +747,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Board Governance Failures":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The board structure fully aligns with OECD and local governance codes, with a majority of independent members. It is diverse in gender, skills, and backgrounds, has active ESG oversight, transparent disclosures, and undergoes regular independent evaluations.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "There are minor gaps in diversity or formal processes, but effective oversight is demonstrated. The board has clear conflict of interest policies, functioning committees, and responds promptly to shareholder concerns.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The board has limited independence (below best-practice norms), minimal diversity, and ESG oversight is limited to compliance. There are occasional shareholder disputes over governance issues, with partial transparency in board evaluations.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The board is predominantly non-independent, with repeated conflicts of interest and no dedicated ESG oversight. Shareholder resolutions are routinely opposed without engagement, and there are regulatory warnings on governance.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company has a systemic governance failure with no independence, where the board acts primarily in management's interest. There are no conflict of interest controls, a refusal to address governance reforms, and regulatory sanctions or major governance scandals.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
