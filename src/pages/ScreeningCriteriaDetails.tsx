@@ -475,6 +475,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Child Labor":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company complies with ILO Conventions No. 138 and No. 182, with no child labor detected in its operations or supply chain. Policies explicitly prohibit child labor and hazardous work, supported by robust age-verification systems, supplier training, and accessible grievance mechanisms. Independent audits confirm compliance and effective resolution of concerns.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "A single, documented child labor incident occurred in a subcontractor or isolated facility, which has been addressed with immediate remediation, including removal from hazardous work and support for the child. A corrective action plan was implemented with follow-up, and no repeat cases have been reported in the last two audit cycles.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple child labor incidents occurred in lower-tier suppliers, but they are not widespread. Policies exist but are inconsistently enforced, with limited monitoring and unclear corrective actions. The company's child labor controls are in early stages or weakly implemented.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Widespread child labor exists in the company's operations or primary suppliers, with violations of ILO Conventions. The company denies or provides vague responses to allegations, lacks effective supplier monitoring, and has no accessible grievance systems, indicating systemic non-compliance.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company intentionally engages in severe child labor practices, including hazardous work, bonded labor, or trafficking. No remediation efforts or transparency are evident. The company may be under legal investigation or face sanctions, with operations in high-risk areas lacking proper oversight.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
