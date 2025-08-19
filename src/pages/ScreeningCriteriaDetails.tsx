@@ -543,6 +543,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Workplace Safety Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "Fully compliant with ILO Conventions 155 and 187, with no evidence of safety violations. Independent audits confirm strong OHS systems, regular risk assessments, training, and preventive measures. Public policies, safety committees, accident reporting, and grievance mechanisms are in place, with documented corrective actions.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "A single, non-systemic safety incident (e.g., isolated PPE lapse or machinery accident) has occurred, promptly addressed with corrective measures, retraining, and hazard rectification. Company has acknowledged the issue, followed up, and prevented recurrence.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple non-systemic safety issues (e.g., PPE non-compliance, inadequate training) exist across several sites. Policies reference ILO Conventions but enforcement is weak, often relying on self-reporting. Corrective actions are partial or lack transparency, and injury data is limited.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Systemic safety failures such as repeated accidents, high injury rates, or lack of emergency preparedness are evident across operations. Company denies or downplays issues, has no credible audits, and safety committees or grievance channels are absent or ineffective.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Severe, ongoing, and willful safety negligence, including known hazards leading to fatalities or serious injuries. No remediation, transparency, or program improvement. Company may face legal action, sanctions, or blacklisting, often operating in high-risk sectors with weak safety oversight.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
