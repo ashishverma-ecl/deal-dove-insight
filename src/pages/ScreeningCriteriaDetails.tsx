@@ -49,7 +49,7 @@ const ScreeningCriteriaDetails = () => {
     // Specific details for different criteria types
     const specificDetails: Record<string, any> = {
       "Thermal Coal Mining": {
-        overview: "Assesses exposure to thermal coal mining operations, which pose significant environmental and transition risks as the world moves toward renewable energy.",
+        overview: "",
         riskFactors: [
           "Stranded asset risk from energy transition",
           "Environmental impact and pollution",
