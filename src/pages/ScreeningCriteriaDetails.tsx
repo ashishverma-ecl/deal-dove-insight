@@ -441,6 +441,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Hazardous Waste":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company holds all required permits, manages waste according to legal requirements, uses licensed transporters, has had no violations in the past five years, provides transparent reporting of waste quantities and disposal methods, and is confirmed compliant through third-party audits.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has minor isolated lapses, such as an expired permit that was promptly renewed, with corrective actions completed. There has been no environmental harm, and the company follows mostly compliant practices.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has repeated minor lapses, such as unverified waste tracking or incomplete reporting, and occasionally uses unlicensed handlers. No significant environmental damage has been confirmed.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has major violations or systemic gaps, including unpermitted storage, illegal disposal, or spills, with inadequate remediation efforts. There have been multiple enforcement actions in the past three years.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is engaged in ongoing illegal disposal or dumping, has caused severe contamination incidents, lacks permits or waste tracking, refuses to remediate, and is under criminal or regulatory investigation.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
