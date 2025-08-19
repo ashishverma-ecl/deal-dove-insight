@@ -263,7 +263,6 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
               <th className="border border-border p-3 text-left font-semibold">Threshold</th>
               <th className="border border-border p-3 text-left font-semibold">Performance</th>
               <th className="border border-border p-3 text-left font-semibold">Outcome</th>
-              <th className="border border-border p-3 text-left font-semibold">Context</th>
               <th className="border border-border p-3 text-left font-semibold">Comments</th>
             </tr>
           </thead>
@@ -386,11 +385,6 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                       />
                     </div>
                   )}
-                </td>
-                <td className="border border-border p-3 max-w-xs">
-                  <div className="truncate" title={result.context || ''}>
-                    {result.context || '-'}
-                  </div>
                 </td>
                 <td className={`border border-border p-3 ${isFieldEdited(result.id, 'comments') ? 'bg-gray-300' : ''}`}>
                   {isFieldInEditMode(result.id, 'comments') ? (
