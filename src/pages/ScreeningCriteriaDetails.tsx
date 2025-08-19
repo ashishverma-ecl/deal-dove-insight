@@ -815,6 +815,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Regulatory Non-Compliance":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has no documented regulatory violations, holds full permits and licenses, runs proactive compliance programs, achieves successful audit outcomes, and has no fines or enforcement actions.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has isolated or minor regulatory breaches that were promptly addressed, with ongoing compliance programs and evidence of remediation, and no repeat offenses.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has multiple non-systemic violations, partial remediation efforts, some regulatory warnings or investigations, and limited transparency.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company experiences systemic regulatory breaches, significant fines or sanctions, ineffective or absent corrective actions, and ongoing enforcement proceedings.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company has repeated and deliberate regulatory violations, faces regulatory sanctions that affect operations, is under criminal investigations, and is unable or refuses to comply with legal requirements.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
