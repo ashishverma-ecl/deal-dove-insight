@@ -361,7 +361,15 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                       className="group relative cursor-pointer min-h-[40px] flex items-center"
                       onMouseEnter={() => {}}
                     >
-                      <div className="truncate pr-8" title={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}>
+                      <div className={`truncate pr-8 px-2 py-1 rounded ${
+                        (() => {
+                          const value = getDisplayValue(result, 'within_threshold', result.within_threshold || '').toLowerCase();
+                          if (value === 'manual esdd') return 'bg-red-100 text-red-800';
+                          if (value === 'pass') return 'bg-green-100 text-green-800';
+                          if (value === 'not applicable') return 'bg-amber-100 text-amber-800';
+                          return '';
+                        })()
+                      }`} title={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}>
                         {getDisplayValue(result, 'within_threshold', result.within_threshold || '') || '-'}
                       </div>
                       <Edit 
