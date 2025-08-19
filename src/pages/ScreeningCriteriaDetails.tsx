@@ -713,6 +713,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Data Privacy Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company demonstrates comprehensive GDPR/CCPA compliance, with transparent privacy policies, clear consent mechanisms, and no material violations in the past 5 years. It provides timely data breach notifications and conducts regular privacy audits and certifications.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has a strong privacy governance framework with minor issues that are promptly resolved. It adheres to breach notification timelines, regularly reviews and updates privacy notices, and has limited regulatory engagement.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has privacy policies and consent mechanisms in place, but lacks external verification. There are some delays in fulfilling data subject requests, isolated breaches with delayed but eventual disclosure, and partial compliance in certain jurisdictions.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has repeated or significant privacy violations in the last 3 years, with inadequate or outdated privacy policies. Breach notifications are incomplete, regulatory warnings or moderate fines have been issued, and there is evidence of systemic gaps in compliance.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is non-compliant with GDPR/CCPA, with ongoing large-scale unauthorized data use, refusal to fulfill data subject rights, and repeated large fines or sanctions. There is no credible privacy program in place.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
