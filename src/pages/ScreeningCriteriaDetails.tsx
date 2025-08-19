@@ -679,6 +679,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Cybersecurity Failures":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has a comprehensive cybersecurity program aligned with ISO/NIST standards, conducts annual third-party penetration tests, maintains a full incident response plan, has had no material breaches in the past 5 years, and provides timely, transparent disclosure of incidents. Ongoing employee training is in place.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has a strong cybersecurity framework with minor, promptly remediated incidents. Certifications are in place, annual risk assessments are conducted, and public breach disclosures are made within regulatory timelines.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company has basic policies and an incident response plan, but lacks full certification or external verification. Breach disclosures are partial, there are isolated delays in remediation, and board oversight of cyber risks is limited.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has experienced repeated or major breaches in the last 3 years, lacks a comprehensive cybersecurity framework, and has delayed breach disclosures beyond regulatory requirements. There is limited evidence of remediation, and fines or regulatory warnings have been issued.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company faces ongoing systemic cybersecurity vulnerabilities, refuses to disclose breaches, lacks incident response capability, and has experienced repeated fines or sanctions. Material operational and financial losses from attacks have occurred.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
