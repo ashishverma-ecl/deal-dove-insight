@@ -258,10 +258,11 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
           <thead>
             <tr className="bg-muted">
               <th className="border border-border p-3 text-left font-semibold w-16">Sr. No.</th>
-              <th className="border border-border p-3 text-left font-semibold w-40">Risk Category</th>
-              <th className="border border-border p-3 text-left font-semibold w-60">Screening Criteria</th>
-              <th className="border border-border p-3 text-left font-semibold w-32">Threshold</th>
-              <th className="border border-border p-3 text-left font-semibold w-32">Performance</th>
+              <th className="border border-border p-3 text-left font-semibold w-32">Risk Category</th>
+              <th className="border border-border p-3 text-left font-semibold w-48">Screening Criteria</th>
+              <th className="border border-border p-3 text-left font-semibold w-24">Threshold</th>
+              <th className="border border-border p-3 text-left font-semibold w-28">Performance</th>
+              <th className="border border-border p-3 text-left font-semibold w-24">Outcome</th>
               <th className="border border-border p-3 text-left font-semibold">Comments</th>
             </tr>
           </thead>
@@ -323,6 +324,50 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                         size={16} 
                         className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-muted-foreground hover:text-foreground"
                         onClick={() => handleFieldEditStart(result.id, 'performance')}
+                      />
+                    </div>
+                  )}
+                </td>
+                <td className={`border border-border p-3 ${isFieldEdited(result.id, 'within_threshold') ? 'bg-gray-300' : ''}`}>
+                  {isFieldInEditMode(result.id, 'within_threshold') ? (
+                    <div className="space-y-2">
+                      <Input
+                        value={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}
+                        onChange={(e) => handleFieldEdit(result.id, 'within_threshold', e.target.value)}
+                        className="min-w-[100px] text-sm"
+                        placeholder="Enter outcome"
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => handleFieldEditSave(result.id, 'within_threshold')}
+                          className="text-xs px-2 py-1"
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleFieldEditCancel(result.id, 'within_threshold')}
+                          className="text-xs px-2 py-1"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      className="group relative cursor-pointer min-h-[40px] flex items-center"
+                      onMouseEnter={() => {}}
+                    >
+                      <div className="truncate pr-8" title={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}>
+                        {getDisplayValue(result, 'within_threshold', result.within_threshold || '') || '-'}
+                      </div>
+                      <Edit 
+                        size={16} 
+                        className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-muted-foreground hover:text-foreground"
+                        onClick={() => handleFieldEditStart(result.id, 'within_threshold')}
                       />
                     </div>
                   )}
