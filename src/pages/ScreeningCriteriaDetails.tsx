@@ -407,6 +407,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Pollution & Contamination":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "No pollution violations found. The company complies fully with EBA guidelines and EU pollution control regulations. Evidence of pollution management systems in place, such as EMS, and compliance with EU emission limits and water/air quality standards.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "Minor pollution violations identified. The company has a documented plan to address these issues and has shown efforts to comply with EU pollution standards. Keywords: Minor violations, corrective actions, EU pollution regulations.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Several significant pollution violations identified, but the company is actively addressing the issues and working to comply with EBA guidelines and EU regulations. Some violations may remain unresolved. Keywords: Non-compliance, pollution violations, EU emissions limits, biodiversity impact.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Multiple serious violations identified. The company has shown little or no effort to resolve pollution issues or comply with EU pollution regulations. Keywords: Major violations, lack of corrective actions, EU pollution regulations breaches.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Severe pollution or contamination violations, with no corrective actions or plans. These violations represent a significant environmental threat and do not meet EBA guidelines or EU regulations. Immediate corrective action is required. Keywords: Severe violations, failure to address contamination, failure to comply with EU pollution control regulations.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
