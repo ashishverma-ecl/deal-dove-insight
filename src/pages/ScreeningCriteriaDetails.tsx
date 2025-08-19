@@ -611,6 +611,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Community Impact Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "IFC-aligned ESIA and ESMP are implemented for all operations, with FPIC obtained for Indigenous Peoples projects. There are no unresolved grievances in the past 5 years, and public reporting on community impacts is available. Independent third-party verification confirms compliance with PS1, PS4, PS5, and PS7.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "A few minor concerns in the past 3 years were resolved with full compensation/mitigation within 90 days. The grievance mechanism is functional, accessible in local languages, with a ≥90% complaint closure rate, and annual stakeholder engagement is documented.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple credible complaints in the past 2 years, limited to certain sites or suppliers. ESIA coverage is partial, and compensation/mitigation was delayed (>6 months). The grievance mechanism exists but is inaccessible for marginalized groups, and FPIC is missing for some Indigenous Peoples projects.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Systemic issues across multiple sites or supply chains, with unresolved grievances pending over 12 months. No FPIC for Indigenous Peoples projects, no ESIA for major projects, and repeated failure to provide adequate compensation. There are credible reports of safety, security, or livelihood impacts, with minimal monitoring or reporting.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "Ongoing severe harm, such as forced evictions, fatalities, or livelihood destruction, linked to operations. No consultation, compensation, or grievance mechanism is in place, and the company refuses to engage communities. The company is under investigation or sanctioned by IFC CAO or international bodies for violations.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
