@@ -645,6 +645,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "UN Global Compact Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "There is no evidence of UNGC violations. The company is an active participant with timely COP submissions, transparent disclosures, and full adherence to all Ten Principles, verified by audits or UNGC listings.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "A single minor breach (e.g., late COP submission) or an isolated allegation occurred, but it was remediated with corrective action, and the company remains in good standing.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Multiple minor breaches or credible but unverified allegations involve more than one principle. Disclosure is partial, corrective action is incomplete, and no third-party verification is provided.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "There is evidence of systemic or repeated violations without adequate remediation. The company is under investigation or has been warned by UNGC.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company has been delisted or suspended from UNGC due to severe, systemic violations or persistent non-communication. Ongoing breaches span multiple principles with no corrective action taken.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       case "Conflict Minerals":
         return [
           { 
