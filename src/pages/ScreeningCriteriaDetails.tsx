@@ -577,6 +577,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Conflict Minerals":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company implements all 5 OECD steps, publishes an annual conflict minerals report with smelter/refiner lists, sources only from RMAP-audited facilities, ensures full traceability to the mine of origin, has no unresolved risks, and maintains accessible grievance mechanisms.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company has an OECD-aligned policy and due diligence system, sources over 90% from RMAP-audited facilities, has isolated minor traceability gaps with a corrective action plan, and provides annual public reporting.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company partially implements OECD standards, with policy and supplier engagement but lacks third-party audits. Smelter/refiner disclosures are incomplete, there are unresolved risks in parts of the supply chain, and remediation efforts are underway but unverified.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company shows systemic non-compliance with OECD standards, sources from CAHRAs without effective risk mitigation, lacks third-party audits, and faces credible allegations of contributing to armed group financing or human rights abuses.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company is confirmed to source from mines controlled by armed groups, lacks a policy or due diligence system, refuses to engage in audits or disclose supply chain details, and is under sanctions or regulatory investigation for conflict mineral violations.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
