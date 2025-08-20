@@ -15,7 +15,11 @@ interface Message {
   timestamp: Date;
 }
 
-const ChatBotWidget = () => {
+interface ChatBotWidgetProps {
+  sessionId?: string;
+}
+
+const ChatBotWidget = ({ sessionId: providedSessionId }: ChatBotWidgetProps = {}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -46,16 +50,21 @@ const ChatBotWidget = () => {
     
     setChatId(existingChatId);
 
-    // Generate session ID (new for each browser session)
-    let existingSessionId = sessionStorage.getItem('chatbot_session_id');
-    
-    if (!existingSessionId) {
-      existingSessionId = generateId();
-      sessionStorage.setItem('chatbot_session_id', existingSessionId);
+    // Use provided sessionId if available, otherwise generate/retrieve from storage
+    if (providedSessionId) {
+      setSessionId(providedSessionId);
+    } else {
+      // Generate session ID (new for each browser session)
+      let existingSessionId = sessionStorage.getItem('chatbot_session_id');
+      
+      if (!existingSessionId) {
+        existingSessionId = generateId();
+        sessionStorage.setItem('chatbot_session_id', existingSessionId);
+      }
+      
+      setSessionId(existingSessionId);
     }
-    
-    setSessionId(existingSessionId);
-  }, []);
+  }, [providedSessionId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

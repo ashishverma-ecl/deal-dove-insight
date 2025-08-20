@@ -322,7 +322,7 @@ const AssessmentDetails = () => {
       </div>
       
       {/* Chatbot Widget */}
-      <ChatBotWidget />
+      <ChatBotWidget sessionId={sessionId} />
     </div>
   );
 };
