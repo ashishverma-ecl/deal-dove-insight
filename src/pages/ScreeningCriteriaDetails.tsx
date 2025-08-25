@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowLeft, FileText, AlertTriangle, CheckCircle, XCircle, MessageSquare, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -129,6 +130,74 @@ const ScreeningCriteriaDetails = () => {
     if (highRiskCriteria.includes(criteriaName)) return "High";
     if (mediumRiskCriteria.includes(criteriaName)) return "Medium";
     return "Low";
+  };
+
+  // Check if references is a CSV with 3 columns and parse it
+  const parseReferencesCsv = (csvText: string) => {
+    if (!csvText) return null;
+    
+    const lines = csvText.trim().split('\n');
+    if (lines.length < 2) return null; // Need at least header + 1 data row
+    
+    // Check if first line has 3 comma-separated values (header)
+    const header = lines[0].split(',').map(col => col.trim());
+    if (header.length !== 3) return null;
+    
+    // Parse data rows
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cells = lines[i].split(',').map(cell => cell.trim());
+      if (cells.length === 3) {
+        rows.push({
+          date: cells[0],
+          link: cells[1],
+          snippet: cells[2]
+        });
+      }
+    }
+    
+    return rows.length > 0 ? rows : null;
+  };
+
+  const renderReferences = (referenceValue: string | null) => {
+    if (!referenceValue) return <p className="text-muted-foreground">Not available</p>;
+    
+    const csvData = parseReferencesCsv(referenceValue);
+    
+    if (csvData) {
+      return (
+        <div className="overflow-hidden rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Link</TableHead>
+                <TableHead>Snippet</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {csvData.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">{row.date}</TableCell>
+                  <TableCell>
+                    {row.link.startsWith('http') ? (
+                      <a href={row.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                        {row.link}
+                      </a>
+                    ) : (
+                      row.link
+                    )}
+                  </TableCell>
+                  <TableCell>{row.snippet}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      );
+    }
+    
+    return <p className="text-muted-foreground">{referenceValue}</p>;
   };
 
   const riskLevel = getRiskLevel(decodedCriteria);
@@ -1185,7 +1254,7 @@ const ScreeningCriteriaDetails = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-foreground mb-2 text-left">Reference</h2>
-                  <p className="text-muted-foreground">{referenceDocumentsValue || "Not available"}</p>
+                  {renderReferences(referenceDocumentsValue)}
                 </div>
               </div>
 
@@ -1242,13 +1311,17 @@ const ScreeningCriteriaDetails = () => {
                   
                   <div>
                     <h2 className="text-xl font-bold text-foreground mb-4 text-left">Reference</h2>
-                    <p className="text-foreground">
-                      {referenceDocumentsValue || (decodedCriteria === "Thermal Coal Mining" 
-                        ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
-                        : decodedCriteria === "Thermal Coal Power Generation"
-                        ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
-                        : "Corporate ESG Assessment Report 2024")}
-                    </p>
+                    {referenceDocumentsValue ? (
+                      renderReferences(referenceDocumentsValue)
+                    ) : (
+                      <p className="text-foreground">
+                        {decodedCriteria === "Thermal Coal Mining" 
+                          ? "Annual Sustainability Report 2024 - Energy Transition Strategy"
+                          : decodedCriteria === "Thermal Coal Power Generation"
+                          ? "Quarterly Financial Report Q3 2024 - Energy Portfolio Analysis"
+                          : "Internal Risk Assessment Database - Updated Monthly"}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
