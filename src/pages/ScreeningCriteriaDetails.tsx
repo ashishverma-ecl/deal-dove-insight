@@ -14,6 +14,8 @@ const ScreeningCriteriaDetails = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const assessmentId = searchParams.get('assessmentId');
+  const [aiOutputData, setAiOutputData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   
   console.log('Current criteria:', criteria);
   console.log('Assessment ID from URL:', assessmentId);
@@ -123,6 +125,57 @@ const ScreeningCriteriaDetails = () => {
   
   const useRiskScoreTemplate = riskScoreEnabledCriteria.includes(decodedCriteria);
 
+  // Fetch AI output data for risk score enabled criteria
+  useEffect(() => {
+    const fetchAiOutputData = async () => {
+      if (!useRiskScoreTemplate || !assessmentId) return;
+      
+      setLoading(true);
+      try {
+        // Get session_id from assessment_documents
+        const { data: assessmentDoc, error: docError } = await supabase
+          .from('assessment_documents')
+          .select('session_id')
+          .eq('assessment_id', assessmentId)
+          .limit(1)
+          .single();
+
+        if (docError) {
+          console.error('Error fetching assessment document:', docError);
+          return;
+        }
+
+        if (!assessmentDoc?.session_id) return;
+
+        // Fetch AI output data using session_id and screening criteria
+        const { data: aiData, error: aiError } = await supabase
+          .from('ai_output')
+          .select(`
+            search_result_date_1, search_result_date_2, search_result_date_3, search_result_date_4, search_result_date_5,
+            search_link_1, search_link_2, search_link_3, search_link_4, search_link_5,
+            search_snippet_1, search_snippet_2, search_snippet_3, search_snippet_4, search_snippet_5
+          `)
+          .eq('session_id', assessmentDoc.session_id)
+          .eq('screening_criterion', decodedCriteria)
+          .limit(1)
+          .single();
+
+        if (aiError) {
+          console.error('Error fetching AI output:', aiError);
+          return;
+        }
+
+        setAiOutputData(aiData);
+      } catch (error) {
+        console.error('Error in fetchAiOutputData:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAiOutputData();
+  }, [useRiskScoreTemplate, assessmentId, decodedCriteria]);
+
   const getRiskLevel = (criteriaName: string) => {
     const highRiskCriteria = ["Money Laundering", "Human Rights Violations", "Thermal Coal Power Generation"];
     const mediumRiskCriteria = ["Environmental Violations", "Workplace Safety Violations"];
@@ -160,6 +213,60 @@ const ScreeningCriteriaDetails = () => {
   };
 
   const renderReferences = (referenceValue: string | null) => {
+    // For risk score enabled criteria, show AI output data table
+    if (useRiskScoreTemplate && aiOutputData) {
+      const referenceRows = [];
+      
+      // Create 5 rows from the AI output data
+      for (let i = 1; i <= 5; i++) {
+        const date = aiOutputData[`search_result_date_${i}`];
+        const link = aiOutputData[`search_link_${i}`];
+        const snippet = aiOutputData[`search_snippet_${i}`];
+        
+        if (date || link || snippet) {
+          referenceRows.push({
+            date: date || '',
+            link: link || '',
+            snippet: snippet || ''
+          });
+        }
+      }
+
+      if (referenceRows.length > 0) {
+        return (
+          <div className="overflow-hidden rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Link</TableHead>
+                  <TableHead>Snippet</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {referenceRows.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{row.date}</TableCell>
+                    <TableCell>
+                      {row.link && row.link.startsWith('http') ? (
+                        <a href={row.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          {row.link}
+                        </a>
+                      ) : (
+                        row.link
+                      )}
+                    </TableCell>
+                    <TableCell>{row.snippet}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        );
+      }
+    }
+
+    // For non-risk score criteria or if no AI data, use the CSV parsing logic
     if (!referenceValue) return <p className="text-muted-foreground">Not available</p>;
     
     const csvData = parseReferencesCsv(referenceValue);
