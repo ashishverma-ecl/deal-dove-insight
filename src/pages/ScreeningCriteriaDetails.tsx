@@ -176,7 +176,7 @@ const ScreeningCriteriaDetails = () => {
           .eq('session_id', assessmentDoc.session_id)
           .eq('screening_criterion', decodedCriteria)
           .limit(1)
-          .single();
+          .maybeSingle();
 
         console.log('AI output result:', aiData);
         console.log('AI output error:', aiError);
@@ -209,25 +209,26 @@ const ScreeningCriteriaDetails = () => {
 
   const renderReferences = (referenceValue: string | null) => {
     // For risk score enabled criteria, show AI output data table
-    if (useRiskScoreTemplate && aiOutputData) {
-      const referenceRows = [];
-      
-      // Create 5 rows from the AI output data
-      for (let i = 1; i <= 5; i++) {
-        const date = aiOutputData[`search_result_date_${i}`];
-        const link = aiOutputData[`search_link_${i}`];
-        const snippet = aiOutputData[`search_snippet_${i}`];
-        
-        if (date || link || snippet) {
-          referenceRows.push({
-            date: date || '',
-            link: link || '',
-            snippet: snippet || ''
-          });
-        }
+    if (useRiskScoreTemplate) {
+      if (loading) {
+        return <p className="text-muted-foreground">Loading references...</p>;
       }
 
-      if (referenceRows.length > 0) {
+      if (aiOutputData) {
+        // Always create exactly 5 rows as requested
+        const referenceRows = [];
+        for (let i = 1; i <= 5; i++) {
+          const date = aiOutputData[`search_result_date_${i}`] || '';
+          const link = aiOutputData[`search_link_${i}`] || '';
+          const snippet = aiOutputData[`search_snippet_${i}`] || '';
+          
+          referenceRows.push({
+            date,
+            link,
+            snippet
+          });
+        }
+
         return (
           <div className="overflow-hidden rounded-md border">
             <Table>
@@ -241,23 +242,25 @@ const ScreeningCriteriaDetails = () => {
               <TableBody>
                 {referenceRows.map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell className="font-medium">{row.date}</TableCell>
+                    <TableCell className="font-medium">{row.date || '-'}</TableCell>
                     <TableCell>
                       {row.link && row.link.startsWith('http') ? (
                         <a href={row.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                          {row.link}
+                          View Source
                         </a>
                       ) : (
-                        row.link
+                        row.link || '-'
                       )}
                     </TableCell>
-                    <TableCell>{row.snippet}</TableCell>
+                    <TableCell>{row.snippet || '-'}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
         );
+      } else {
+        return <p className="text-muted-foreground">No reference data available</p>;
       }
     }
 
