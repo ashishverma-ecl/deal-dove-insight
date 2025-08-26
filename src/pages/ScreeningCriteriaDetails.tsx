@@ -128,11 +128,20 @@ const ScreeningCriteriaDetails = () => {
   // Fetch AI output data for risk score enabled criteria
   useEffect(() => {
     const fetchAiOutputData = async () => {
-      if (!useRiskScoreTemplate || !assessmentId) return;
+      console.log('=== AI OUTPUT FETCH DEBUG ===');
+      console.log('useRiskScoreTemplate:', useRiskScoreTemplate);
+      console.log('assessmentId:', assessmentId);
+      console.log('decodedCriteria:', decodedCriteria);
+      
+      if (!useRiskScoreTemplate || !assessmentId) {
+        console.log('Skipping fetch - conditions not met');
+        return;
+      }
       
       setLoading(true);
       try {
         // Get session_id from assessment_documents
+        console.log('Fetching session_id for assessment:', assessmentId);
         const { data: assessmentDoc, error: docError } = await supabase
           .from('assessment_documents')
           .select('session_id')
@@ -140,14 +149,23 @@ const ScreeningCriteriaDetails = () => {
           .limit(1)
           .single();
 
+        console.log('Assessment doc result:', assessmentDoc);
+        console.log('Assessment doc error:', docError);
+
         if (docError) {
           console.error('Error fetching assessment document:', docError);
           return;
         }
 
-        if (!assessmentDoc?.session_id) return;
+        if (!assessmentDoc?.session_id) {
+          console.log('No session_id found');
+          return;
+        }
+
+        console.log('Found session_id:', assessmentDoc.session_id);
 
         // Fetch AI output data using session_id and screening criteria
+        console.log('Fetching AI output with session_id:', assessmentDoc.session_id, 'and criteria:', decodedCriteria);
         const { data: aiData, error: aiError } = await supabase
           .from('ai_output')
           .select(`
@@ -159,6 +177,9 @@ const ScreeningCriteriaDetails = () => {
           .eq('screening_criterion', decodedCriteria)
           .limit(1)
           .single();
+
+        console.log('AI output result:', aiData);
+        console.log('AI output error:', aiError);
 
         if (aiError) {
           console.error('Error fetching AI output:', aiError);
