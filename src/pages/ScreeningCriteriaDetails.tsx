@@ -185,32 +185,6 @@ const ScreeningCriteriaDetails = () => {
     return "Low";
   };
 
-  // Check if references is a CSV with 3 columns and parse it
-  const parseReferencesCsv = (csvText: string) => {
-    if (!csvText) return null;
-    
-    const lines = csvText.trim().split('\n');
-    if (lines.length < 2) return null; // Need at least header + 1 data row
-    
-    // Check if first line has 3 comma-separated values (header)
-    const header = lines[0].split(',').map(col => col.trim());
-    if (header.length !== 3) return null;
-    
-    // Parse data rows
-    const rows = [];
-    for (let i = 1; i < lines.length; i++) {
-      const cells = lines[i].split(',').map(cell => cell.trim());
-      if (cells.length === 3) {
-        rows.push({
-          date: cells[0],
-          link: cells[1],
-          snippet: cells[2]
-        });
-      }
-    }
-    
-    return rows.length > 0 ? rows : null;
-  };
 
   const renderReferences = (referenceValue: string | null) => {
     // For risk score enabled criteria, show AI output data table
@@ -266,43 +240,8 @@ const ScreeningCriteriaDetails = () => {
       }
     }
 
-    // For non-risk score criteria or if no AI data, use the CSV parsing logic
+    // For non-risk score criteria, show plain text or not available
     if (!referenceValue) return <p className="text-muted-foreground">Not available</p>;
-    
-    const csvData = parseReferencesCsv(referenceValue);
-    
-    if (csvData) {
-      return (
-        <div className="overflow-hidden rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Link</TableHead>
-                <TableHead>Snippet</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {csvData.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{row.date}</TableCell>
-                  <TableCell>
-                    {row.link.startsWith('http') ? (
-                      <a href={row.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                        {row.link}
-                      </a>
-                    ) : (
-                      row.link
-                    )}
-                  </TableCell>
-                  <TableCell>{row.snippet}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      );
-    }
     
     return <p className="text-muted-foreground">{referenceValue}</p>;
   };
