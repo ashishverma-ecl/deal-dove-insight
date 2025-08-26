@@ -230,29 +230,48 @@ const ScreeningCriteriaDetails = () => {
         }
 
         return (
-          <div className="overflow-hidden rounded-md border">
-            <Table>
+          <div className="w-full overflow-x-auto rounded-md border">
+            <Table className="w-full table-fixed">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Link</TableHead>
-                  <TableHead>Snippet</TableHead>
+                  <TableHead className="w-28 min-w-28">Date</TableHead>
+                  <TableHead className="w-32 min-w-32">Link</TableHead>
+                  <TableHead className="flex-1">Snippet</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {referenceRows.map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell className="font-medium">{row.date || '-'}</TableCell>
-                    <TableCell>
+                    <TableCell className="w-28 p-2 font-medium text-sm">
+                      <div className="truncate" title={row.date || '-'}>
+                        {row.date || '-'}
+                      </div>
+                    </TableCell>
+                    <TableCell className="w-32 p-2">
                       {row.link && row.link.startsWith('http') ? (
-                        <a href={row.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                        <a 
+                          href={row.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-primary hover:underline text-sm inline-block truncate w-full"
+                          title={row.link}
+                        >
                           View Source
                         </a>
                       ) : (
-                        row.link || '-'
+                        <div className="truncate text-sm" title={row.link || '-'}>
+                          {row.link || '-'}
+                        </div>
                       )}
                     </TableCell>
-                    <TableCell>{row.snippet || '-'}</TableCell>
+                    <TableCell className="p-2">
+                      <div 
+                        className="text-sm leading-relaxed max-h-20 overflow-y-auto break-words"
+                        title={row.snippet || '-'}
+                      >
+                        {row.snippet || '-'}
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
