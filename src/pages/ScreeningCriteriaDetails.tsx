@@ -1041,6 +1041,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Environmental Violations":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "No environmental violations found. The company complies with all European Banking Authority (EBA) environmental guidelines and European Union (EU) regulations, including emissions reductions, pollution controls, and biodiversity protection. The company has demonstrated full integration of environmental risk management practices as outlined by the European Banking Authority.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "Minor environmental violations or isolated non-compliance with European Banking Authority guidelines have been identified. These violations are being addressed.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "Several significant environmental violations have been identified, including failure to meet key European Banking Authority guidelines and European Union regulations. The company is actively working to resolve the issues.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "Multiple major violations have been identified with little or no efforts to comply with European Banking Authority guidelines and European Union regulations. The company has not demonstrated adequate steps for remediation or compliance.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "These are severe violations that pose a substantial threat to environmental sustainability. The company has demonstrated lack of corrective measures, commitment environment and European Union environmental breaches.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
