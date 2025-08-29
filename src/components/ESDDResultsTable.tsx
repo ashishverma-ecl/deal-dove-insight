@@ -318,7 +318,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                       onMouseEnter={() => {}}
                     >
                       <div className="truncate pr-8" title={getDisplayValue(result, 'performance', result.performance || '')}>
-                        {getDisplayValue(result, 'performance', result.performance || '') || '-'}
+                        {getDisplayValue(result, 'performance', result.performance || '') || (result.performance === null ? 'Not Available' : '-')}
                       </div>
                       <Edit 
                         size={16} 
@@ -370,7 +370,7 @@ const ESDDResultsTable = ({ sessionId, assessmentId }: ESDDResultsTableProps) =>
                           return '';
                         })()
                       }`} title={getDisplayValue(result, 'within_threshold', result.within_threshold || '')}>
-                        {getDisplayValue(result, 'within_threshold', result.within_threshold || '') || '-'}
+                        {getDisplayValue(result, 'within_threshold', result.within_threshold || '') || (result.within_threshold === null ? 'Manual ESDD' : '-')}
                       </div>
                       <Edit 
                         size={16} 
