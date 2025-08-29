@@ -263,7 +263,7 @@ const AssessmentDetails = () => {
                             .map((criteria, index) => (
                               <span
                                 key={index}
-                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border bg-blue-100 text-blue-800 border-blue-300"
+                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border bg-gray-100 text-black border-gray-300"
                               >
                                 {criteria.text}
                               </span>
@@ -316,9 +316,9 @@ const AssessmentDetails = () => {
                         }, {} as Record<string, any[]>);
 
                         return Object.entries(groupedEntries).map(([category, entries]) => (
-                          <div key={category} className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                            <h4 className="font-medium text-blue-800 mb-2">{category}</h4>
-                            <ul className="text-sm text-blue-700 space-y-1">
+                          <div key={category} className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <h4 className="font-medium text-black mb-2">{category}</h4>
+                            <ul className="text-sm text-black space-y-1">
                               {entries.map((entry, index) => (
                                 <li key={index}>
                                   • <strong>{entry.screening_criterion}:</strong> {entry.context}
