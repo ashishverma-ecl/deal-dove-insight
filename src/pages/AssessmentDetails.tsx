@@ -242,11 +242,11 @@ const AssessmentDetails = () => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-foreground mb-6">
-                As per the ESDD screening outcome {hasManualEsdd ? (
-                  <span className="text-red-600 font-medium">a manual ESDD is recommended</span>
+                {hasManualEsdd ? (
+                  <span className="text-red-600 font-medium">As per the ESDD screening outcome a manual ESDD is required.</span>
                 ) : (
-                  <span className="text-green-600 font-medium">the client has passed the assessment</span>
-                )}.
+                  <span className="text-green-600 font-medium">As per the ESDD screening outcome, firm has been classified as Passed.</span>
+                )}
               </p>
               
               {manualEsddEntries.length > 0 && (
