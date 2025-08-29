@@ -238,34 +238,50 @@ const AssessmentDetails = () => {
 
         <div className="grid gap-6">
           {/* Assessment Summary Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Assessment Outcome</CardTitle>
+          <Card className="border-2">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl font-bold text-foreground">Assessment Outcome</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <p className="text-sm text-foreground">
-                  {hasManualEsdd ? (
-                    <span className="text-red-600 font-medium">
-                      This deal requires further manual ESDD due to screening criteria {
-                        manualEsddEntries
-                          .map(entry => `${entry.risk_category} - ${entry.screening_criterion}`)
-                          .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
-                          .join(', ')
-                      }.
-                    </span>
-                  ) : (
-                    <span className="text-green-600 font-medium">As per the ESDD screening outcome, firm has been classified as Passed.</span>
-                  )}
-                </p>
+              <div className="space-y-6">
+                <div className={`p-4 rounded-lg border-l-4 ${hasManualEsdd ? 'bg-red-50 border-l-red-500 border border-red-200' : 'bg-green-50 border-l-green-500 border border-green-200'}`}>
+                  <div className="text-base font-medium text-foreground">
+                    {hasManualEsdd ? (
+                      <div className="space-y-3">
+                        <p className="text-red-800">
+                          The deal requires further manual ESDD due to the following screening criteria:
+                        </p>
+                        <div className="ml-4">
+                          <ul className="list-disc space-y-1 text-red-700">
+                            {manualEsddEntries
+                              .map(entry => `${entry.risk_category} - ${entry.screening_criterion}`)
+                              .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
+                              .map((criteria, index) => (
+                                <li key={index} className="text-sm font-medium">{criteria}</li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-green-800">As per the ESDD screening outcome, firm has been classified as Passed.</p>
+                    )}
+                  </div>
+                </div>
                 
                 {hasManualEsdd && (
-                  <div className="text-sm text-muted-foreground bg-blue-50 border border-blue-200 rounded-lg p-3">
-                    <p>
-                      For questions and clarifications, please use the <strong>AI Agent</strong> available on this page. 
-                      Additionally, use the <strong>remark field</strong> in the screening results below for further note-taking. 
-                      These remarks will be passed on to the further ESDD conductor.
-                    </p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <div className="text-sm text-blue-800">
+                        <p className="font-medium mb-1">Next Steps:</p>
+                        <p>
+                          For questions and clarifications, please use the <strong>AI Agent</strong> available on this page. 
+                          Additionally, use the <strong>remark field</strong> in the screening results below for further note-taking. 
+                          These remarks will be passed on to the further ESDD conductor.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
