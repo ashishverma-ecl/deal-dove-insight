@@ -3,7 +3,8 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, FileText, Download } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ArrowLeft, FileText, Download, ChevronDown, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ChatBotWidget from "@/components/ChatBotWidget";
 import ESDDResultsTable from "@/components/ESDDResultsTable";
@@ -42,6 +43,7 @@ const AssessmentDetails = () => {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [hasManualEsdd, setHasManualEsdd] = useState(false);
   const [manualEsddEntries, setManualEsddEntries] = useState<ManualEsddEntry[]>([]);
+  const [summaryNotesOpen, setSummaryNotesOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -249,55 +251,64 @@ const AssessmentDetails = () => {
                 )}
               </p>
               
-              {manualEsddEntries.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Summary Notes</h3>
-                  <div className="space-y-3">
-                    {(() => {
-                      // Group entries by risk category
-                      const groupedEntries = manualEsddEntries.reduce((acc, entry) => {
-                        const category = entry.risk_category || 'Other';
-                        if (!acc[category]) {
-                          acc[category] = [];
-                        }
-                        acc[category].push(entry);
-                        return acc;
-                      }, {} as Record<string, any[]>);
+              <Collapsible open={summaryNotesOpen} onOpenChange={setSummaryNotesOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="flex items-center gap-2 h-auto p-0 mb-4">
+                    <h3 className="text-lg font-semibold text-foreground">Summary Notes</h3>
+                    {summaryNotesOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  {manualEsddEntries.length > 0 ? (
+                    <div className="space-y-3">
+                      {(() => {
+                        // Group entries by risk category
+                        const groupedEntries = manualEsddEntries.reduce((acc, entry) => {
+                          const category = entry.risk_category || 'Other';
+                          if (!acc[category]) {
+                            acc[category] = [];
+                          }
+                          acc[category].push(entry);
+                          return acc;
+                        }, {} as Record<string, any[]>);
 
-                      // Define colors for different risk categories
-                      const getCategoryColor = (category: string) => {
-                        const lowerCategory = category.toLowerCase();
-                        if (lowerCategory.includes('environmental')) {
-                          return { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', content: 'text-red-700' };
-                        }
-                        if (lowerCategory.includes('social')) {
-                          return { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-800', content: 'text-orange-700' };
-                        }
-                        if (lowerCategory.includes('governance')) {
-                          return { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-800', content: 'text-yellow-700' };
-                        }
-                        return { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-800', content: 'text-gray-700' };
-                      };
+                        // Define colors for different risk categories
+                        const getCategoryColor = (category: string) => {
+                          const lowerCategory = category.toLowerCase();
+                          if (lowerCategory.includes('environmental')) {
+                            return { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', content: 'text-red-700' };
+                          }
+                          if (lowerCategory.includes('social')) {
+                            return { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-800', content: 'text-orange-700' };
+                          }
+                          if (lowerCategory.includes('governance')) {
+                            return { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-800', content: 'text-yellow-700' };
+                          }
+                          return { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-800', content: 'text-gray-700' };
+                        };
 
-                      return Object.entries(groupedEntries).map(([category, entries]) => {
-                        const colors = getCategoryColor(category);
-                        return (
-                          <div key={category} className={`p-4 ${colors.bg} border ${colors.border} rounded-lg`}>
-                            <h4 className={`font-medium ${colors.text} mb-2`}>{category}</h4>
-                            <ul className={`text-sm ${colors.content} space-y-1`}>
-                              {entries.map((entry, index) => (
-                                <li key={index}>
-                                  • <strong>{entry.screening_criterion}:</strong> {entry.context}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        );
-                      });
-                    })()}
-                  </div>
-                </div>
-              )}
+                        return Object.entries(groupedEntries).map(([category, entries]) => {
+                          const colors = getCategoryColor(category);
+                          return (
+                            <div key={category} className={`p-4 ${colors.bg} border ${colors.border} rounded-lg`}>
+                              <h4 className={`font-medium ${colors.text} mb-2`}>{category}</h4>
+                              <ul className={`text-sm ${colors.content} space-y-1`}>
+                                {entries.map((entry, index) => (
+                                  <li key={index}>
+                                    • <strong>{entry.screening_criterion}:</strong> {entry.context}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        });
+                      })()}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground">No manual ESDD entries found.</p>
+                  )}
+                </CollapsibleContent>
+              </Collapsible>
             </CardContent>
           </Card>
 
