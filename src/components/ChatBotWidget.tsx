@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, GripVertical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -219,7 +219,10 @@ const ChatBotWidget = ({ sessionId: providedSessionId }: ChatBotWidgetProps = {}
     <div className="fixed bottom-4 right-4 z-50 w-[500px] h-[600px] resize overflow-auto min-w-[400px] min-h-[400px] max-w-[80vw] max-h-[80vh]">
       <ResizablePanelGroup direction="vertical" className="shadow-2xl rounded-lg bg-card/95 backdrop-blur-sm border h-full w-full">
         <ResizablePanel defaultSize={15} minSize={10} maxSize={20}>
-          <div className="flex flex-row items-center justify-between p-4 bg-purple-600 rounded-t-lg h-full">
+          <div className="flex flex-row items-center justify-between p-4 bg-purple-600 rounded-t-lg h-full relative">
+            <div className="absolute top-2 left-2 cursor-nw-resize">
+              <GripVertical className="h-3 w-3 text-white/70 hover:text-white transition-colors" />
+            </div>
             <CardTitle className="text-lg font-semibold text-white">ESDD Assistant</CardTitle>
             <Button
               variant="ghost"
