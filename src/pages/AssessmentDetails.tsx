@@ -243,13 +243,32 @@ const AssessmentDetails = () => {
               <CardTitle>Assessment Outcome</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-foreground mb-6">
-                {hasManualEsdd ? (
-                  <span className="text-red-600 font-medium">As per the ESDD screening outcome a manual ESDD is required.</span>
-                ) : (
-                  <span className="text-green-600 font-medium">As per the ESDD screening outcome, firm has been classified as Passed.</span>
+              <div className="space-y-4">
+                <p className="text-sm text-foreground">
+                  {hasManualEsdd ? (
+                    <span className="text-red-600 font-medium">
+                      This deal requires further manual ESDD due to screening criteria {
+                        manualEsddEntries
+                          .map(entry => `${entry.risk_category} - ${entry.screening_criterion}`)
+                          .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
+                          .join(', ')
+                      }.
+                    </span>
+                  ) : (
+                    <span className="text-green-600 font-medium">As per the ESDD screening outcome, firm has been classified as Passed.</span>
+                  )}
+                </p>
+                
+                {hasManualEsdd && (
+                  <div className="text-sm text-muted-foreground bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p>
+                      For questions and clarifications, please use the <strong>AI Agent</strong> available on this page. 
+                      Additionally, use the <strong>remark field</strong> in the screening results below for further note-taking. 
+                      These remarks will be passed on to the further ESDD conductor.
+                    </p>
+                  </div>
                 )}
-              </p>
+              </div>
               
               <Collapsible open={summaryNotesOpen} onOpenChange={setSummaryNotesOpen}>
                 <CollapsibleTrigger asChild>
