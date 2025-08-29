@@ -216,8 +216,8 @@ const ChatBotWidget = ({ sessionId: providedSessionId }: ChatBotWidgetProps = {}
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-[800px] h-[900px]">
-      <ResizablePanelGroup direction="vertical" className="shadow-2xl rounded-lg bg-card/95 backdrop-blur-sm border">
+    <div className="fixed bottom-4 right-4 z-50 w-[500px] h-[600px] resize overflow-auto min-w-[400px] min-h-[400px] max-w-[80vw] max-h-[80vh]">
+      <ResizablePanelGroup direction="vertical" className="shadow-2xl rounded-lg bg-card/95 backdrop-blur-sm border h-full w-full">
         <ResizablePanel defaultSize={15} minSize={10} maxSize={20}>
           <div className="flex flex-row items-center justify-between p-4 bg-purple-600 rounded-t-lg h-full">
             <CardTitle className="text-lg font-semibold text-white">ESDD Assistant</CardTitle>
