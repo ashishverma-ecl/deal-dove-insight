@@ -1075,6 +1075,40 @@ const ScreeningCriteriaDetails = () => {
           }
         ];
 
+      case "Climate Change Non-Alignment":
+        return [
+          { 
+            score: "1", 
+            level: "Full Compliance", 
+            criteria: "The company has 1.5°C-aligned, science-based targets verified by the Science Based Targets initiative (SBTi), with full Scope 1, Scope 2, and Scope 3 disclosures. Capital Expenditure (CAPEX) is aligned to the low-carbon transition, and the Task Force on Climate-related Financial Disclosures (TCFD) report covers governance, strategy, risk, and metrics. There is no expansion of high-emitting assets.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "2", 
+            level: "Low Risk", 
+            criteria: "The company's targets are broadly Paris Agreement-aligned, with small gaps (e.g., partial Scope 3 coverage). Capital Expenditure (CAPEX) is mostly low-carbon, and there is partial Task Force on Climate-related Financial Disclosures (TCFD) disclosure, with a plan to close gaps. Fossil expansion is minimal.", 
+            color: "bg-green-50 border-green-200 text-green-800" 
+          },
+          { 
+            score: "3", 
+            level: "Moderate Risk", 
+            criteria: "The company's targets are weaker than the 1.5°C pathway, and Scope 3 is not disclosed. The Capital Expenditure (CAPEX) mix is inconsistent with decarbonization goals, and Task Force on Climate-related Financial Disclosures (TCFD) reporting is incomplete. There is continued moderate investment in fossil assets.", 
+            color: "bg-yellow-50 border-yellow-200 text-yellow-800" 
+          },
+          { 
+            score: "4", 
+            level: "High Risk", 
+            criteria: "The company has no credible Paris Agreement-aligned targets, with major omissions in Greenhouse Gas (GHG) disclosure. There is heavy investment in fossil assets, and no or minimal Task Force on Climate-related Financial Disclosures (TCFD) reporting. The company shows clear misalignment with transition pathways.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          },
+          { 
+            score: "5", 
+            level: "Critical Risk", 
+            criteria: "The company publicly opposes climate regulation, has no climate targets or disclosures, and has significant fossil fuel expansion plans. There is an absence of climate governance, and the company is under scrutiny for climate greenwashing or regulatory non-compliance.", 
+            color: "bg-red-50 border-red-200 text-red-800" 
+          }
+        ];
+
       default:
         return [
           { 
