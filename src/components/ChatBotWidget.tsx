@@ -28,7 +28,10 @@ const ChatBotWidget = ({ sessionId: providedSessionId }: ChatBotWidgetProps = {}
   const [isLoading, setIsLoading] = useState(false);
   const [chatId, setChatId] = useState<string>("");
   const [sessionId, setSessionId] = useState<string>("");
+  const [windowSize, setWindowSize] = useState({ width: 500, height: 600 });
+  const [isResizing, setIsResizing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   // Generate or retrieve chat ID and session ID
@@ -67,6 +70,34 @@ const ChatBotWidget = ({ sessionId: providedSessionId }: ChatBotWidgetProps = {}
       setSessionId(existingSessionId);
     }
   }, [providedSessionId]);
+
+  // Handle resize functionality
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing || !containerRef.current) return;
+      
+      const container = containerRef.current;
+      const rect = container.getBoundingClientRect();
+      const newWidth = Math.max(400, Math.min(window.innerWidth * 0.8, rect.right - e.clientX));
+      const newHeight = Math.max(400, Math.min(window.innerHeight * 0.8, rect.bottom - e.clientY));
+      
+      setWindowSize({ width: newWidth, height: newHeight });
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -216,11 +247,18 @@ const ChatBotWidget = ({ sessionId: providedSessionId }: ChatBotWidgetProps = {}
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-[500px] h-[600px] resize overflow-auto min-w-[400px] min-h-[400px] max-w-[80vw] max-h-[80vh]">
+    <div 
+      ref={containerRef}
+      className="fixed bottom-4 right-4 z-50 min-w-[400px] min-h-[400px] max-w-[80vw] max-h-[80vh]"
+      style={{ width: windowSize.width, height: windowSize.height }}
+    >
       <ResizablePanelGroup direction="vertical" className="shadow-2xl rounded-lg bg-card/95 backdrop-blur-sm border h-full w-full">
         <ResizablePanel defaultSize={15} minSize={10} maxSize={20}>
           <div className="flex flex-row items-center justify-between p-4 bg-purple-600 rounded-t-lg h-full relative">
-            <div className="absolute top-2 left-2 cursor-nw-resize">
+            <div 
+              className="absolute top-2 left-2 cursor-nw-resize z-10"
+              onMouseDown={() => setIsResizing(true)}
+            >
               <GripVertical className="h-3 w-3 text-white/70 hover:text-white transition-colors" />
             </div>
             <CardTitle className="text-lg font-semibold text-white">ESDD Assistant</CardTitle>
