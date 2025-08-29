@@ -251,16 +251,41 @@ const AssessmentDetails = () => {
                         <p className="text-red-800">
                           The deal requires further manual ESDD due to the following screening criteria:
                         </p>
-                        <div className="ml-4">
-                          <ul className="list-disc space-y-1 text-red-700">
-                            {manualEsddEntries
-                              .map(entry => `${entry.risk_category} - ${entry.screening_criterion}`)
-                              .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
-                              .map((criteria, index) => (
-                                <li key={index} className="text-sm font-medium">{criteria}</li>
-                              ))
-                            }
-                          </ul>
+                        <div className="flex flex-wrap gap-2 mt-3">
+                          {manualEsddEntries
+                            .map(entry => ({
+                              text: `${entry.risk_category} - ${entry.screening_criterion}`,
+                              category: entry.risk_category
+                            }))
+                            .filter((value, index, self) => 
+                              self.findIndex(v => v.text === value.text) === index
+                            ) // Remove duplicates
+                            .map((criteria, index) => {
+                              // Define colors for different risk categories
+                              const getCategoryStyle = (category: string) => {
+                                const lowerCategory = category?.toLowerCase() || '';
+                                if (lowerCategory.includes('environmental')) {
+                                  return 'bg-red-100 text-red-800 border-red-300';
+                                }
+                                if (lowerCategory.includes('social')) {
+                                  return 'bg-orange-100 text-orange-800 border-orange-300';
+                                }
+                                if (lowerCategory.includes('governance')) {
+                                  return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+                                }
+                                return 'bg-gray-100 text-gray-800 border-gray-300';
+                              };
+                              
+                              return (
+                                <span
+                                  key={index}
+                                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getCategoryStyle(criteria.category)}`}
+                                >
+                                  {criteria.text}
+                                </span>
+                              );
+                            })
+                          }
                         </div>
                       </div>
                     ) : (
