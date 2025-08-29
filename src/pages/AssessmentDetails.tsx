@@ -260,31 +260,14 @@ const AssessmentDetails = () => {
                             .filter((value, index, self) => 
                               self.findIndex(v => v.text === value.text) === index
                             ) // Remove duplicates
-                            .map((criteria, index) => {
-                              // Define colors for different risk categories
-                              const getCategoryStyle = (category: string) => {
-                                const lowerCategory = category?.toLowerCase() || '';
-                                if (lowerCategory.includes('environmental')) {
-                                  return 'bg-red-100 text-red-800 border-red-300';
-                                }
-                                if (lowerCategory.includes('social')) {
-                                  return 'bg-orange-100 text-orange-800 border-orange-300';
-                                }
-                                if (lowerCategory.includes('governance')) {
-                                  return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-                                }
-                                return 'bg-gray-100 text-gray-800 border-gray-300';
-                              };
-                              
-                              return (
-                                <span
-                                  key={index}
-                                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getCategoryStyle(criteria.category)}`}
-                                >
-                                  {criteria.text}
-                                </span>
-                              );
-                            })
+                            .map((criteria, index) => (
+                              <span
+                                key={index}
+                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border bg-blue-100 text-blue-800 border-blue-300"
+                              >
+                                {criteria.text}
+                              </span>
+                            ))
                           }
                         </div>
                       </div>
@@ -332,36 +315,18 @@ const AssessmentDetails = () => {
                           return acc;
                         }, {} as Record<string, any[]>);
 
-                        // Define colors for different risk categories
-                        const getCategoryColor = (category: string) => {
-                          const lowerCategory = category.toLowerCase();
-                          if (lowerCategory.includes('environmental')) {
-                            return { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-800', content: 'text-red-700' };
-                          }
-                          if (lowerCategory.includes('social')) {
-                            return { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-800', content: 'text-orange-700' };
-                          }
-                          if (lowerCategory.includes('governance')) {
-                            return { bg: 'bg-yellow-50', border: 'border-yellow-200', text: 'text-yellow-800', content: 'text-yellow-700' };
-                          }
-                          return { bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-800', content: 'text-gray-700' };
-                        };
-
-                        return Object.entries(groupedEntries).map(([category, entries]) => {
-                          const colors = getCategoryColor(category);
-                          return (
-                            <div key={category} className={`p-4 ${colors.bg} border ${colors.border} rounded-lg`}>
-                              <h4 className={`font-medium ${colors.text} mb-2`}>{category}</h4>
-                              <ul className={`text-sm ${colors.content} space-y-1`}>
-                                {entries.map((entry, index) => (
-                                  <li key={index}>
-                                    • <strong>{entry.screening_criterion}:</strong> {entry.context}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          );
-                        });
+                        return Object.entries(groupedEntries).map(([category, entries]) => (
+                          <div key={category} className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <h4 className="font-medium text-blue-800 mb-2">{category}</h4>
+                            <ul className="text-sm text-blue-700 space-y-1">
+                              {entries.map((entry, index) => (
+                                <li key={index}>
+                                  • <strong>{entry.screening_criterion}:</strong> {entry.context}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ));
                       })()}
                     </div>
                   ) : (
