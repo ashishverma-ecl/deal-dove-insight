@@ -302,12 +302,12 @@ const AssessmentDetails = () => {
                         }, {} as Record<string, any[]>);
 
                         return Object.entries(groupedEntries).map(([category, entries]) => (
-                          <div key={category} className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                            <h4 className="font-medium text-black mb-2">{category}</h4>
-                            <ul className="text-sm text-black space-y-1">
+                          <div key={category} className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <h4 className="font-semibold text-blue-900 mb-2">{category}</h4>
+                            <ul className="text-sm text-blue-800 space-y-1">
                               {entries.map((entry, index) => (
                                 <li key={index}>
-                                  • <strong>{entry.screening_criterion}:</strong> {entry.context}
+                                  • <strong className="text-blue-900">{entry.screening_criterion}:</strong> {entry.context}
                                 </li>
                               ))}
                             </ul>
