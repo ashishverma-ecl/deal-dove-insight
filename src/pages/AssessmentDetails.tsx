@@ -338,7 +338,7 @@ const AssessmentDetails = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>ESDD Screening Results</CardTitle>
+              <CardTitle className="text-xl font-bold text-foreground">ESDD Screening Results</CardTitle>
               <CardDescription>
                 Detailed screening results for environmental and social due diligence
               </CardDescription>
