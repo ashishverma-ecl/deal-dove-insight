@@ -277,21 +277,6 @@ const AssessmentDetails = () => {
                   </div>
                 </div>
                 
-                {hasManualEsdd && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="text-sm text-blue-800">
-                        <p className="font-medium mb-1">Next Steps:</p>
-                        <p>
-                          For questions and clarifications, please use the <strong>AI Agent</strong> available on this page. 
-                          Additionally, use the <strong>remark field</strong> in the screening results below for further note-taking. 
-                          These remarks will be passed on to the further ESDD conductor.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
               
               <Collapsible open={summaryNotesOpen} onOpenChange={setSummaryNotesOpen}>
@@ -334,6 +319,19 @@ const AssessmentDetails = () => {
                   )}
                 </CollapsibleContent>
               </Collapsible>
+              
+              {/* Next Steps Section */}
+              <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="text-sm text-blue-800">
+                    <p className="font-medium mb-1">Next Steps:</p>
+                    <p>
+                      For further questions and clarifications, please use the AI Agent available at the bottom-right corner of this page for instant assistance. Additionally, utilize the Remarks field in the ESDD Screening Results section below to capture observations, notes, or follow-ups. These remarks will automatically be passed on to the next ESDD conductor to ensure continuity and smoother decision-making.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
