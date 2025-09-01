@@ -240,7 +240,7 @@ const AssessmentDetails = () => {
           {/* Assessment Summary Section */}
           <Card className="border-2">
             <CardHeader className="pb-4">
-              <CardTitle className="text-xl font-bold text-foreground">Assessment Outcome</CardTitle>
+              <CardTitle>Assessment Outcome</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
@@ -338,7 +338,7 @@ const AssessmentDetails = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl font-bold text-foreground">ESDD Screening Results</CardTitle>
+              <CardTitle>ESDD Screening Results</CardTitle>
               <CardDescription>
                 Detailed screening results for environmental and social due diligence
               </CardDescription>
