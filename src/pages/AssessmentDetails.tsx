@@ -279,8 +279,9 @@ const AssessmentDetails = () => {
                 
               </div>
               
-              <Collapsible open={summaryNotesOpen} onOpenChange={setSummaryNotesOpen}>
-                <CollapsibleTrigger asChild>
+              <div className="mt-8 mb-6">
+                <Collapsible open={summaryNotesOpen} onOpenChange={setSummaryNotesOpen}>
+                  <CollapsibleTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2 h-auto p-0 mb-4">
                     <h3 className="text-lg font-semibold text-foreground">Summary Notes</h3>
                     {summaryNotesOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
@@ -318,8 +319,8 @@ const AssessmentDetails = () => {
                     <p className="text-muted-foreground">No manual ESDD entries found.</p>
                   )}
                 </CollapsibleContent>
-              </Collapsible>
-              
+                </Collapsible>
+              </div>
               {/* Next Steps Section */}
               <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="flex items-start gap-3">
