@@ -16,7 +16,7 @@ const Index = () => {
               className="h-10 w-auto"
             />
             <div>
-              <p className="text-base font-bold text-foreground">Reputational Risk Assessment Solution</p>
+              <p className="text-lg font-bold text-foreground">Reputational Risk Assessment Solution</p>
             </div>
           </div>
           <Link to="/auth">
@@ -37,10 +37,10 @@ const Index = () => {
               />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent text-left">
+              <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent text-left">
                 Reputational Risk Assessment Solution
               </h1>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed text-left">
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed text-left">
                 Reputational Risk Assessment Solution is a GenAI-powered browser-based tool that automates and streamlines the Environmental and Social Due Diligence (ESDD) process for banks engaged in corporate lending. It scans global data sources to identify reputational and ESG risks, generates consistent due diligence reports, and supports compliance with international standards—enabling faster, smarter, and more sustainable lending decisions.
               </p>
             </div>
@@ -59,41 +59,41 @@ const Index = () => {
       <section className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold mb-8">Key Benefits</h2>
+            <h2 className="text-3xl font-bold mb-8">Key Benefits</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="p-6">
                 <CardContent className="text-center p-0">
                   <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="text-base font-semibold mb-2">AI-Powered Risk Discovery</h3>
-                  <p className="text-sm text-muted-foreground">Leverage advanced AI to automatically identify and assess reputational and ESG risks across global data sources.</p>
+                  <h3 className="text-lg font-semibold mb-2">AI-Powered Risk Discovery</h3>
+                  <p className="text-muted-foreground">Leverage advanced AI to automatically identify and assess reputational and ESG risks across global data sources.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
                   <ScrollText className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="text-base font-semibold mb-2">Automated, Auditable Reports</h3>
-                  <p className="text-sm text-muted-foreground">Generate consistent, comprehensive due diligence reports with full audit trails for regulatory compliance.</p>
+                  <h3 className="text-lg font-semibold mb-2">Automated, Auditable Reports</h3>
+                  <p className="text-muted-foreground">Generate consistent, comprehensive due diligence reports with full audit trails for regulatory compliance.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
                   <ShieldCheck className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="text-base font-semibold mb-2">Regulatory Compliance</h3>
-                  <p className="text-sm text-muted-foreground">Ensure adherence to international standards and regulatory requirements with built-in compliance frameworks.</p>
+                  <h3 className="text-lg font-semibold mb-2">Regulatory Compliance</h3>
+                  <p className="text-muted-foreground">Ensure adherence to international standards and regulatory requirements with built-in compliance frameworks.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
                   <Sliders className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="text-base font-semibold mb-2">Customizable Assessments</h3>
-                  <p className="text-sm text-muted-foreground">Tailor risk assessment criteria and reporting formats to meet your organization's specific requirements.</p>
+                  <h3 className="text-lg font-semibold mb-2">Customizable Assessments</h3>
+                  <p className="text-muted-foreground">Tailor risk assessment criteria and reporting formats to meet your organization's specific requirements.</p>
                 </CardContent>
               </Card>
               <Card className="p-6">
                 <CardContent className="text-center p-0">
                   <GitMerge className="h-12 w-12 mx-auto mb-4 text-primary" />
-                  <h3 className="text-base font-semibold mb-2">Seamless Integration</h3>
-                  <p className="text-sm text-muted-foreground">Integrate effortlessly with existing banking systems and workflows for maximum operational efficiency.</p>
+                  <h3 className="text-lg font-semibold mb-2">Seamless Integration</h3>
+                  <p className="text-muted-foreground">Integrate effortlessly with existing banking systems and workflows for maximum operational efficiency.</p>
                 </CardContent>
               </Card>
             </div>
