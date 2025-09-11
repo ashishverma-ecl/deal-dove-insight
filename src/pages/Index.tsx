@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Sparkles, ScrollText, ShieldCheck, Sliders, GitMerge } from "lucide-react";
+import { Brain, ScrollText, ShieldCheck, Sliders, GitMerge } from "lucide-react";
 
 const Index = () => {
   return (
@@ -63,7 +63,7 @@ const Index = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="p-6">
                 <CardContent className="text-center p-0">
-                  <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
                   <h3 className="text-lg font-semibold mb-2">AI-Powered Risk Discovery</h3>
                   <p className="text-muted-foreground">Leverage advanced AI to automatically identify and assess reputational and ESG risks across global data sources.</p>
                 </CardContent>
