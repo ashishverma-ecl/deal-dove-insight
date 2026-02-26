@@ -7,23 +7,43 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 
+const SUPABASE_URL = "https://puoipjmzfxyrhhyvjqcj.supabase.co";
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [debugInfo, setDebugInfo] = useState<string | null>(null);
   const [email, setEmail] = useState("ashishverma.ecl@gmail.com");
   const [password, setPassword] = useState("Accenture25!@");
   const { toast } = useToast();
   const navigate = useNavigate();
-  const currentOrigin = window.location.origin;
-
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setDebugInfo(null);
 
+    // Step 1: Pre-check connectivity to Supabase
     try {
-      console.log("Attempting sign in to:", "https://puoipjmzfxyrhhyvjqcj.supabase.co");
+      const healthCheck = await fetch(`${SUPABASE_URL}/auth/v1/health`, {
+        method: "GET",
+        headers: { "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1b2lwam16Znh5cmhoeXZqcWNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMxMDMxMTgsImV4cCI6MjA2ODY3OTExOH0.xWR3FlIMSpZa84nGywsj8K7L3MZTe9eZtZSC42ObZ1g" },
+      });
+      console.log("Health check status:", healthCheck.status);
+    } catch (healthErr: any) {
+      console.error("Health check failed:", healthErr);
+      setDebugInfo(`Cannot reach Supabase at all. This is a network/CORS issue in this browser context. Try opening the app directly at: ${window.location.origin}/auth in a new browser tab (not inside the Lovable editor iframe).`);
+      toast({
+        title: "Cannot reach Supabase",
+        description: "Network request blocked. Open the preview URL in a separate browser tab instead of the embedded preview.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    // Step 2: Attempt sign-in
+    try {
+      console.log("Attempting sign in...");
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -40,13 +60,19 @@ const Auth = () => {
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Auth error:", error);
-      const isNetworkBlocked = error?.message === "Failed to fetch" || error?.status === 0;
+
+      let description = error?.message || "Unknown error";
+      if (error?.message === "Failed to fetch" || error?.status === 0) {
+        description = "The sign-in request was blocked. Please open this URL in a new browser tab (not inside the Lovable editor): " + window.location.origin + "/auth";
+      } else if (error?.message === "Invalid login credentials") {
+        description = "Wrong email or password. Please check your credentials.";
+      }
+
+      setDebugInfo(`Error: ${error?.message} | Status: ${error?.status} | Origin: ${window.location.origin}`);
 
       toast({
         title: "Authentication failed",
-        description: isNetworkBlocked
-          ? `Supabase blocked this origin: ${currentOrigin}. Add ${currentOrigin} and ${currentOrigin}/** to Supabase Auth Redirect URLs, save, then hard refresh.`
-          : (error?.message || "Network error - please try again"),
+        description,
         variant: "destructive",
       });
     } finally {
@@ -110,6 +136,13 @@ const Auth = () => {
                   {isLoading ? "Signing In..." : "Sign In"}
                 </Button>
               </form>
+
+              {debugInfo && (
+                <div className="mt-4 p-3 rounded-md bg-muted text-xs text-muted-foreground break-all">
+                  <p className="font-semibold mb-1">Debug Info:</p>
+                  <p>{debugInfo}</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
