@@ -5,16 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
+  
   const [email, setEmail] = useState("ashishverma.ecl@gmail.com");
   const [password, setPassword] = useState("Accenture25!@");
   const { toast } = useToast();
   const navigate = useNavigate();
+  const currentOrigin = window.location.origin;
 
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -44,7 +45,7 @@ const Auth = () => {
       toast({
         title: "Authentication failed",
         description: isNetworkBlocked
-          ? "Supabase connection is blocked for this preview domain. Please open the lovableproject.com preview URL or add this preview domain to Supabase Auth URL settings."
+          ? `Supabase blocked this origin: ${currentOrigin}. Add ${currentOrigin} and ${currentOrigin}/** to Supabase Auth Redirect URLs, save, then hard refresh.`
           : (error?.message || "Network error - please try again"),
         variant: "destructive",
       });
