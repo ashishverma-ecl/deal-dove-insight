@@ -39,9 +39,13 @@ const Auth = () => {
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Auth error:", error);
+      const isNetworkBlocked = error?.message === "Failed to fetch" || error?.status === 0;
+
       toast({
         title: "Authentication failed",
-        description: error.message || "Network error - please try again",
+        description: isNetworkBlocked
+          ? "Supabase connection is blocked for this preview domain. Please open the lovableproject.com preview URL or add this preview domain to Supabase Auth URL settings."
+          : (error?.message || "Network error - please try again"),
         variant: "destructive",
       });
     } finally {
