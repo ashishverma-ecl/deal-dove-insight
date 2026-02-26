@@ -104,6 +104,9 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Signing In..." : "Sign In"}
                 </Button>
+                <Button type="button" variant="outline" className="w-full" onClick={() => navigate("/dashboard")}>
+                  Skip to Dashboard
+                </Button>
               </form>
             </CardContent>
           </Card>
