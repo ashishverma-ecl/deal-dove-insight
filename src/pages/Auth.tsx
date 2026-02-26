@@ -22,10 +22,13 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      console.log("Attempting sign in to:", "https://puoipjmzfxyrhhyvjqcj.supabase.co");
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      console.log("Sign in result:", { data, error: signInError });
 
       if (signInError) throw signInError;
 
@@ -35,9 +38,10 @@ const Auth = () => {
       });
       navigate("/dashboard");
     } catch (error: any) {
+      console.error("Auth error:", error);
       toast({
         title: "Authentication failed",
-        description: error.message,
+        description: error.message || "Network error - please try again",
         variant: "destructive",
       });
     } finally {
