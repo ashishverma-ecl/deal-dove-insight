@@ -22,16 +22,6 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      // First try to sign up the user if they don't exist
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`
-        }
-      });
-
-      // If sign up succeeds or user already exists, try to sign in
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
