@@ -24,6 +24,21 @@ export type Database = {
           reference_documents: string | null
           risk_category: string | null
           screening_criterion: string | null
+          search_link_1: string | null
+          search_link_2: string | null
+          search_link_3: string | null
+          search_link_4: string | null
+          search_link_5: string | null
+          search_result_date_1: string | null
+          search_result_date_2: string | null
+          search_result_date_3: string | null
+          search_result_date_4: string | null
+          search_result_date_5: string | null
+          search_snippet_1: string | null
+          search_snippet_2: string | null
+          search_snippet_3: string | null
+          search_snippet_4: string | null
+          search_snippet_5: string | null
           session_id: string | null
           sr_no: string | null
           status: string | null
@@ -40,6 +55,21 @@ export type Database = {
           reference_documents?: string | null
           risk_category?: string | null
           screening_criterion?: string | null
+          search_link_1?: string | null
+          search_link_2?: string | null
+          search_link_3?: string | null
+          search_link_4?: string | null
+          search_link_5?: string | null
+          search_result_date_1?: string | null
+          search_result_date_2?: string | null
+          search_result_date_3?: string | null
+          search_result_date_4?: string | null
+          search_result_date_5?: string | null
+          search_snippet_1?: string | null
+          search_snippet_2?: string | null
+          search_snippet_3?: string | null
+          search_snippet_4?: string | null
+          search_snippet_5?: string | null
           session_id?: string | null
           sr_no?: string | null
           status?: string | null
@@ -56,6 +86,21 @@ export type Database = {
           reference_documents?: string | null
           risk_category?: string | null
           screening_criterion?: string | null
+          search_link_1?: string | null
+          search_link_2?: string | null
+          search_link_3?: string | null
+          search_link_4?: string | null
+          search_link_5?: string | null
+          search_result_date_1?: string | null
+          search_result_date_2?: string | null
+          search_result_date_3?: string | null
+          search_result_date_4?: string | null
+          search_result_date_5?: string | null
+          search_snippet_1?: string | null
+          search_snippet_2?: string | null
+          search_snippet_3?: string | null
+          search_snippet_4?: string | null
+          search_snippet_5?: string | null
           session_id?: string | null
           sr_no?: string | null
           status?: string | null
@@ -328,10 +373,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      clear_test_results: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      clear_test_results: { Args: never; Returns: undefined }
       get_final_results: {
         Args: { session_id_param: string }
         Returns: {
