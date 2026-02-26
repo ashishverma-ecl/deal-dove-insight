@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 
 const SUPABASE_URL = "https://puoipjmzfxyrhhyvjqcj.supabase.co";
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,25 +17,42 @@ const Auth = () => {
   const [password, setPassword] = useState("Accenture25!@");
   const { toast } = useToast();
   const navigate = useNavigate();
+  const isEmbeddedPreview = window.self !== window.top;
+
+  const openInNewTab = () => {
+    window.open(`${window.location.origin}/auth`, "_blank", "noopener,noreferrer");
+  };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setDebugInfo(null);
 
+    if (isEmbeddedPreview) {
+      const message = `Sign-in is blocked in embedded preview. Open ${window.location.origin}/auth in a new tab.`;
+      setDebugInfo(message);
+      toast({
+        title: "Open in new tab",
+        description: message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     // Step 1: Pre-check connectivity to Supabase
     try {
       const healthCheck = await fetch(`${SUPABASE_URL}/auth/v1/health`, {
         method: "GET",
-        headers: { "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1b2lwam16Znh5cmhoeXZqcWNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMxMDMxMTgsImV4cCI6MjA2ODY3OTExOH0.xWR3FlIMSpZa84nGywsj8K7L3MZTe9eZtZSC42ObZ1g" },
+        headers: { apikey: SUPABASE_ANON_KEY },
       });
       console.log("Health check status:", healthCheck.status);
     } catch (healthErr: any) {
       console.error("Health check failed:", healthErr);
-      setDebugInfo(`Cannot reach Supabase at all. This is a network/CORS issue in this browser context. Try opening the app directly at: ${window.location.origin}/auth in a new browser tab (not inside the Lovable editor iframe).`);
+      setDebugInfo(`Cannot reach Supabase from this browser context. Open directly in a new tab: ${window.location.origin}/auth`);
       toast({
         title: "Cannot reach Supabase",
-        description: "Network request blocked. Open the preview URL in a separate browser tab instead of the embedded preview.",
+        description: "Network request blocked. Open the preview URL in a separate browser tab.",
         variant: "destructive",
       });
       setIsLoading(false);
@@ -43,7 +61,6 @@ const Auth = () => {
 
     // Step 2: Attempt sign-in
     try {
-      console.log("Attempting sign in...");
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -63,7 +80,7 @@ const Auth = () => {
 
       let description = error?.message || "Unknown error";
       if (error?.message === "Failed to fetch" || error?.status === 0) {
-        description = "The sign-in request was blocked. Please open this URL in a new browser tab (not inside the Lovable editor): " + window.location.origin + "/auth";
+        description = `The sign-in request was blocked. Open ${window.location.origin}/auth in a new browser tab.`;
       } else if (error?.message === "Invalid login credentials") {
         description = "Wrong email or password. Please check your credentials.";
       }
@@ -86,9 +103,9 @@ const Auth = () => {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <img 
-              src="/lovable-uploads/61690229-7cfd-4603-b3d7-cf1f5b7ccd95.png" 
-              alt="Logo" 
+            <img
+              src="/lovable-uploads/61690229-7cfd-4603-b3d7-cf1f5b7ccd95.png"
+              alt="Logo"
               className="h-10 w-auto"
             />
             <div>
@@ -104,11 +121,15 @@ const Auth = () => {
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">Sign In</CardTitle>
-              <CardDescription>
-                Enter your credentials to access your account
-              </CardDescription>
+              <CardDescription>Enter your credentials to access your account</CardDescription>
             </CardHeader>
             <CardContent>
+              {isEmbeddedPreview && (
+                <div className="mb-4 rounded-md border border-border bg-muted p-3 text-sm text-muted-foreground">
+                  Sign-in is blocked inside the embedded preview. Open this page in a new tab to continue.
+                </div>
+              )}
+
               <form onSubmit={handleAuth} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
@@ -132,14 +153,21 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Signing In..." : "Sign In"}
-                </Button>
+
+                {isEmbeddedPreview ? (
+                  <Button type="button" className="w-full" onClick={openInNewTab}>
+                    Open Auth in New Tab
+                  </Button>
+                ) : (
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Signing In..." : "Sign In"}
+                  </Button>
+                )}
               </form>
 
               {debugInfo && (
-                <div className="mt-4 p-3 rounded-md bg-muted text-xs text-muted-foreground break-all">
-                  <p className="font-semibold mb-1">Debug Info:</p>
+                <div className="mt-4 break-all rounded-md bg-muted p-3 text-xs text-muted-foreground">
+                  <p className="mb-1 font-semibold">Debug Info:</p>
                   <p>{debugInfo}</p>
                 </div>
               )}
@@ -149,7 +177,7 @@ const Auth = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t py-8 px-4">
+      <footer className="border-t px-4 py-8">
         <div className="container mx-auto text-center text-muted-foreground">
           <p>Copyright © 2025 Accenture. All rights reserved.</p>
         </div>
